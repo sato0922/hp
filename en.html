@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>英語並べ替えクイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+    background:#0d1b2a;
+    font-family:'Nunito','Noto Sans JP',sans-serif;
+  }
+
+  body { display:flex; flex-direction:column; }
+
+  /* ===== HEADER ===== */
+  #header {
+    height:36px;
+    background:#0a1520;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 10px 0 12px;
+    border-bottom:1px solid #1e3350;
+    flex-shrink:0;
+  }
+  .level-badge {
+    background:#1e3a5f; color:#5bc8f5;
+    font-size:11px; font-weight:800;
+    padding:3px 10px; border-radius:20px;
+  }
+  .progress-text { color:#4a6fa5; font-size:11px; font-weight:700; }
+  #hint-toggle {
+    display:flex; align-items:center; gap:5px;
+    background:#1e3350; border:1.5px solid #2a4a6e;
+    border-radius:16px; padding:3px 10px; cursor:pointer;
+  }
+  #hint-toggle span { font-size:10px; font-weight:800; color:#7ecfef; }
+  .hdot { width:7px; height:7px; border-radius:50%; }
+  .hdot.g { background:#4ade80; }
+  .hdot.y { background:#fde047; }
+
+  /* ===== MAIN ===== */
+  #main { flex:1; display:flex; min-height:0; }
+
+  #game-area { flex:1; display:flex; flex-direction:column; min-width:0; }
+
+  /* ===== ANSWER ZONE 30% ===== */
+  #answer-zone {
+    height:30%;
+    background:#111d2e;
+    border-bottom:2px solid #1e3a5f;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    align-content:center;
+    padding:6px 12px 6px 14px;
+    gap:7px;
+    position:relative;
+    overflow:hidden;
+  }
+  #answer-zone .zone-label {
+    position:absolute; top:5px; left:14px;
+    font-size:9px; color:#2a4a6e;
+    font-weight:800; letter-spacing:1px; text-transform:uppercase;
+  }
+  .answer-card {
+    background:#1a3a5c; border:2px solid #2e6ea6;
+    border-radius:10px; padding:4px 12px;
+    display:flex; flex-direction:column;
+    align-items:center; gap:1px; min-width:48px;
+  }
+  .answer-card .a-kana { color:#a0c4e8; font-size:9px; font-weight:700; }
+  .answer-card .a-word { color:#fff; font-size:15px; font-weight:800; }
+  .answer-placeholder {
+    width:52px; height:42px;
+    border:2px dashed #1e3a5f; border-radius:10px;
+  }
+
+  /* ===== WORD ZONE 70% ===== */
+  #word-zone {
+    flex:1;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:center;
+    justify-content:center;
+    gap:10px;
+    padding:10px 14px;
+    overflow:hidden;
+  }
+
+  /* ===== WORD CARD ===== */
+  .word-card {
+    background:#15253a;
+    border:2.5px solid #e91e8c;
+    border-radius:12px;
+    padding:5px 14px 5px;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    transition:opacity 0.15s;
+    /* Natural size - no stretching */
+    width:auto;
+    height:auto;
+  }
+  .word-card .w-kana { color:#c7a8ff; font-size:10px; font-weight:700; white-space:nowrap; }
+  .word-card .w-word { color:#ff6bb3; font-size:16px; font-weight:900; white-space:nowrap; }
+  .word-card .hint-row { display:flex; gap:4px; align-items:center; }
+  .word-card .jp { color:#4ade80; font-size:9px; font-weight:700; font-family:'Noto Sans JP',sans-serif; white-space:nowrap; }
+  .word-card .pos { color:#fde047; font-size:9px; font-weight:700; font-family:'Noto Sans JP',sans-serif; white-space:nowrap; }
+
+  .word-card.used {
+    opacity:0.25;
+    border-color:#3a1a3a;
+    pointer-events:none;
+  }
+
+  /* ===== SIDEBAR ===== */
+  #sidebar {
+    width:60px; background:#0a1520;
+    border-left:1px solid #1e3350;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:12px; padding:8px; flex-shrink:0;
+  }
+  .side-btn {
+    width:46px; height:54px;
+    border-radius:14px; border:none;
+    cursor:pointer; display:flex;
+    flex-direction:column; align-items:center;
+    justify-content:center; gap:3px;
+    font-family:'Noto Sans JP',sans-serif;
+    font-weight:800; font-size:12px;
+    user-select:none; -webkit-user-select:none;
+  }
+  .side-btn svg { width:20px; height:20px; }
+  #btn-back  { background:#2a1a4e; border:2px solid #6c3fc7; color:#b19eff; }
+  #btn-confirm { background:#1a3a2a; border:2px solid #22c55e; color:#4ade80; }
+
+  /* ===== OVERLAY ===== */
+  #overlay {
+    display:none; position:fixed; inset:0;
+    align-items:center; justify-content:center;
+    z-index:100; background:rgba(0,0,0,0.65);
+    backdrop-filter:blur(3px);
+  }
+  #overlay.show { display:flex; }
+  .result-card {
+    background:#111d2e; border-radius:20px;
+    padding:26px 36px; text-align:center;
+    border:3px solid #22c55e;
+  }
+  .result-card.wrong { border-color:#ef4444; }
+  .result-emoji { font-size:44px; line-height:1.1; }
+  .result-title { color:#fff; font-size:20px; font-weight:900; margin-top:8px; }
+  .result-answer { color:#7ecfef; font-size:13px; margin-top:6px; font-family:'Noto Sans JP',sans-serif; }
+  .result-jp { color:#4a6fa5; font-size:11px; margin-top:4px; font-family:'Noto Sans JP',sans-serif; }
+  .result-btn {
+    margin-top:18px; border:none; border-radius:12px;
+    padding:10px 30px; font-size:15px; font-weight:800;
+    cursor:pointer; font-family:'Nunito',sans-serif;
+  }
+  .result-btn.ok { background:#22c55e; color:#fff; }
+  .result-btn.retry { background:#ef4444; color:#fff; }
+
+  /* ===== ROTATE ===== */
+  #rotate-msg {
+    display:none; position:fixed; inset:0;
+    background:#0d1b2a; z-index:200;
+    align-items:center; justify-content:center;
+    flex-direction:column; gap:14px;
+  }
+  #rotate-msg .icon { font-size:50px; }
+  #rotate-msg p { color:#4a6fa5; font-size:14px; font-weight:700; font-family:'Noto Sans JP',sans-serif; }
+  @media (orientation:portrait) {
+    #rotate-msg { display:flex; }
+    #header, #main { display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="rotate-msg">
+  <div class="icon">📱↔️</div>
+  <p>横向きにして使ってね</p>
+</div>
+
+<div id="header">
+  <div class="level-badge">初級 Level 1</div>
+  <div class="progress-text">1 / 10</div>
+  <div id="hint-toggle">
+    <div class="hdot g"></div>
+    <div class="hdot y"></div>
+    <span id="hint-label">ヒント ON</span>
+  </div>
+</div>
+
+<div id="main">
+  <div id="game-area">
+    <div id="answer-zone">
+      <span class="zone-label">ここに並べてね</span>
+    </div>
+    <div id="word-zone"></div>
+  </div>
+  <div id="sidebar">
+    <button class="side-btn" id="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>
+      </svg>
+      戻る
+    </button>
+    <button class="side-btn" id="btn-confirm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      決定
+    </button>
+  </div>
+</div>
+
+<div id="overlay">
+  <div class="result-card" id="result-card">
+    <div class="result-emoji" id="result-emoji"></div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-answer" id="result-answer"></div>
+    <div class="result-jp" id="result-jp"></div>
+    <button class="result-btn" id="result-btn"></button>
+  </div>
+</div>
+
+<script>
+const question = {
+  answer: ["I", "like", "music", "very", "much"],
+  translation: "私は音楽がとても好きです",
+  words: [
+    { word:"I",     kana:"アイ",         jp:"私は",    pos:"代名詞" },
+    { word:"like",  kana:"ライク",       jp:"好き",    pos:"動詞"  },
+    { word:"music", kana:"ミュージック", jp:"音楽",    pos:"名詞"  },
+    { word:"very",  kana:"ベリー",       jp:"とても",  pos:"副詞"  },
+    { word:"much",  kana:"マッチ",       jp:"とても",  pos:"副詞"  },
+  ]
+};
+
+let placed = [];
+let hintVisible = true;
+
+// ---- Tap helper (touch + click) ----
+function onTap(el, fn) {
+  let sx, sy;
+  el.addEventListener('touchstart', e => {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+  }, {passive:true});
+  el.addEventListener('touchend', e => {
+    const dx = Math.abs(e.changedTouches[0].clientX - sx);
+    const dy = Math.abs(e.changedTouches[0].clientY - sy);
+    if (dx < 12 && dy < 12) { e.preventDefault(); fn(); }
+  }, {passive:false});
+  el.addEventListener('click', fn);
+}
+
+// ---- Render answer zone ----
+function renderAnswer() {
+  const zone = document.getElementById('answer-zone');
+  zone.innerHTML = '<span class="zone-label">ここに並べてね</span>';
+  question.words.forEach((_, i) => {
+    if (i < placed.length) {
+      const w = placed[i];
+      const c = document.createElement('div');
+      c.className = 'answer-card';
+      c.innerHTML = `<span class="a-kana">${w.kana}</span><span class="a-word">${w.word}</span>`;
+      zone.appendChild(c);
+    } else {
+      const p = document.createElement('div');
+      p.className = 'answer-placeholder';
+      zone.appendChild(p);
+    }
+  });
+}
+
+// ---- Render word zone ----
+function renderWords() {
+  const zone = document.getElementById('word-zone');
+  zone.innerHTML = '';
+
+  // Shuffle
+  const shuffled = [...question.words].sort(() => Math.random() - 0.5);
+
+  shuffled.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.dataset.word = w.word;
+    card.innerHTML = `
+      <span class="w-kana">${w.kana}</span>
+      <span class="w-word">${w.word}</span>
+      <div class="hint-row">
+        <span class="jp">${w.jp}</span>
+        <span class="pos">${w.pos}</span>
+      </div>`;
+    onTap(card, () => tapWord(w, card));
+    zone.appendChild(card);
+  });
+
+  applyHint();
+  syncUsed();
+}
+
+function syncUsed() {
+  // Count placements
+  const counts = {};
+  placed.forEach(w => { counts[w.word] = (counts[w.word] || 0) + 1; });
+
+  const seen = {};
+  document.querySelectorAll('.word-card').forEach(card => {
+    const word = card.dataset.word;
+    seen[word] = (seen[word] || 0) + 1;
+    const usedCount = counts[word] || 0;
+    card.classList.toggle('used', seen[word] <= usedCount);
+  });
+}
+
+function applyHint() {
+  document.querySelectorAll('.hint-row').forEach(r => {
+    r.style.visibility = hintVisible ? 'visible' : 'hidden';
+  });
+}
+
+// ---- Actions ----
+function tapWord(w, card) {
+  if (placed.length >= question.words.length) return;
+  placed.push(w);
+  renderAnswer();
+  syncUsed();
+}
+
+function doBack() {
+  if (placed.length === 0) return;
+  placed.pop();
+  renderAnswer();
+  syncUsed();
+}
+
+function doConfirm() {
+  if (placed.length < question.words.length) return;
+  const correct = placed.map(w => w.word).join(' ') === question.answer.join(' ');
+
+  const card = document.getElementById('result-card');
+  card.className = 'result-card' + (correct ? '' : ' wrong');
+  document.getElementById('result-emoji').textContent = correct ? '🎉' : '😅';
+  document.getElementById('result-title').textContent = correct ? 'せいかい！' : 'もう一度！';
+  document.getElementById('result-answer').textContent = (correct ? '' : '正解: ') + question.answer.join(' ');
+  document.getElementById('result-jp').textContent = question.translation;
+
+  const btn = document.getElementById('result-btn');
+  btn.textContent = correct ? '次の問題 →' : 'やり直す';
+  btn.className = 'result-btn ' + (correct ? 'ok' : 'retry');
+
+  document.getElementById('overlay').classList.add('show');
+}
+
+function doReset() {
+  placed = [];
+  renderAnswer();
+  renderWords();
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ---- Events ----
+onTap(document.getElementById('btn-back'), doBack);
+onTap(document.getElementById('btn-confirm'), doConfirm);
+onTap(document.getElementById('result-btn'), doReset);
+onTap(document.getElementById('hint-toggle'), () => {
+  hintVisible = !hintVisible;
+  document.getElementById('hint-label').textContent = hintVisible ? 'ヒント ON' : 'ヒント OFF';
+  document.querySelectorAll('.hdot').forEach(d => d.style.opacity = hintVisible ? '1' : '0.3');
+  applyHint();
+});
+
+// ---- Init ----
+doReset();
+</script>
+</body>
+</html>
