@@ -1,671 +1,195 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZOZO</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>英語並べ替えクイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body {
+    width:100%; min-height:100%;
+    background:#0d1b2a;
+    font-family:'Nunito','Noto Sans JP',sans-serif;
+    color:#fff;
+  }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-            background-color: #ffffff;
-            color: #000000;
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  #wrap {
+    max-width:480px;
+    margin:0 auto;
+    padding:32px 20px 48px;
+  }
 
-        /* ヘッダー */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+  /* Title */
+  .app-title {
+    text-align:center;
+    margin-bottom:32px;
+  }
+  .app-title h1 {
+    font-size:24px; font-weight:900;
+    color:#5bc8f5; letter-spacing:1px;
+  }
+  .app-title p {
+    font-size:12px; color:#4a6fa5;
+    margin-top:4px;
+    font-family:'Noto Sans JP',sans-serif;
+  }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            position: relative;
-        }
+  /* Section */
+  .section {
+    margin-bottom:28px;
+  }
+  .section-title {
+    font-size:11px; font-weight:800;
+    color:#2e6ea6; letter-spacing:1.5px;
+    text-transform:uppercase;
+    border-left:3px solid #2e6ea6;
+    padding-left:8px;
+    margin-bottom:10px;
+    font-family:'Noto Sans JP',sans-serif;
+  }
 
-        /* ハンバーガーメニュー */
-        .menu-btn {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            cursor: pointer;
-            z-index: 1002;
-        }
+  /* Level buttons */
+  .level-group {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
 
-        .menu-btn span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: #000000;
-            position: absolute;
-            transition: all 0.3s ease;
-        }
+  .quiz-btn {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#111d2e;
+    border-radius:14px;
+    padding:14px 18px;
+    text-decoration:none;
+    border:1.5px solid #1e3350;
+    transition:border-color 0.15s, background 0.15s;
+    cursor:pointer;
+  }
+  .quiz-btn:active {
+    background:#1a2e45;
+  }
 
-        .menu-btn span:nth-child(1) {
-            top: 0;
-        }
+  .quiz-btn .left {
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
 
-        .menu-btn span:nth-child(2) {
-            top: 11px;
-        }
+  .badge {
+    font-size:10px; font-weight:800;
+    padding:3px 9px; border-radius:20px;
+    white-space:nowrap;
+  }
+  .badge.easy   { background:#1e3a5f; color:#5bc8f5; border:1.5px solid #2e6ea6; }
+  .badge.mid    { background:#3a2a1a; color:#fbbf24; border:1.5px solid #b45309; }
+  .badge.hard   { background:#3a1a2a; color:#f472b6; border:1.5px solid #be185d; }
 
-        .menu-btn span:nth-child(3) {
-            bottom: 0;
-        }
+  .quiz-label {
+    font-size:14px; font-weight:700;
+    color:#c8d8e8;
+    font-family:'Noto Sans JP',sans-serif;
+  }
 
-        .menu-btn.active span:nth-child(1) {
-            transform: rotate(45deg);
-            top: 11px;
-        }
+  .quiz-count {
+    font-size:11px; color:#2e6ea6; font-weight:700;
+  }
 
-        .menu-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
+  .arrow {
+    color:#2e6ea6; font-size:16px;
+  }
 
-        .menu-btn.active span:nth-child(3) {
-            transform: rotate(-45deg);
-            bottom: 11px;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* カートアイコン */
-        .cart-icon {
-            width: 24px;
-            height: 24px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .cart-icon::before {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #000000;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .cart-icon::after {
-            content: '';
-            display: block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid #000000;
-            border-top: none;
-            border-right: none;
-            transform: rotate(45deg);
-            position: absolute;
-            top: -6px;
-            left: 4px;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #000000;
-            color: #ffffff;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        /* スライドメニュー */
-        .slide-menu {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 300px;
-            height: 100vh;
-            background-color: #ffffff;
-            z-index: 1001;
-            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
-        }
-
-        .slide-menu.active {
-            left: 0;
-        }
-
-        .menu-header {
-            padding: 30px 20px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .menu-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .menu-subtitle {
-            font-size: 12px;
-            color: #888888;
-        }
-
-        .menu-nav {
-            padding: 20px 0;
-        }
-
-        .menu-item {
-            display: block;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: #000000;
-            font-size: 16px;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .menu-item:hover {
-            background-color: #f5f5f5;
-            padding-left: 30px;
-        }
-
-        .menu-item::after {
-            content: '→';
-            position: absolute;
-            right: 20px;
-            opacity: 0.5;
-        }
-
-        .menu-footer {
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-            right: 20px;
-        }
-
-        .menu-footer-text {
-            font-size: 11px;
-            color: #888888;
-            line-height: 1.5;
-        }
-
-        /* オーバーレイ */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* メインコンテンツ */
-        main {
-            margin-top: 64px;
-            padding: 20px 10px;
-            flex: 1;
-            margin-bottom: 180px;
-        }
-
-        /* 商品グリッド */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        /* 商品カード */
-        .product-card {
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .product-card:active {
-            transform: scale(0.98);
-        }
-
-        .product-card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-
-        /* 画像コンテナ */
-        .image-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 125%;
-            overflow: hidden;
-            background: #f5f5f5;
-        }
-
-        .product-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        /* 商品情報 */
-        .product-info {
-            padding: 15px;
-            background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
-        }
-
-        .product-number {
-            font-size: 11px;
-            color: #888888;
-            margin-bottom: 4px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .product-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #000000;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-size: 13px;
-            color: #333333;
-            line-height: 1.4;
-            font-weight: 400;
-        }
-
-        /* 在庫無限バッジ */
-        .stock-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.8);
-            color: #ffffff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            letter-spacing: 0.5px;
-        }
-
-        /* フッター */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            z-index: 998;
-        }
-
-        .footer-content {
-            padding: 20px;
-        }
-
-        .footer-nav {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-
-        .footer-nav-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .footer-nav-icon {
-            width: 24px;
-            height: 24px;
-            margin: 0 auto 5px;
-            background-color: #000000;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .footer-nav-label {
-            font-size: 11px;
-            color: #666666;
-            font-weight: 500;
-        }
-
-        .footer-info {
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .footer-text {
-            font-size: 10px;
-            color: #999999;
-            margin-bottom: 5px;
-        }
-
-        .payment-info {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
-        }
-
-        .payment-item {
-            font-size: 11px;
-            color: #666666;
-        }
-
-        /* スクロールアニメーション */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .product-card {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.15s; }
-        .product-card:nth-child(3) { animation-delay: 0.2s; }
-        .product-card:nth-child(4) { animation-delay: 0.25s; }
-        .product-card:nth-child(5) { animation-delay: 0.3s; }
-        .product-card:nth-child(6) { animation-delay: 0.35s; }
-        .product-card:nth-child(7) { animation-delay: 0.4s; }
-        .product-card:nth-child(8) { animation-delay: 0.45s; }
-
-        /* スムーズスクロール */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* タッチフィードバック */
-        .product-card {
-            -webkit-tap-highlight-color: transparent;
-        }
-    </style>
+  /* Coming soon */
+  .quiz-btn.soon {
+    opacity:0.35;
+    pointer-events:none;
+  }
+  .soon-tag {
+    font-size:9px; color:#4a6fa5; font-weight:700;
+    font-family:'Noto Sans JP',sans-serif;
+  }
+</style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="menu-btn" id="menuBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <h1 class="logo">ZOZO</h1>
-            <div class="cart-icon">
-                <div class="cart-badge">0</div>
-            </div>
-        </div>
-    </header>
+<div id="wrap">
 
-    <!-- スライドメニュー -->
-    <div class="slide-menu" id="slideMenu">
-        <div class="menu-header">
-            <div class="menu-title">MENU</div>
-            <div class="menu-subtitle">WHOLESALE CATALOG</div>
+  <div class="app-title">
+    <h1>🇬🇧 英語並べ替えクイズ</h1>
+    <p>中学1年生 ・ 全テスト範囲対応</p>
+  </div>
+
+  <!-- 1回目 -->
+  <div class="section">
+    <div class="section-title">1年生 ・ 1回目テスト範囲（be動詞・基本構文）</div>
+    <div class="level-group">
+      <a class="quiz-btn" href="q1_1_easy.html">
+        <div class="left">
+          <span class="badge easy">初級</span>
+          <span class="quiz-label">基本のbe動詞文</span>
         </div>
-        <nav class="menu-nav">
-            <a href="#" class="menu-item">すべての商品</a>
-            <a href="#" class="menu-item">新着商品</a>
-            <a href="#" class="menu-item">カテゴリー</a>
-            <a href="#" class="menu-item">お取引について</a>
-            <a href="#" class="menu-item">会社概要</a>
-            <a href="#" class="menu-item">お問い合わせ</a>
-        </nav>
-        <div class="menu-footer">
-            <p class="menu-footer-text">
-                営業時間: 平日 9:00-18:00<br>
-                TEL: 03-XXXX-XXXX<br>
-                FAX: 03-XXXX-XXXX
-            </p>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="quiz-count">30問</span>
+          <span class="arrow">›</span>
         </div>
+      </a>
+      <a class="quiz-btn soon" href="#">
+        <div class="left">
+          <span class="badge mid">中級</span>
+          <span class="quiz-label">疑問文・否定文</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="soon-tag">準備中</span>
+          <span class="arrow">›</span>
+        </div>
+      </a>
+      <a class="quiz-btn soon" href="#">
+        <div class="left">
+          <span class="badge hard">上級</span>
+          <span class="quiz-label">混合・発展問題</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="soon-tag">準備中</span>
+          <span class="arrow">›</span>
+        </div>
+      </a>
     </div>
+  </div>
 
-    <!-- オーバーレイ -->
-    <div class="overlay" id="overlay"></div>
+  <!-- 2回目 -->
+  <div class="section">
+    <div class="section-title">1年生 ・ 2回目テスト範囲（一般動詞・疑問文）</div>
+    <div class="level-group">
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge easy">初級</span><span class="quiz-label">一般動詞の基本文</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge mid">中級</span><span class="quiz-label">Doを使う疑問文</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge hard">上級</span><span class="quiz-label">混合・発展問題</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+    </div>
+  </div>
 
-    <main>
-        <div class="product-grid">
-            <!-- 商品カード1 -->
-            <div class="product-card" onclick="location.href='products/001.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #001</div>
-                    <div class="product-price">¥12,800</div>
-                    <div class="product-name">プレミアムアイテム</div>
-                </div>
-            </div>
+  <!-- 3回目 -->
+  <div class="section">
+    <div class="section-title">1年生 ・ 3回目テスト範囲（複数形・can・命令文）</div>
+    <div class="level-group">
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge easy">初級</span><span class="quiz-label">複数形・canの基本</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge mid">中級</span><span class="quiz-label">命令文・canの疑問文</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge hard">上級</span><span class="quiz-label">混合・発展問題</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+    </div>
+  </div>
 
-            <!-- 商品カード2 -->
-            <div class="product-card" onclick="location.href='products/002.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #002</div>
-                    <div class="product-price">¥9,800</div>
-                    <div class="product-name">スタンダードアイテム</div>
-                </div>
-            </div>
+  <!-- 4回目 -->
+  <div class="section">
+    <div class="section-title">1年生 ・ 4回目テスト範囲（現在進行形・過去形）</div>
+    <div class="level-group">
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge easy">初級</span><span class="quiz-label">現在進行形の基本</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge mid">中級</span><span class="quiz-label">過去形・was/were</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+      <a class="quiz-btn soon" href="#"><div class="left"><span class="badge hard">上級</span><span class="quiz-label">混合・発展問題</span></div><div style="display:flex;align-items:center;gap:8px;"><span class="soon-tag">準備中</span><span class="arrow">›</span></div></a>
+    </div>
+  </div>
 
-            <!-- 商品カード3 -->
-            <div class="product-card" onclick="location.href='products/003.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #003</div>
-                    <div class="product-price">¥15,800</div>
-                    <div class="product-name">エクスクルーシブアイテム</div>
-                </div>
-            </div>
-
-            <!-- 商品カード4 -->
-            <div class="product-card" onclick="location.href='products/004.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #004</div>
-                    <div class="product-price">¥7,800</div>
-                    <div class="product-name">ベーシックアイテム</div>
-                </div>
-            </div>
-
-            <!-- 商品カード5 -->
-            <div class="product-card" onclick="location.href='products/005.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #005</div>
-                    <div class="product-price">¥22,800</div>
-                    <div class="product-name">リミテッドアイテム</div>
-                </div>
-            </div>
-
-            <!-- 商品カード6 -->
-            <div class="product-card" onclick="location.href='products/006.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #006</div>
-                    <div class="product-price">¥11,800</div>
-                    <div class="product-name">セレクトアイテム</div>
-                </div>
-            </div>
-
-            <!-- 商品カード7 -->
-            <div class="product-card" onclick="location.href='products/007.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #007</div>
-                    <div class="product-price">¥18,800</div>
-                    <div class="product-name">スペシャルアイテム</div>
-                </div>
-            </div>
-
-            <!-- 商品カード8 -->
-            <div class="product-card" onclick="location.href='products/008.html'">
-                <div class="image-container">
-                    <img src="https://c.imgz.jp/004/64628004/64628004b_72_d_500.jpg" alt="商品画像" class="product-image">
-                    <div class="stock-badge">在庫 ∞</div>
-                </div>
-                <div class="product-info">
-                    <div class="product-number">ITEM #008</div>
-                    <div class="product-price">¥13,800</div>
-                    <div class="product-name">コレクションアイテム</div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-nav">
-                <div class="footer-nav-item">
-                    <div class="footer-nav-icon"></div>
-                    <div class="footer-nav-label">ホーム</div>
-                </div>
-                <div class="footer-nav-item">
-                    <div class="footer-nav-icon"></div>
-                    <div class="footer-nav-label">カテゴリ</div>
-                </div>
-                <div class="footer-nav-item">
-                    <div class="footer-nav-icon"></div>
-                    <div class="footer-nav-label">注文</div>
-                </div>
-                <div class="footer-nav-item">
-                    <div class="footer-nav-icon"></div>
-                    <div class="footer-nav-label">マイページ</div>
-                </div>
-            </div>
-            <div class="footer-info">
-                <p class="footer-text">卸売専用カタログサイト</p>
-                <div class="payment-info">
-                    <span class="payment-item">お支払い: 代引きのみ</span>
-                    <span class="payment-item">送料: 別途</span>
-                </div>
-                <p class="footer-text">© 2025 ZOZO WHOLESALE</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // メニューの開閉
-        const menuBtn = document.getElementById('menuBtn');
-        const slideMenu = document.getElementById('slideMenu');
-        const overlay = document.getElementById('overlay');
-
-        menuBtn.addEventListener('click', function() {
-            menuBtn.classList.toggle('active');
-            slideMenu.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-
-        overlay.addEventListener('click', function() {
-            menuBtn.classList.remove('active');
-            slideMenu.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-
-        // スムーズスクロール効果
-        document.addEventListener('DOMContentLoaded', function() {
-            // Intersection Observer for lazy loading
-            const images = document.querySelectorAll('.product-image');
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-
-            images.forEach(img => {
-                img.style.opacity = '0';
-                img.style.transition = 'opacity 0.5s ease';
-                imageObserver.observe(img);
-            });
-
-            // タッチイベントでのフィードバック
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                card.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.98)';
-                });
-                card.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-        });
-    </script>
+</div>
 </body>
 </html>

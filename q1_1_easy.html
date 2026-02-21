@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>英語並べ替えクイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#0d1b2a; font-family:'Nunito','Noto Sans JP',sans-serif; }
+  body { display:flex; flex-direction:column; }
+
+  /* HEADER */
+  #header {
+    height:38px; background:#0a1520;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 10px 0 8px;
+    border-bottom:1px solid #1e3350; flex-shrink:0;
+  }
+  #btn-menu {
+    background:none; border:none; color:#4a6fa5;
+    font-size:18px; cursor:pointer; padding:4px 6px;
+    font-weight:900; line-height:1;
+  }
+  .level-badge { background:#1e3a5f; color:#5bc8f5; font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; }
+  .progress-text { color:#4a6fa5; font-size:11px; font-weight:700; }
+  #hint-toggle { display:flex; align-items:center; gap:5px; background:#1e3350; border:1.5px solid #2a4a6e; border-radius:16px; padding:3px 10px; cursor:pointer; }
+  #hint-toggle span { font-size:10px; font-weight:800; color:#7ecfef; }
+  .hdot { width:7px; height:7px; border-radius:50%; }
+  .hdot.g { background:#4ade80; }
+  .hdot.y { background:#fde047; }
+
+  /* MAIN */
+  #main { flex:1; display:flex; min-height:0; }
+  #game-area { flex:1; display:flex; flex-direction:column; min-width:0; }
+
+  /* ANSWER ZONE */
+  #answer-zone {
+    height:30%; background:#111d2e;
+    border-bottom:2px solid #1e3a5f;
+    display:flex; align-items:center; flex-wrap:wrap;
+    align-content:center; padding:6px 12px 6px 14px; gap:7px;
+    position:relative; overflow:hidden;
+  }
+  #answer-zone .zone-label { position:absolute; top:5px; left:14px; font-size:9px; color:#2a4a6e; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
+  .answer-card { background:#1a3a5c; border:2px solid #2e6ea6; border-radius:10px; padding:4px 12px; display:flex; flex-direction:column; align-items:center; gap:1px; min-width:48px; }
+  .answer-card .a-kana { color:#a0c4e8; font-size:9px; font-weight:700; }
+  .answer-card .a-word { color:#fff; font-size:15px; font-weight:800; }
+  .answer-placeholder { width:52px; height:42px; border:2px dashed #1e3a5f; border-radius:10px; }
+
+  /* WORD ZONE */
+  #word-zone {
+    flex:1; display:flex; flex-wrap:wrap;
+    align-content:center; justify-content:center;
+    gap:10px; padding:10px 14px; overflow:hidden;
+  }
+  .word-card {
+    background:#15253a; border:2.5px solid #e91e8c;
+    border-radius:12px; padding:5px 14px;
+    display:inline-flex; flex-direction:column;
+    align-items:center; gap:2px;
+    cursor:pointer; user-select:none; -webkit-user-select:none;
+    transition:opacity 0.15s; width:auto; height:auto;
+  }
+  .word-card .w-kana { color:#c7a8ff; font-size:10px; font-weight:700; white-space:nowrap; }
+  .word-card .w-word { color:#ff6bb3; font-size:16px; font-weight:900; white-space:nowrap; }
+  .word-card .hint-row { display:flex; gap:4px; align-items:center; }
+  .word-card .jp  { color:#4ade80; font-size:9px; font-weight:700; font-family:'Noto Sans JP',sans-serif; white-space:nowrap; }
+  .word-card .pos { color:#fde047; font-size:9px; font-weight:700; font-family:'Noto Sans JP',sans-serif; white-space:nowrap; }
+  .word-card.used { opacity:0.22; border-color:#3a1a3a; pointer-events:none; }
+
+  /* SIDEBAR */
+  #sidebar { width:60px; background:#0a1520; border-left:1px solid #1e3350; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:8px; flex-shrink:0; }
+  .side-btn { width:46px; height:54px; border-radius:14px; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-family:'Noto Sans JP',sans-serif; font-weight:800; font-size:12px; user-select:none; -webkit-user-select:none; }
+  .side-btn svg { width:20px; height:20px; }
+  #btn-back    { background:#2a1a4e; border:2px solid #6c3fc7; color:#b19eff; }
+  #btn-confirm { background:#1a3a2a; border:2px solid #22c55e; color:#4ade80; }
+
+  /* OVERLAY */
+  #overlay { display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:100; background:rgba(0,0,0,0.65); backdrop-filter:blur(3px); }
+  #overlay.show { display:flex; }
+  .result-card { background:#111d2e; border-radius:20px; padding:24px 34px; text-align:center; border:3px solid #22c55e; }
+  .result-card.wrong { border-color:#ef4444; }
+  .result-emoji { font-size:42px; line-height:1.1; }
+  .result-title { color:#fff; font-size:20px; font-weight:900; margin-top:8px; }
+  .result-answer { color:#7ecfef; font-size:13px; margin-top:6px; font-family:'Noto Sans JP',sans-serif; }
+  .result-jp { color:#4a6fa5; font-size:11px; margin-top:4px; font-family:'Noto Sans JP',sans-serif; }
+  .result-btn { margin-top:16px; border:none; border-radius:12px; padding:10px 28px; font-size:15px; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; }
+  .result-btn.ok    { background:#22c55e; color:#fff; }
+  .result-btn.retry { background:#ef4444; color:#fff; }
+
+  /* COMPLETE OVERLAY */
+  #complete { display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:110; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); }
+  #complete.show { display:flex; }
+  .complete-card { background:#111d2e; border:3px solid #ffd166; border-radius:22px; padding:30px 40px; text-align:center; }
+  .complete-card h2 { color:#ffd166; font-size:26px; font-weight:900; }
+  .complete-card p { color:#c8d8e8; font-size:14px; margin-top:10px; font-family:'Noto Sans JP',sans-serif; }
+  .complete-btns { display:flex; gap:12px; margin-top:20px; justify-content:center; }
+  .comp-btn { border:none; border-radius:12px; padding:10px 22px; font-size:14px; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; }
+  .comp-btn.again { background:#2e6ea6; color:#fff; }
+  .comp-btn.menu  { background:#ffd166; color:#0d1b2a; }
+
+  /* ROTATE */
+  #rotate-msg { display:none; position:fixed; inset:0; background:#0d1b2a; z-index:200; align-items:center; justify-content:center; flex-direction:column; gap:14px; }
+  #rotate-msg .icon { font-size:50px; }
+  #rotate-msg p { color:#4a6fa5; font-size:14px; font-weight:700; font-family:'Noto Sans JP',sans-serif; }
+  @media (orientation:portrait) {
+    #rotate-msg { display:flex; }
+    #header, #main { display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="rotate-msg"><div class="icon">📱↔️</div><p>横向きにして使ってね</p></div>
+
+<div id="header">
+  <button id="btn-menu">←</button>
+  <div class="level-badge">1回目テスト ・ 初級</div>
+  <div class="progress-text" id="prog">1 / 30</div>
+  <div id="hint-toggle">
+    <div class="hdot g"></div><div class="hdot y"></div>
+    <span id="hint-label">ヒント ON</span>
+  </div>
+</div>
+
+<div id="main">
+  <div id="game-area">
+    <div id="answer-zone"><span class="zone-label">ここに並べてね</span></div>
+    <div id="word-zone"></div>
+  </div>
+  <div id="sidebar">
+    <button class="side-btn" id="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+      戻る
+    </button>
+    <button class="side-btn" id="btn-confirm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      決定
+    </button>
+  </div>
+</div>
+
+<div id="overlay">
+  <div class="result-card" id="result-card">
+    <div class="result-emoji" id="result-emoji"></div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-answer" id="result-answer"></div>
+    <div class="result-jp" id="result-jp"></div>
+    <button class="result-btn" id="result-btn"></button>
+  </div>
+</div>
+
+<div id="complete">
+  <div class="complete-card">
+    <h2>🏆 クリア！</h2>
+    <p>全30問おつかれさま！<br>1回目テスト初級をクリアしたよ</p>
+    <div class="complete-btns">
+      <button class="comp-btn again" id="btn-again">もう一度</button>
+      <button class="comp-btn menu"  id="btn-menu2">メニューへ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =====================
+// QUESTIONS: 1年1回目 初級（be動詞・基本構文）30問
+// =====================
+const questions = [
+  { answer:["I","am","Ken."],          translation:"私はケンです。",        words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"Ken.",kana:"ケン",jp:"ケン",pos:"名詞"}]},
+  { answer:["You","are","Yuki."],       translation:"あなたはユキです。",     words:[{word:"You",kana:"ユー",jp:"あなたは",pos:"代名詞"},{word:"are",kana:"アー",jp:"〜です",pos:"be動詞"},{word:"Yuki.",kana:"ユキ",jp:"ユキ",pos:"名詞"}]},
+  { answer:["He","is","my","friend."],  translation:"彼は私の友達です。",    words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"friend.",kana:"フレンド",jp:"友達",pos:"名詞"}]},
+  { answer:["She","is","a","student."], translation:"彼女は学生です。",      words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1人の",pos:"冠詞"},{word:"student.",kana:"ステューデント",jp:"学生",pos:"名詞"}]},
+  { answer:["This","is","a","pen."],    translation:"これはペンです。",      words:[{word:"This",kana:"ディス",jp:"これは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1つの",pos:"冠詞"},{word:"pen.",kana:"ペン",jp:"ペン",pos:"名詞"}]},
+  { answer:["That","is","a","cat."],    translation:"あれは猫です。",        words:[{word:"That",kana:"ザット",jp:"あれは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1匹の",pos:"冠詞"},{word:"cat.",kana:"キャット",jp:"猫",pos:"名詞"}]},
+  { answer:["I","am","a","teacher."],   translation:"私は先生です。",        words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1人の",pos:"冠詞"},{word:"teacher.",kana:"ティーチャー",jp:"先生",pos:"名詞"}]},
+  { answer:["He","is","Tom."],          translation:"彼はトムです。",        words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"Tom.",kana:"トム",jp:"トム",pos:"名詞"}]},
+  { answer:["She","is","my","sister."], translation:"彼女は私の姉です。",    words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"sister.",kana:"シスター",jp:"姉",pos:"名詞"}]},
+  { answer:["You","are","kind."],       translation:"あなたは親切です。",    words:[{word:"You",kana:"ユー",jp:"あなたは",pos:"代名詞"},{word:"are",kana:"アー",jp:"〜です",pos:"be動詞"},{word:"kind.",kana:"カインド",jp:"親切な",pos:"形容詞"}]},
+  { answer:["I","am","happy."],         translation:"私は幸せです。",        words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"happy.",kana:"ハッピー",jp:"幸せな",pos:"形容詞"}]},
+  { answer:["He","is","tall."],         translation:"彼は背が高いです。",    words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"tall.",kana:"トール",jp:"背が高い",pos:"形容詞"}]},
+  { answer:["This","is","my","book."],  translation:"これは私の本です。",    words:[{word:"This",kana:"ディス",jp:"これは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"book.",kana:"ブック",jp:"本",pos:"名詞"}]},
+  { answer:["That","is","his","dog."],  translation:"あれは彼の犬です。",    words:[{word:"That",kana:"ザット",jp:"あれは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"his",kana:"ヒズ",jp:"彼の",pos:"代名詞"},{word:"dog.",kana:"ドッグ",jp:"犬",pos:"名詞"}]},
+  { answer:["She","is","a","nurse."],   translation:"彼女は看護師です。",    words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1人の",pos:"冠詞"},{word:"nurse.",kana:"ナース",jp:"看護師",pos:"名詞"}]},
+  { answer:["I","am","from","Japan."],  translation:"私は日本出身です。",    words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"from",kana:"フロム",jp:"〜出身",pos:"前置詞"},{word:"Japan.",kana:"ジャパン",jp:"日本",pos:"名詞"}]},
+  { answer:["You","are","welcome."],    translation:"どういたしまして。",    words:[{word:"You",kana:"ユー",jp:"あなたは",pos:"代名詞"},{word:"are",kana:"アー",jp:"〜です",pos:"be動詞"},{word:"welcome.",kana:"ウェルカム",jp:"歓迎される",pos:"形容詞"}]},
+  { answer:["He","is","a","doctor."],   translation:"彼は医者です。",        words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1人の",pos:"冠詞"},{word:"doctor.",kana:"ドクター",jp:"医者",pos:"名詞"}]},
+  { answer:["This","is","an","apple."], translation:"これはリンゴです。",    words:[{word:"This",kana:"ディス",jp:"これは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"an",kana:"アン",jp:"1つの",pos:"冠詞"},{word:"apple.",kana:"アップル",jp:"リンゴ",pos:"名詞"}]},
+  { answer:["She","is","my","mother."], translation:"彼女は私の母です。",    words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"mother.",kana:"マザー",jp:"母",pos:"名詞"}]},
+  { answer:["I","am","busy."],          translation:"私は忙しいです。",      words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"busy.",kana:"ビジー",jp:"忙しい",pos:"形容詞"}]},
+  { answer:["He","is","my","brother."], translation:"彼は私の兄です。",      words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"brother.",kana:"ブラザー",jp:"兄",pos:"名詞"}]},
+  { answer:["That","is","her","bag."],  translation:"あれは彼女のバッグです。",words:[{word:"That",kana:"ザット",jp:"あれは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"her",kana:"ハー",jp:"彼女の",pos:"代名詞"},{word:"bag.",kana:"バッグ",jp:"バッグ",pos:"名詞"}]},
+  { answer:["You","are","smart."],      translation:"あなたは賢いです。",    words:[{word:"You",kana:"ユー",jp:"あなたは",pos:"代名詞"},{word:"are",kana:"アー",jp:"〜です",pos:"be動詞"},{word:"smart.",kana:"スマート",jp:"賢い",pos:"形容詞"}]},
+  { answer:["She","is","cute."],        translation:"彼女はかわいいです。",  words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"cute.",kana:"キュート",jp:"かわいい",pos:"形容詞"}]},
+  { answer:["This","is","my","desk."],  translation:"これは私の机です。",    words:[{word:"This",kana:"ディス",jp:"これは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"my",kana:"マイ",jp:"私の",pos:"代名詞"},{word:"desk.",kana:"デスク",jp:"机",pos:"名詞"}]},
+  { answer:["He","is","strong."],       translation:"彼は強いです。",        words:[{word:"He",kana:"ヒー",jp:"彼は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"strong.",kana:"ストロング",jp:"強い",pos:"形容詞"}]},
+  { answer:["I","am","a","student."],   translation:"私は生徒です。",        words:[{word:"I",kana:"アイ",jp:"私は",pos:"代名詞"},{word:"am",kana:"アム",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1人の",pos:"冠詞"},{word:"student.",kana:"ステューデント",jp:"生徒",pos:"名詞"}]},
+  { answer:["That","is","a","school."], translation:"あれは学校です。",      words:[{word:"That",kana:"ザット",jp:"あれは",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"a",kana:"ア",jp:"1つの",pos:"冠詞"},{word:"school.",kana:"スクール",jp:"学校",pos:"名詞"}]},
+  { answer:["She","is","kind."],        translation:"彼女は親切です。",      words:[{word:"She",kana:"シー",jp:"彼女は",pos:"代名詞"},{word:"is",kana:"イズ",jp:"〜です",pos:"be動詞"},{word:"kind.",kana:"カインド",jp:"親切な",pos:"形容詞"}]},
+];
+
+// =====================
+// STATE
+// =====================
+let qIndex = 0;
+let placed = [];
+let hintVisible = true;
+
+function currentQ() { return questions[qIndex]; }
+
+// =====================
+// TAP HELPER
+// =====================
+function onTap(el, fn) {
+  let sx, sy;
+  el.addEventListener('touchstart', e => { sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+  el.addEventListener('touchend', e => {
+    if(Math.abs(e.changedTouches[0].clientX-sx)<12 && Math.abs(e.changedTouches[0].clientY-sy)<12){
+      e.preventDefault(); fn();
+    }
+  }, {passive:false});
+  el.addEventListener('click', fn);
+}
+
+// =====================
+// RENDER
+// =====================
+function renderAnswer() {
+  const zone = document.getElementById('answer-zone');
+  zone.innerHTML = '<span class="zone-label">ここに並べてね</span>';
+  const q = currentQ();
+  q.words.forEach((_, i) => {
+    if (i < placed.length) {
+      const w = placed[i];
+      const c = document.createElement('div');
+      c.className = 'answer-card';
+      c.innerHTML = `<span class="a-kana">${w.kana}</span><span class="a-word">${w.word}</span>`;
+      zone.appendChild(c);
+    } else {
+      const p = document.createElement('div');
+      p.className = 'answer-placeholder';
+      zone.appendChild(p);
+    }
+  });
+}
+
+function renderWords() {
+  const zone = document.getElementById('word-zone');
+  zone.innerHTML = '';
+  const shuffled = [...currentQ().words].sort(() => Math.random() - 0.5);
+  shuffled.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'word-card';
+    card.dataset.word = w.word;
+    card.innerHTML = `<span class="w-kana">${w.kana}</span><span class="w-word">${w.word}</span><div class="hint-row"><span class="jp">${w.jp}</span><span class="pos">${w.pos}</span></div>`;
+    onTap(card, () => tapWord(w));
+    zone.appendChild(card);
+  });
+  applyHint();
+  syncUsed();
+}
+
+function syncUsed() {
+  const counts = {};
+  placed.forEach(w => { counts[w.word] = (counts[w.word]||0)+1; });
+  const seen = {};
+  document.querySelectorAll('.word-card').forEach(card => {
+    const word = card.dataset.word;
+    seen[word] = (seen[word]||0)+1;
+    card.classList.toggle('used', seen[word] <= (counts[word]||0));
+  });
+}
+
+function applyHint() {
+  document.querySelectorAll('.hint-row').forEach(r => r.style.visibility = hintVisible ? 'visible' : 'hidden');
+}
+
+function updateProgress() {
+  document.getElementById('prog').textContent = `${qIndex+1} / ${questions.length}`;
+}
+
+// =====================
+// ACTIONS
+// =====================
+function tapWord(w) {
+  if (placed.length >= currentQ().words.length) return;
+  placed.push(w);
+  renderAnswer();
+  syncUsed();
+}
+
+function doBack() {
+  if (placed.length === 0) return;
+  placed.pop();
+  renderAnswer();
+  syncUsed();
+}
+
+function doConfirm() {
+  if (placed.length < currentQ().words.length) return;
+  const q = currentQ();
+  const correct = placed.map(w=>w.word).join(' ') === q.answer.join(' ');
+
+  const card = document.getElementById('result-card');
+  card.className = 'result-card' + (correct ? '' : ' wrong');
+  document.getElementById('result-emoji').textContent = correct ? '🎉' : '😅';
+  document.getElementById('result-title').textContent = correct ? 'せいかい！' : 'もう一度！';
+  document.getElementById('result-answer').textContent = (correct ? '' : '正解: ') + q.answer.join(' ');
+  document.getElementById('result-jp').textContent = q.translation;
+
+  const btn = document.getElementById('result-btn');
+  if (correct) {
+    const isLast = qIndex === questions.length - 1;
+    btn.textContent = isLast ? '完了！' : '次の問題 →';
+    btn.className = 'result-btn ok';
+    btn.dataset.action = isLast ? 'complete' : 'next';
+  } else {
+    btn.textContent = 'やり直す';
+    btn.className = 'result-btn retry';
+    btn.dataset.action = 'retry';
+  }
+  document.getElementById('overlay').classList.add('show');
+}
+
+function doResultBtn() {
+  const action = document.getElementById('result-btn').dataset.action;
+  document.getElementById('overlay').classList.remove('show');
+  if (action === 'next') {
+    qIndex++;
+    placed = [];
+    updateProgress();
+    renderAnswer();
+    renderWords();
+  } else if (action === 'complete') {
+    document.getElementById('complete').classList.add('show');
+  } else {
+    placed = [];
+    renderAnswer();
+    renderWords();
+  }
+}
+
+function doAgain() {
+  qIndex = 0; placed = [];
+  document.getElementById('complete').classList.remove('show');
+  updateProgress();
+  renderAnswer();
+  renderWords();
+}
+
+// =====================
+// EVENTS
+// =====================
+onTap(document.getElementById('btn-back'), doBack);
+onTap(document.getElementById('btn-confirm'), doConfirm);
+onTap(document.getElementById('result-btn'), doResultBtn);
+onTap(document.getElementById('btn-again'), doAgain);
+onTap(document.getElementById('btn-menu'),  () => location.href = 'index.html');
+onTap(document.getElementById('btn-menu2'), () => location.href = 'index.html');
+onTap(document.getElementById('hint-toggle'), () => {
+  hintVisible = !hintVisible;
+  document.getElementById('hint-label').textContent = hintVisible ? 'ヒント ON' : 'ヒント OFF';
+  document.querySelectorAll('.hdot').forEach(d => d.style.opacity = hintVisible ? '1' : '0.3');
+  applyHint();
+});
+
+// INIT
+updateProgress();
+renderAnswer();
+renderWords();
+</script>
+</body>
+</html>
