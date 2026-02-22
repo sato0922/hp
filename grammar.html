@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>英語の公式ノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --bg: #0d1b2a;
+  --bg2: #0a1520;
+  --bg3: #111d2e;
+  --border: #1e3350;
+  --border2: #2a4a6e;
+  --text: #c8d8e8;
+  --text-dim: #4a6fa5;
+  --accent: #5bc8f5;
+
+  --subj: #38bdf8;
+  --subj-bg: rgba(56,189,248,0.12);
+  --verb: #f472b6;
+  --verb-bg: rgba(244,114,182,0.12);
+  --obj: #4ade80;
+  --obj-bg: rgba(74,222,128,0.12);
+  --aux: #a78bfa;
+  --aux-bg: rgba(167,139,250,0.12);
+  --comp: #fbbf24;
+  --comp-bg: rgba(251,191,36,0.12);
+  --neg: #f87171;
+  --neg-bg: rgba(248,113,113,0.12);
+  --place: #fb923c;
+  --place-bg: rgba(251,146,60,0.12);
+
+  --easy: #5bc8f5;
+  --easy-bg: #1e3a5f;
+  --mid: #fbbf24;
+  --mid-bg: #3a2a1a;
+  --hard: #f472b6;
+  --hard-bg: #3a1a2a;
+}
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  min-height: 100%;
+}
+
+/* HEADER */
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+#btn-menu {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 6px;
+  font-weight: 900;
+  line-height: 1;
+  flex-shrink: 0;
+}
+#header h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+.header-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(91,200,245,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(91,200,245,0.3);
+  white-space: nowrap;
+}
+
+/* MAIN CONTENT */
+#content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px 14px 60px;
+}
+
+/* SECTION */
+.chapter {
+  margin-bottom: 36px;
+}
+.chapter-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+.chapter-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.chapter-title h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+}
+.chapter-title .ch-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+/* CARD */
+.card {
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+}
+.card.c-blue::before { background: linear-gradient(90deg, #38bdf8, #818cf8); }
+.card.c-pink::before { background: linear-gradient(90deg, #f472b6, #fb923c); }
+.card.c-green::before { background: linear-gradient(90deg, #4ade80, #22d3ee); }
+.card.c-purple::before { background: linear-gradient(90deg, #a78bfa, #f472b6); }
+.card.c-orange::before { background: linear-gradient(90deg, #fb923c, #fbbf24); }
+.card.c-red::before { background: linear-gradient(90deg, #f87171, #f472b6); }
+
+.card-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
+
+/* FORMULA */
+.formula {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.f-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  padding: 4px 10px;
+  min-width: 44px;
+}
+.f-block .f-label {
+  font-size: 9px;
+  font-weight: 800;
+  opacity: 0.75;
+  letter-spacing: 0.5px;
+  margin-bottom: 1px;
+  white-space: nowrap;
+}
+.f-block .f-word {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.f-block.subj { background: var(--subj-bg); color: var(--subj); border: 1px solid rgba(56,189,248,0.25); }
+.f-block.verb { background: var(--verb-bg); color: var(--verb); border: 1px solid rgba(244,114,182,0.25); }
+.f-block.obj  { background: var(--obj-bg);  color: var(--obj);  border: 1px solid rgba(74,222,128,0.25); }
+.f-block.aux  { background: var(--aux-bg);  color: var(--aux);  border: 1px solid rgba(167,139,250,0.25); }
+.f-block.comp { background: var(--comp-bg); color: var(--comp); border: 1px solid rgba(251,191,36,0.25); }
+.f-block.neg  { background: var(--neg-bg);  color: var(--neg);  border: 1px solid rgba(248,113,113,0.25); }
+.f-block.place { background: var(--place-bg); color: var(--place); border: 1px solid rgba(251,146,60,0.25); }
+.f-block.opt  { background: rgba(255,255,255,0.05); color: #8ab; border: 1px dashed rgba(255,255,255,0.1); }
+
+.f-plus {
+  color: var(--text-dim);
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'Nunito', sans-serif;
+}
+.f-arrow {
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* EXAMPLES */
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.ex-row {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 7px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ex-en {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+.ex-jp {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+/* TIP */
+.tip {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: rgba(251,191,36,0.07);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+.tip-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.tip-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #e6c870;
+  line-height: 1.6;
+}
+
+/* QUIZ LINKS */
+.quiz-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.quiz-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.quiz-link:active { opacity: 0.7; }
+.quiz-link.easy { background: var(--easy-bg); color: var(--easy); border: 1.5px solid rgba(91,200,245,0.3); }
+.quiz-link.mid  { background: var(--mid-bg);  color: var(--mid);  border: 1.5px solid rgba(251,191,36,0.3); }
+.quiz-link.hard { background: var(--hard-bg); color: var(--hard); border: 1.5px solid rgba(244,114,182,0.3); }
+.quiz-link-icon { font-size: 12px; }
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 22px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.legend-label { color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <button id="btn-menu" onclick="location.href='index.html'">←</button>
+  <h1>📖 英語の公式ノート</h1>
+  <div class="header-badge">全パターン網羅</div>
+</div>
+
+<div id="content">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div><span class="legend-label">主語 (S)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div><span class="legend-label">動詞 (V)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div><span class="legend-label">目的語 (O)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div><span class="legend-label">補語 (C)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div><span class="legend-label">助動詞 (Aux)</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div><span class="legend-label">否定語</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div><span class="legend-label">場所・時間</span></div>
+  </div>
+
+  <!-- ===== 1回目: be動詞 ===== -->
+  <div class="chapter">
+    <div class="chapter-title">
+      <div class="chapter-icon" style="background:rgba(56,189,248,0.15)">🔵</div>
+      <div>
+        <h2>1回目テスト範囲 ― be動詞の基本</h2>
+        <div class="ch-sub">am / is / are の使い方</div>
+      </div>
+    </div>
+
+    <!-- be動詞 肯定文 -->
+    <div class="card c-blue">
+      <div class="card-title">① be動詞 ― 肯定文「〜は…です」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">I / He / We</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞</div><div class="f-word">am / is / are</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">補語</div><div class="f-word">名前・形容詞</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I am a student.</div><div class="ex-jp">私は生徒です。</div></div>
+        <div class="ex-row"><div class="ex-en">She is kind.</div><div class="ex-jp">彼女は親切です。</div></div>
+        <div class="ex-row"><div class="ex-en">They are happy.</div><div class="ex-jp">彼らは幸せです。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">主語によってbe動詞が変わる！<br>I → am　／　He / She / It → is　／　You / We / They → are</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link easy" href="q1_1_easy.html"><span class="quiz-link-icon">✏️</span>初級で練習</a>
+        <a class="quiz-link mid" href="q1_1_mid.html"><span class="quiz-link-icon">✏️</span>中級で練習</a>
+      </div>
+    </div>
+
+    <!-- be動詞 否定文 -->
+    <div class="card c-red">
+      <div class="card-title">② be動詞 ― 否定文「〜は…ではありません」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞</div><div class="f-word">am / is / are</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">not</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">補語</div><div class="f-word">…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I am not tired.</div><div class="ex-jp">私は疲れていません。</div></div>
+        <div class="ex-row"><div class="ex-en">He is not a teacher.</div><div class="ex-jp">彼は先生ではありません。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">be動詞の直後に not を置くだけ！<br>isn't / aren't / I'm not のように短縮形もよく使われる。</div>
+      </div>
+    </div>
+
+    <!-- be動詞 疑問文 -->
+    <div class="card c-purple">
+      <div class="card-title">③ be動詞 ― 疑問文「〜は…ですか？」</div>
+      <div class="formula">
+        <div class="f-block verb"><div class="f-label">be動詞</div><div class="f-word">Am / Is / Are</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">you / he / …</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">補語</div><div class="f-word">…</div></div>
+        <div class="f-arrow">→ ?</div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">Are you a student? — Yes, I am. / No, I'm not.</div><div class="ex-jp">あなたは生徒ですか？ — はい。 / いいえ。</div></div>
+        <div class="ex-row"><div class="ex-en">Is she your sister?</div><div class="ex-jp">彼女はあなたの姉妹ですか？</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">be動詞を文の先頭に出すだけ！<br>答え方：Yes, I am. / No, I'm not. のようにbe動詞で答える。</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link hard" href="q1_1_hard.html"><span class="quiz-link-icon">✏️</span>上級で練習</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2回目: 一般動詞 ===== -->
+  <div class="chapter">
+    <div class="chapter-title">
+      <div class="chapter-icon" style="background:rgba(244,114,182,0.15)">🌸</div>
+      <div>
+        <h2>2回目テスト範囲 ― 一般動詞</h2>
+        <div class="ch-sub">do / does を使った文</div>
+      </div>
+    </div>
+
+    <!-- 一般動詞 肯定文 -->
+    <div class="card c-pink">
+      <div class="card-title">④ 一般動詞 ― 肯定文「〜は…する」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">I / You / We…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞</div><div class="f-word">play / like…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">目的語</div><div class="f-word">soccer…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語 (3単現)</div><div class="f-word">He / She / It</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞 + s/es</div><div class="f-word">plays / likes…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">目的語</div><div class="f-word">…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I play soccer every day.</div><div class="ex-jp">私は毎日サッカーをします。</div></div>
+        <div class="ex-row"><div class="ex-en">She likes music.</div><div class="ex-jp">彼女は音楽が好きです。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">主語が He / She / It（3人称単数）のとき、動詞に <strong>s か es</strong> をつける！<br>like → likes　／　study → studies　／　go → goes</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link easy" href="q1_2_easy.html"><span class="quiz-link-icon">✏️</span>初級で練習</a>
+      </div>
+    </div>
+
+    <!-- 一般動詞 否定文 -->
+    <div class="card c-red">
+      <div class="card-title">⑤ 一般動詞 ― 否定文「〜しません」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">I / You</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">do</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">not</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">play…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語(3単現)</div><div class="f-word">He / She</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">does</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">not</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">play…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I do not like fish.</div><div class="ex-jp">私は魚が好きではありません。</div></div>
+        <div class="ex-row"><div class="ex-en">She does not study math.</div><div class="ex-jp">彼女は数学を勉強しません。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">does not のあとの動詞は必ず<strong>原形</strong>（s/esなし）！<br>✕ She does not likes → ⭕ She does not like</div>
+      </div>
+    </div>
+
+    <!-- 一般動詞 疑問文 -->
+    <div class="card c-purple">
+      <div class="card-title">⑥ 一般動詞 ― 疑問文「〜しますか？」</div>
+      <div class="formula">
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">Do / Does</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">you / he…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">play…</div></div>
+        <div class="f-arrow">→ ?</div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">Do you like soccer? — Yes, I do. / No, I don't.</div><div class="ex-jp">サッカーは好きですか？ — はい。 / いいえ。</div></div>
+        <div class="ex-row"><div class="ex-en">Does he play tennis? — Yes, he does.</div><div class="ex-jp">彼はテニスをしますか？ — はい。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">主語が3単現なら Do → Does に変わる。<br>答え方：Yes, I do. / No, he doesn't. のように do/does で答える。</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link mid" href="q1_2_mid.html"><span class="quiz-link-icon">✏️</span>中級で練習</a>
+        <a class="quiz-link hard" href="q1_2_hard.html"><span class="quiz-link-icon">✏️</span>上級で練習</a>
+      </div>
+    </div>
+
+    <!-- What疑問文 -->
+    <div class="card c-blue">
+      <div class="card-title">⑦ What / Where / When ― 疑問詞疑問文</div>
+      <div class="formula">
+        <div class="f-block comp"><div class="f-label">疑問詞</div><div class="f-word">What / Where…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">do / does</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">you / he…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">like…</div></div>
+        <div class="f-arrow">→ ?</div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">What do you eat for breakfast?</div><div class="ex-jp">朝食に何を食べますか？</div></div>
+        <div class="ex-row"><div class="ex-en">Where does she work?</div><div class="ex-jp">彼女はどこで働いていますか？</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">疑問詞を先頭に置いてから、Do/Does疑問文の語順にする！<br>What / Where / When / Why / How / Who など</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3回目: can・命令文 ===== -->
+  <div class="chapter">
+    <div class="chapter-title">
+      <div class="chapter-icon" style="background:rgba(74,222,128,0.15)">💚</div>
+      <div>
+        <h2>3回目テスト範囲 ― can・命令文・複数形</h2>
+        <div class="ch-sub">can / cannot / 命令文 / Let's</div>
+      </div>
+    </div>
+
+    <!-- can 肯定 -->
+    <div class="card c-green">
+      <div class="card-title">⑧ can ― 肯定文「〜することができる」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">can</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">swim…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I can swim.</div><div class="ex-jp">私は泳ぐことができます。</div></div>
+        <div class="ex-row"><div class="ex-en">She can speak French.</div><div class="ex-jp">彼女はフランス語を話せます。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">can の後は必ず<strong>動詞の原形</strong>！<br>主語が He / She でも can は変わらない（cans にならない）。</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link easy" href="q1_3_easy.html"><span class="quiz-link-icon">✏️</span>初級で練習</a>
+      </div>
+    </div>
+
+    <!-- can 否定・疑問 -->
+    <div class="card c-red">
+      <div class="card-title">⑨ can ― 否定文・疑問文</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">cannot</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">V</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block aux"><div class="f-label">助動詞</div><div class="f-word">Can</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">you…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">V</div></div>
+        <div class="f-arrow">→ ?</div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I cannot play the guitar.</div><div class="ex-jp">私はギターを弾けません。</div></div>
+        <div class="ex-row"><div class="ex-en">Can you help me? — Yes, I can. / No, I can't.</div><div class="ex-jp">手伝ってもらえますか？ — はい。 / いいえ。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">cannot は1語で書く（can not でも OK）。<br>短縮形は can't。答えるときは can / can't で返す。</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link mid" href="q1_3_mid.html"><span class="quiz-link-icon">✏️</span>中級で練習</a>
+        <a class="quiz-link hard" href="q1_3_hard.html"><span class="quiz-link-icon">✏️</span>上級で練習</a>
+      </div>
+    </div>
+
+    <!-- 命令文 -->
+    <div class="card c-orange">
+      <div class="card-title">⑩ 命令文「〜しなさい」 / Don't「〜してはいけない」</div>
+      <div class="formula">
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">Open / Stand…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">目的語など</div><div class="f-word">…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">Don't</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">run…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block opt"><div class="f-label">場所など</div><div class="f-word">…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block aux"><div class="f-label">勧誘</div><div class="f-word">Let's</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">go…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">Open your book.</div><div class="ex-jp">本を開きなさい。</div></div>
+        <div class="ex-row"><div class="ex-en">Don't run in the hall.</div><div class="ex-jp">廊下を走ってはいけません。</div></div>
+        <div class="ex-row"><div class="ex-en">Let's go to the park.</div><div class="ex-jp">公園に行きましょう。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">命令文は<strong>主語なしで動詞から始める</strong>のがポイント！<br>Please をつけると丁寧になる（Please open your book.）</div>
+      </div>
+    </div>
+
+    <!-- 複数形 -->
+    <div class="card c-blue">
+      <div class="card-title">⑪ 複数形「〜が2つ以上」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">I / She…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞</div><div class="f-word">have / has</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">数</div><div class="f-word">two / three…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">名詞+s</div><div class="f-word">cats / dogs…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I have two cats.</div><div class="ex-jp">私は猫を2匹飼っています。</div></div>
+        <div class="ex-row"><div class="ex-en">How many books do you have?</div><div class="ex-jp">本を何冊持っていますか？</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">名詞の語尾でsのつけ方が変わる！<br>cat → cats　／　box → boxes　／　city → cities　／　child → children（不規則）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 4回目: 現在進行形・過去形 ===== -->
+  <div class="chapter">
+    <div class="chapter-title">
+      <div class="chapter-icon" style="background:rgba(167,139,250,0.15)">🟣</div>
+      <div>
+        <h2>4回目テスト範囲 ― 現在進行形・過去形</h2>
+        <div class="ch-sub">-ing / 過去形 / did / was・were</div>
+      </div>
+    </div>
+
+    <!-- 現在進行形 -->
+    <div class="card c-purple">
+      <div class="card-title">⑫ 現在進行形「今〜している」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞</div><div class="f-word">am / is / are</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">動詞 + ing</div><div class="f-word">playing…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I am eating lunch now.</div><div class="ex-jp">私は今昼食を食べています。</div></div>
+        <div class="ex-row"><div class="ex-en">She is studying English.</div><div class="ex-jp">彼女は英語を勉強しています。</div></div>
+        <div class="ex-row"><div class="ex-en">Are you studying now? — Yes, I am.</div><div class="ex-jp">今勉強していますか？ — はい。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">ing のつけ方に注意！<br>run → runn<strong>ing</strong>（子音を重ねる）　／　make → mak<strong>ing</strong>（eを取る）<br>疑問文は be動詞を前に出すだけ → Is she studying?</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link easy" href="q1_4_easy.html"><span class="quiz-link-icon">✏️</span>初級で練習</a>
+      </div>
+    </div>
+
+    <!-- 過去形 肯定 -->
+    <div class="card c-blue">
+      <div class="card-title">⑬ 過去形 ― 肯定文「〜した」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(過去形)</div><div class="f-word">played / went…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">目的語など</div><div class="f-word">…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block place"><div class="f-label">時間</div><div class="f-word">yesterday…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I played soccer yesterday.</div><div class="ex-jp">私は昨日サッカーをしました。</div></div>
+        <div class="ex-row"><div class="ex-en">She went to the library.</div><div class="ex-jp">彼女は図書館に行きました。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">規則動詞は <strong>ed をつける</strong>（play → played）<br>不規則動詞は形が変わる → go → went　／　eat → ate　／　buy → bought　／　see → saw</div>
+      </div>
+    </div>
+
+    <!-- 過去形 否定・疑問 -->
+    <div class="card c-red">
+      <div class="card-title">⑭ 過去形 ― 否定文・疑問文</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block aux"><div class="f-label">助動詞(過去)</div><div class="f-word">did</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block neg"><div class="f-label">否定</div><div class="f-word">not</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">go…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block aux"><div class="f-label">助動詞(過去)</div><div class="f-word">Did</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">you / he…</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">動詞(原形)</div><div class="f-word">go…</div></div>
+        <div class="f-arrow">→ ?</div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I did not go to school yesterday.</div><div class="ex-jp">昨日学校に行きませんでした。</div></div>
+        <div class="ex-row"><div class="ex-en">Did you eat breakfast? — Yes, I did. / No, I didn't.</div><div class="ex-jp">朝食を食べましたか？ — はい。 / いいえ。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">⚠️</div>
+        <div class="tip-text">did not / Did のあとの動詞は<strong>必ず原形</strong>！<br>✕ Did she went → ⭕ Did she go</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link mid" href="q1_4_mid.html"><span class="quiz-link-icon">✏️</span>中級で練習</a>
+      </div>
+    </div>
+
+    <!-- was/were -->
+    <div class="card c-green">
+      <div class="card-title">⑮ was / were ― 過去のbe動詞「〜でした・いました」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">I / He / She</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞(過去)</div><div class="f-word">was</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">補語・場所</div><div class="f-word">happy / at home…</div></div>
+      </div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">You / We / They</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞(過去)</div><div class="f-word">were</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block comp"><div class="f-label">補語・場所</div><div class="f-word">…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I was happy yesterday.</div><div class="ex-jp">私は昨日幸せでした。</div></div>
+        <div class="ex-row"><div class="ex-en">Was she at home? — Yes, she was.</div><div class="ex-jp">彼女は家にいましたか？ — はい。</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">am / is の過去形 → <strong>was</strong>　／　are の過去形 → <strong>were</strong><br>疑問文：Was / Were を文頭に。否定文：was not / were not（wasn't / weren't）</div>
+      </div>
+    </div>
+
+    <!-- 過去進行形 -->
+    <div class="card c-pink">
+      <div class="card-title">⑯ 過去進行形「〜していた」</div>
+      <div class="formula">
+        <div class="f-block subj"><div class="f-label">主語</div><div class="f-word">S</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block verb"><div class="f-label">be動詞(過去)</div><div class="f-word">was / were</div></div>
+        <div class="f-plus">+</div>
+        <div class="f-block obj"><div class="f-label">動詞 + ing</div><div class="f-word">playing…</div></div>
+      </div>
+      <div class="examples">
+        <div class="ex-row"><div class="ex-en">I was reading when he arrived.</div><div class="ex-jp">彼が着いた時、読書していました。</div></div>
+        <div class="ex-row"><div class="ex-en">What were you doing then?</div><div class="ex-jp">その時あなたは何をしていましたか？</div></div>
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-text">現在進行形の am/is/are を <strong>was/were に変えるだけ</strong>！<br>when（〜した時）とセットでよく使われる。</div>
+      </div>
+      <div class="quiz-links">
+        <a class="quiz-link hard" href="q1_4_hard.html"><span class="quiz-link-icon">✏️</span>上級で練習</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Touch handling for back button
+const btn = document.getElementById('btn-menu');
+let sx, sy;
+btn.addEventListener('touchstart', e => { sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+btn.addEventListener('touchend', e => {
+  if(Math.abs(e.changedTouches[0].clientX-sx)<12 && Math.abs(e.changedTouches[0].clientY-sy)<12) {
+    e.preventDefault(); location.href='index.html';
+  }
+}, {passive:false});
+</script>
+</body>
+</html>
