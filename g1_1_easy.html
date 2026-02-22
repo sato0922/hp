@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>1回目テスト ― be動詞の基本文 予習</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0d1b2a;--bg2:#0a1520;--bg3:#111d2e;
+  --border:#1e3350;--text:#c8d8e8;--dim:#4a6fa5;--accent:#5bc8f5;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100%;}
+#header{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);
+  height:50px;display:flex;align-items:center;padding:0 14px;gap:10px;}
+#btn-back{background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer;padding:4px 6px;font-weight:900;}
+.h-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:var(--accent);flex:1;}
+.h-badge{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;background:#1e3a5f; color:#5bc8f5; border:1.5px solid #2e6ea6;}
+#content{max-width:680px;margin:0 auto;padding:18px 13px 80px;}
+.intro{background:var(--bg3);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;margin-bottom:20px;}
+.intro-title{font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:#fff;margin-bottom:5px;}
+.intro-text{font-size:12px;color:var(--dim);font-weight:700;line-height:1.7;}
+.section-label{font-size:11px;font-weight:900;color:var(--dim);letter-spacing:1px;text-transform:uppercase;
+  margin:18px 0 8px;padding-left:4px;border-left:3px solid var(--dim);}
+.card{background:var(--bg3);border:1.5px solid var(--border);border-radius:16px;
+  padding:15px 14px 13px;margin-bottom:13px;position:relative;overflow:hidden;}
+.card-top{position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.card-title{font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;color:var(--accent);
+  margin-bottom:11px;margin-top:2px;}
+.formula{display:flex;flex-wrap:wrap;align-items:flex-end;gap:5px;margin-bottom:12px;}
+.wb{display:inline-flex;flex-direction:column;align-items:center;border-radius:8px;
+  padding:4px 9px;min-width:36px;}
+.wb-label{font-size:8px;font-weight:900;opacity:0.8;letter-spacing:0.3px;margin-bottom:2px;white-space:nowrap;}
+.wb-word{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;white-space:nowrap;}
+.wb-op{color:var(--dim);font-size:16px;font-weight:900;font-family:'Nunito',sans-serif;
+  align-self:flex-end;padding-bottom:4px;}
+.sent-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:11px;
+  padding:10px 12px;margin-bottom:8px;}
+.sent-en{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;margin-bottom:3px;}
+.sent-jp{font-size:11px;color:var(--dim);font-weight:700;margin-bottom:9px;}
+.sent-blocks{display:flex;flex-wrap:wrap;gap:4px;}
+.tip{display:flex;gap:8px;align-items:flex-start;background:rgba(251,191,36,0.07);
+  border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:9px 12px;margin-bottom:10px;}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px;}
+.tip-text{font-size:11px;font-weight:700;color:#e6c870;line-height:1.7;}
+.tip-text strong{color:#fbbf24;}
+.warn{background:rgba(248,113,113,0.07);border-color:rgba(248,113,113,0.2);}
+.warn .tip-text{color:#fca5a5;}
+.quiz-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);
+  border-top:1px solid var(--border);padding:10px 16px;z-index:99;}
+.quiz-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,#1a3a5f,#2e6ea6);border:2px solid #3e8ec6;
+  border-radius:14px;padding:13px;width:100%;font-family:'Nunito',sans-serif;
+  font-size:15px;font-weight:900;color:#fff;cursor:pointer;text-decoration:none;}
+.quiz-btn:active{opacity:0.8;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.leg{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--dim);}
+.leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div id="header">
+  <button id="btn-back">←</button>
+  <div class="h-title">1回目テスト ― be動詞の基本文</div>
+  <div class="h-badge">初級</div>
+</div>
+<div id="content">
+<div class="intro"><div class="intro-title">📘 be動詞の基本文（肯定文）</div><div class="intro-text">be動詞（am・is・are）は「〜は…です」「〜は…にいます」を表す言葉だよ。<br>まずは一番シンプルな「〜は…です」の形を覚えよう！</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:#38bdf8"></div>主語</div><div class="leg"><div class="leg-dot" style="background:#f472b6"></div>動詞・be動詞</div><div class="leg"><div class="leg-dot" style="background:#4ade80"></div>目的語</div><div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>補語</div><div class="leg"><div class="leg-dot" style="background:#a78bfa"></div>助動詞</div><div class="leg"><div class="leg-dot" style="background:#f87171"></div>否定語</div><div class="leg"><div class="leg-dot" style="background:#fb923c"></div>場所・時間</div><div class="leg"><div class="leg-dot" style="background:#22d3ee"></div>接続詞</div><div class="leg"><div class="leg-dot" style="background:#9ca3af"></div>冠詞</div><div class="leg"><div class="leg-dot" style="background:#c4b5fd"></div>前置詞</div><div class="leg"><div class="leg-dot" style="background:#fcd34d"></div>疑問詞</div></div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#38bdf8,#818cf8)"></div>
+  <div class="card-title">① S ＋ be動詞 ＋ 補語（〜は…です）</div>
+  <div class="formula"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S（主語）</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">am / is / are</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">名前・形容詞</div>
+  <div class="wb-word">C（補語）</div>
+</div></div><div class="sent-card">
+  <div class="sent-en">I am a student.</div>
+  <div class="sent-jp">私は生徒です。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">I</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">am</div>
+</div><div class="wb" style="background:rgba(156,163,175,0.12);color:#9ca3af;border:1px solid rgba(156,163,175,0.2);">
+  <div class="wb-label">冠詞</div>
+  <div class="wb-word">a</div>
+</div><div class="wb" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">名詞</div>
+  <div class="wb-word">student.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">She is kind.</div>
+  <div class="sent-jp">彼女は親切です。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">She</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is</div>
+</div><div class="wb" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">kind.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">They are happy.</div>
+  <div class="sent-jp">彼らは幸せです。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">They</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">are</div>
+</div><div class="wb" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">happy.</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text">主語によってbe動詞が変わる！<br><strong>I → am</strong>　／　<strong>He / She / It → is</strong>　／　<strong>You / We / They → are</strong></div>
+</div>
+</div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#4ade80,#22d3ee)"></div>
+  <div class="card-title">② S ＋ be動詞 ＋ 場所（〜は…にいます）</div>
+  <div class="formula"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S（主語）</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">am / is / are</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">場所</div>
+</div></div><div class="sent-card">
+  <div class="sent-en">I am at home.</div>
+  <div class="sent-jp">私は家にいます。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">I</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">am</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">at</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">home.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">He is in the park.</div>
+  <div class="sent-jp">彼は公園にいます。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">He</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">in</div>
+</div><div class="wb" style="background:rgba(156,163,175,0.12);color:#9ca3af;border:1px solid rgba(156,163,175,0.2);">
+  <div class="wb-label">冠詞</div>
+  <div class="wb-word">the</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">park.</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text">「〜にいます」も be動詞を使う！<br>in（〜の中に）・at（〜で）・near（〜の近くに）などの<strong>前置詞</strong>とセットで場所を表す。</div>
+</div>
+</div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#a78bfa,#f472b6)"></div>
+  <div class="card-title">③ 所有格（my / your / his…） ＋ 名詞 ＋ be動詞 ＋ …</div>
+  <div class="formula"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S（主語）</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is / are</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(74,222,128,0.1);color:#86efac;border:1px solid rgba(74,222,128,0.2);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">形容詞</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">補語</div>
+  <div class="wb-word">名詞</div>
+</div></div><div class="sent-card">
+  <div class="sent-en">My dog is very cute.</div>
+  <div class="sent-jp">私の犬はとてもかわいいです。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.2);">
+  <div class="wb-label">所有格</div>
+  <div class="wb-word">My</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">dog</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.12);color:#fdba74;border:1px solid rgba(251,146,60,0.2);">
+  <div class="wb-label">副詞</div>
+  <div class="wb-word">very</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.1);color:#86efac;border:1px solid rgba(74,222,128,0.2);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">cute.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">Your room is big.</div>
+  <div class="sent-jp">あなたの部屋は大きいです。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.2);">
+  <div class="wb-label">所有格</div>
+  <div class="wb-word">Your</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">room</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.1);color:#86efac;border:1px solid rgba(74,222,128,0.2);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">big.</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text">very（とても）のような<strong>副詞</strong>を形容詞の前に置くと「とてもかわいい」のように強調できる！<br>very cute（とてもかわいい）・very big（とても大きい）</div>
+</div>
+</div>
+</div>
+<div class="quiz-bar">
+  <a class="quiz-btn" href="q1_1_easy.html">✏️ この範囲のクイズを始める →</a>
+</div>
+<script>
+var btn=document.getElementById('btn-back');
+var sx,sy;
+btn.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+btn.addEventListener('touchend',function(e){
+  if(Math.abs(e.changedTouches[0].clientX-sx)<12&&Math.abs(e.changedTouches[0].clientY-sy)<12){
+    e.preventDefault();history.back();
+  }
+},{passive:false});
+btn.addEventListener('click',function(){history.back();});
+</script>
+</body>
+</html>

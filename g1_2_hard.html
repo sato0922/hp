@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>2回目テスト ― 混合・発展問題 予習</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0d1b2a;--bg2:#0a1520;--bg3:#111d2e;
+  --border:#1e3350;--text:#c8d8e8;--dim:#4a6fa5;--accent:#5bc8f5;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100%;}
+#header{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);
+  height:50px;display:flex;align-items:center;padding:0 14px;gap:10px;}
+#btn-back{background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer;padding:4px 6px;font-weight:900;}
+.h-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:var(--accent);flex:1;}
+.h-badge{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;background:#3a1a2a; color:#f472b6; border:1.5px solid #be185d;}
+#content{max-width:680px;margin:0 auto;padding:18px 13px 80px;}
+.intro{background:var(--bg3);border:1.5px solid var(--border);border-radius:14px;padding:13px 15px;margin-bottom:20px;}
+.intro-title{font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:#fff;margin-bottom:5px;}
+.intro-text{font-size:12px;color:var(--dim);font-weight:700;line-height:1.7;}
+.section-label{font-size:11px;font-weight:900;color:var(--dim);letter-spacing:1px;text-transform:uppercase;
+  margin:18px 0 8px;padding-left:4px;border-left:3px solid var(--dim);}
+.card{background:var(--bg3);border:1.5px solid var(--border);border-radius:16px;
+  padding:15px 14px 13px;margin-bottom:13px;position:relative;overflow:hidden;}
+.card-top{position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.card-title{font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;color:var(--accent);
+  margin-bottom:11px;margin-top:2px;}
+.formula{display:flex;flex-wrap:wrap;align-items:flex-end;gap:5px;margin-bottom:12px;}
+.wb{display:inline-flex;flex-direction:column;align-items:center;border-radius:8px;
+  padding:4px 9px;min-width:36px;}
+.wb-label{font-size:8px;font-weight:900;opacity:0.8;letter-spacing:0.3px;margin-bottom:2px;white-space:nowrap;}
+.wb-word{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;white-space:nowrap;}
+.wb-op{color:var(--dim);font-size:16px;font-weight:900;font-family:'Nunito',sans-serif;
+  align-self:flex-end;padding-bottom:4px;}
+.sent-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:11px;
+  padding:10px 12px;margin-bottom:8px;}
+.sent-en{font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;margin-bottom:3px;}
+.sent-jp{font-size:11px;color:var(--dim);font-weight:700;margin-bottom:9px;}
+.sent-blocks{display:flex;flex-wrap:wrap;gap:4px;}
+.tip{display:flex;gap:8px;align-items:flex-start;background:rgba(251,191,36,0.07);
+  border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:9px 12px;margin-bottom:10px;}
+.tip-icon{font-size:13px;flex-shrink:0;margin-top:2px;}
+.tip-text{font-size:11px;font-weight:700;color:#e6c870;line-height:1.7;}
+.tip-text strong{color:#fbbf24;}
+.warn{background:rgba(248,113,113,0.07);border-color:rgba(248,113,113,0.2);}
+.warn .tip-text{color:#fca5a5;}
+.quiz-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);
+  border-top:1px solid var(--border);padding:10px 16px;z-index:99;}
+.quiz-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,#1a3a5f,#2e6ea6);border:2px solid #3e8ec6;
+  border-radius:14px;padding:13px;width:100%;font-family:'Nunito',sans-serif;
+  font-size:15px;font-weight:900;color:#fff;cursor:pointer;text-decoration:none;}
+.quiz-btn:active{opacity:0.8;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.leg{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--dim);}
+.leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div id="header">
+  <button id="btn-back">←</button>
+  <div class="h-title">2回目テスト ― 混合・発展問題</div>
+  <div class="h-badge">上級</div>
+</div>
+<div id="content">
+<div class="intro"><div class="intro-title">📕 一般動詞の発展パターン</div><div class="intro-text">think / know / like のあとに文をつなげる複雑な形や、<br>How much / How often などの応用疑問文を学ぼう。</div></div><div class="legend"><div class="leg"><div class="leg-dot" style="background:#38bdf8"></div>主語</div><div class="leg"><div class="leg-dot" style="background:#f472b6"></div>動詞・be動詞</div><div class="leg"><div class="leg-dot" style="background:#4ade80"></div>目的語</div><div class="leg"><div class="leg-dot" style="background:#fbbf24"></div>補語</div><div class="leg"><div class="leg-dot" style="background:#a78bfa"></div>助動詞</div><div class="leg"><div class="leg-dot" style="background:#f87171"></div>否定語</div><div class="leg"><div class="leg-dot" style="background:#fb923c"></div>場所・時間</div><div class="leg"><div class="leg-dot" style="background:#22d3ee"></div>接続詞</div><div class="leg"><div class="leg-dot" style="background:#9ca3af"></div>冠詞</div><div class="leg"><div class="leg-dot" style="background:#c4b5fd"></div>前置詞</div><div class="leg"><div class="leg-dot" style="background:#fcd34d"></div>疑問詞</div></div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#38bdf8,#818cf8)"></div>
+  <div class="card-title">① S ＋ think/know ＋ that ＋ （文）</div>
+  <div class="formula"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">think/know</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3);">
+  <div class="wb-label">接続詞</div>
+  <div class="wb-word">that</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S2</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">V2</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">O2</div>
+</div></div><div class="sent-card">
+  <div class="sent-en">I think that she is kind.</div>
+  <div class="sent-jp">私は彼女が親切だと思います。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">I</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">think</div>
+</div><div class="wb" style="background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3);">
+  <div class="wb-label">接続詞</div>
+  <div class="wb-word">that</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">she</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">be動詞</div>
+  <div class="wb-word">is</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.1);color:#86efac;border:1px solid rgba(74,222,128,0.2);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">kind.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">I know that she does not like me.</div>
+  <div class="sent-jp">彼女が私を好きでないことを知っています。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">I</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">know</div>
+</div><div class="wb" style="background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3);">
+  <div class="wb-label">接続詞</div>
+  <div class="wb-word">that</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">she</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);">
+  <div class="wb-label">助動詞</div>
+  <div class="wb-word">does</div>
+</div><div class="wb" style="background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);">
+  <div class="wb-label">否定語</div>
+  <div class="wb-word">not</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">like</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">me.</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text"><strong>that</strong> は「ということを」という意味の接続詞。<br>I think that … = 「私は…だと思う」<br>that は省略されることも多い（I think she is kind.）</div>
+</div>
+</div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#f472b6,#fb923c)"></div>
+  <div class="card-title">② S ＋ like ＋ 動詞ing（〜することが好き）</div>
+  <div class="formula"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">like</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">〜すること</div>
+  <div class="wb-word">動詞+ing</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">O</div>
+</div></div><div class="sent-card">
+  <div class="sent-en">I like playing soccer with my friends.</div>
+  <div class="sent-jp">私は友達とサッカーをするのが好きです。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">I</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">like</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">動詞+ing</div>
+  <div class="wb-word">playing</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">soccer</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">with</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.2);">
+  <div class="wb-label">代名詞</div>
+  <div class="wb-word">my</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">friends.</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">He likes reading manga before bed.</div>
+  <div class="sent-jp">彼は寝る前にマンガを読むのが好きです。</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">He</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">likes</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">動詞+ing</div>
+  <div class="wb-word">reading</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">manga</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">before</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">bed.</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text">like の後に「動詞 + ing」を置くと「〜することが好き」という意味になる！<br>play → play<strong>ing</strong>　／　read → read<strong>ing</strong>　／　swim → swimm<strong>ing</strong></div>
+</div>
+</div><div class="card">
+  <div class="card-top" style="background:linear-gradient(90deg,#fb923c,#fbbf24)"></div>
+  <div class="card-title">③ How much / How often / How long ＋ do/does ＋ S ＋ V ？</div>
+  <div class="formula"><div class="wb" style="background:rgba(251,191,36,0.15);color:#fcd34d;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">疑問詞</div>
+  <div class="wb-word">How much/often</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);">
+  <div class="wb-label">助動詞</div>
+  <div class="wb-word">do/does</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">S</div>
+</div><div class="wb-op">+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">V</div>
+</div><div class="wb-op">?</div></div><div class="sent-card">
+  <div class="sent-en">How much time do you spend on homework?</div>
+  <div class="sent-jp">宿題にどのくらい時間をかけますか？</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(251,191,36,0.15);color:#fcd34d;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">疑問詞</div>
+  <div class="wb-word">How</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.1);color:#86efac;border:1px solid rgba(74,222,128,0.2);">
+  <div class="wb-label">形容詞</div>
+  <div class="wb-word">much</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">time</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);">
+  <div class="wb-label">助動詞</div>
+  <div class="wb-word">do</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">you</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">spend</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">on</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">homework?</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">How often does he visit his grandparents?</div>
+  <div class="sent-jp">どのくらいの頻度で祖父母を訪ねますか？</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(251,191,36,0.15);color:#fcd34d;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">疑問詞</div>
+  <div class="wb-word">How</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.12);color:#fdba74;border:1px solid rgba(251,146,60,0.2);">
+  <div class="wb-label">副詞</div>
+  <div class="wb-word">often</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);">
+  <div class="wb-label">助動詞</div>
+  <div class="wb-word">does</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">he</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">visit</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.2);">
+  <div class="wb-label">代名詞</div>
+  <div class="wb-word">his</div>
+</div><div class="wb" style="background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);">
+  <div class="wb-label">目的語</div>
+  <div class="wb-word">grandparents?</div>
+</div></div>
+</div><div class="sent-card">
+  <div class="sent-en">How long does it take to get there?</div>
+  <div class="sent-jp">そこに行くのにどのくらいかかりますか？</div>
+  <div class="sent-blocks"><div class="wb" style="background:rgba(251,191,36,0.15);color:#fcd34d;border:1px solid rgba(251,191,36,0.3);">
+  <div class="wb-label">疑問詞</div>
+  <div class="wb-word">How</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.12);color:#fdba74;border:1px solid rgba(251,146,60,0.2);">
+  <div class="wb-label">副詞</div>
+  <div class="wb-word">long</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3);">
+  <div class="wb-label">助動詞</div>
+  <div class="wb-word">does</div>
+</div><div class="wb" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);">
+  <div class="wb-label">主語</div>
+  <div class="wb-word">it</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">take</div>
+</div><div class="wb" style="background:rgba(167,139,250,0.1);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2);">
+  <div class="wb-label">前置詞</div>
+  <div class="wb-word">to</div>
+</div><div class="wb" style="background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3);">
+  <div class="wb-label">動詞</div>
+  <div class="wb-word">get</div>
+</div><div class="wb" style="background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.3);">
+  <div class="wb-label">場所・時間</div>
+  <div class="wb-word">there?</div>
+</div></div>
+</div><div class="tip">
+  <div class="tip-icon">💡</div>
+  <div class="tip-text">How のあとに単語を加えて意味が変わる！<br><strong>How much</strong>（どのくらい・いくら）<br><strong>How often</strong>（どのくらい頻繁に）<br><strong>How long</strong>（どのくらいの長さ・時間）</div>
+</div>
+</div>
+</div>
+<div class="quiz-bar">
+  <a class="quiz-btn" href="q1_2_hard.html">✏️ この範囲のクイズを始める →</a>
+</div>
+<script>
+var btn=document.getElementById('btn-back');
+var sx,sy;
+btn.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+btn.addEventListener('touchend',function(e){
+  if(Math.abs(e.changedTouches[0].clientX-sx)<12&&Math.abs(e.changedTouches[0].clientY-sy)<12){
+    e.preventDefault();history.back();
+  }
+},{passive:false});
+btn.addEventListener('click',function(){history.back();});
+</script>
+</body>
+</html>
