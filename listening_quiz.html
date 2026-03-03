@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>英語リスニングクイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1930;
+    --card: #232140;
+    --border: #2e2b50;
+    --accent: #7c6af7;
+    --accent2: #f25f87;
+    --gold: #ffd166;
+    --green: #06d6a0;
+    --text: #eeeaf4;
+    --text-muted: #9d93bc;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', 'Noto Sans JP', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+  }
+
+  /* ── Header ── */
+  .header {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .level-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .level-badge:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Level Selector ── */
+  .level-screen {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: fadeIn 0.3s ease;
+  }
+  .level-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .level-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .level-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .level-card.beginner:hover { border-color: var(--green); }
+  .level-card.intermediate:hover { border-color: var(--gold); }
+  .level-card.advanced:hover { border-color: var(--accent2); }
+  .level-icon { font-size: 2rem; }
+  .level-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; }
+  .level-info p { font-size: 0.8rem; color: var(--text-muted); }
+  .beginner h3 { color: var(--green); }
+  .intermediate h3 { color: var(--gold); }
+  .advanced h3 { color: var(--accent2); }
+
+  /* ── Quiz Screen ── */
+  .quiz-screen {
+    width: 100%;
+    max-width: 480px;
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+    animation: fadeIn 0.3s ease;
+  }
+  .quiz-screen.active { display: flex; }
+
+  /* Progress */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .progress-text { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; min-width: 40px; text-align: right; }
+
+  /* Score */
+  .score-badge {
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(124,106,247,0.15);
+    color: var(--accent);
+    border: 1.5px solid rgba(124,106,247,0.3);
+  }
+
+  /* Question card */
+  .question-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .question-type {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .question-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 18px;
+    min-height: 40px;
+    font-weight: 600;
+  }
+
+  /* Play button */
+  .play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--accent), #5a4fd4);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    box-shadow: 0 4px 20px rgba(124,106,247,0.4);
+  }
+  .play-btn:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(124,106,247,0.5); }
+  .play-btn:active { transform: scale(0.97); }
+  .play-btn.playing {
+    background: linear-gradient(135deg, var(--accent2), #c94070);
+    box-shadow: 0 4px 20px rgba(242,95,135,0.4);
+    animation: pulse 0.6s infinite alternate;
+  }
+  .play-icon { font-size: 1.2rem; }
+  .replay-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    margin-top: 10px;
+  }
+  .replay-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Choices */
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .choice-btn {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(124,106,247,0.08); }
+  .choice-label {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    color: var(--text-muted);
+  }
+  .choice-btn.correct { border-color: var(--green); background: rgba(6,214,160,0.1); }
+  .choice-btn.correct .choice-label { background: var(--green); color: #0f0e17; }
+  .choice-btn.wrong { border-color: var(--accent2); background: rgba(242,95,135,0.1); }
+  .choice-btn.wrong .choice-label { background: var(--accent2); color: white; }
+
+  /* Feedback */
+  .feedback {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: none;
+    animation: slideUp 0.3s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { border: 1.5px solid var(--green); }
+  .feedback.wrong-fb { border: 1.5px solid var(--accent2); }
+  .feedback-title { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+  .correct-fb .feedback-title { color: var(--green); }
+  .wrong-fb .feedback-title { color: var(--accent2); }
+  .feedback-detail { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+  .feedback-english { color: var(--text); font-weight: 700; margin-top: 4px; font-size: 0.88rem; }
+
+  /* Next button */
+  .next-btn {
+    background: linear-gradient(135deg, var(--accent), #5a4fd4);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    display: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(124,106,247,0.35);
+  }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,106,247,0.45); }
+  .next-btn.show { display: block; animation: slideUp 0.3s ease; }
+
+  /* Result Screen */
+  .result-screen {
+    width: 100%;
+    max-width: 480px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+  }
+  .result-screen.active { display: flex; }
+  .result-icon { font-size: 4rem; }
+  .result-title { font-size: 1.8rem; font-weight: 900; }
+  .result-score {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 40px;
+    width: 100%;
+  }
+  .result-score-num { font-size: 3rem; font-weight: 900; color: var(--accent); }
+  .result-score-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+  .result-message { font-size: 1rem; color: var(--text-muted); line-height: 1.7; }
+  .result-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .btn-retry, .btn-menu {
+    border-radius: var(--radius);
+    padding: 15px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    font-family: inherit;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-retry { background: linear-gradient(135deg, var(--accent), #5a4fd4); color: white; box-shadow: 0 4px 20px rgba(124,106,247,0.35); }
+  .btn-retry:hover { transform: translateY(-2px); }
+  .btn-menu { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
+  .btn-menu:hover { border-color: var(--accent); color: var(--accent); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { from { box-shadow: 0 4px 20px rgba(242,95,135,0.3); } to { box-shadow: 0 4px 28px rgba(242,95,135,0.6); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">🎧 Listening Quiz</div>
+  <div class="level-badge" id="levelBadge" onclick="goToMenu()">メニュー</div>
+</div>
+
+<!-- Level Select Screen -->
+<div class="level-screen" id="levelScreen">
+  <div class="level-title">レベルを選んでね</div>
+
+  <div class="level-card beginner" onclick="startQuiz('beginner')">
+    <div class="level-icon">🌱</div>
+    <div class="level-info beginner">
+      <h3>初級</h3>
+      <p>be動詞・基本単語・自己紹介 （中1 前半）</p>
+    </div>
+  </div>
+
+  <div class="level-card intermediate" onclick="startQuiz('intermediate')">
+    <div class="level-icon">🔥</div>
+    <div class="level-info intermediate">
+      <h3>中級</h3>
+      <p>一般動詞・疑問文・日常会話 （中1 中盤）</p>
+    </div>
+  </div>
+
+  <div class="level-card advanced" onclick="startQuiz('advanced')">
+    <div class="level-icon">⚡</div>
+    <div class="level-info advanced">
+      <h3>上級</h3>
+      <p>三人称・進行形・複数形 （中1 後半）</p>
+    </div>
+  </div>
+</div>
+
+<!-- Quiz Screen -->
+<div class="quiz-screen" id="quizScreen">
+  <div class="progress-row">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">0/0</div>
+    <div class="score-badge" id="scoreBadge">0点</div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-type" id="questionType">音声を聞いて答えよう</div>
+    <div class="question-text" id="questionText"></div>
+    <button class="play-btn" id="playBtn" onclick="playAudio()">
+      <span class="play-icon">▶</span>
+      <span id="playBtnText">音声を聞く</span>
+    </button>
+    <br>
+    <button class="replay-btn" id="replayBtn" onclick="playAudio()" style="display:none">
+      🔄 もう一度聞く
+    </button>
+  </div>
+
+  <div class="choices" id="choices"></div>
+
+  <div class="feedback" id="feedback">
+    <div class="feedback-title" id="feedbackTitle"></div>
+    <div class="feedback-english" id="feedbackEnglish"></div>
+    <div class="feedback-detail" id="feedbackDetail"></div>
+  </div>
+
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">次の問題 →</button>
+</div>
+
+<!-- Result Screen -->
+<div class="result-screen" id="resultScreen">
+  <div class="result-icon" id="resultIcon">🎉</div>
+  <div class="result-title" id="resultTitle">結果</div>
+  <div class="result-score">
+    <div class="result-score-num" id="resultScoreNum">0</div>
+    <div class="result-score-label" id="resultScoreLabel">/ 0問 正解</div>
+  </div>
+  <div class="result-message" id="resultMessage"></div>
+  <div class="result-btns">
+    <button class="btn-retry" onclick="retryQuiz()">もう一度チャレンジ</button>
+    <button class="btn-menu" onclick="goToMenu()">レベル選択に戻る</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = {
+  beginner: [
+    {
+      audio: "I am a student.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私は先生です。", "私は生徒です。", "あなたは生徒です。", "私は学校です。"],
+      answer: 1,
+      explanation: "I am ～ = 私は～です。student = 生徒"
+    },
+    {
+      audio: "This is my bag.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["これは彼のかばんです。", "あれは私のかばんです。", "これは私のかばんです。", "これは本です。"],
+      answer: 2,
+      explanation: "This is ～ = これは～です。my = 私の"
+    },
+    {
+      audio: "Are you Ken?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたはケンですか？", "私はケンです。", "彼はケンですか？", "ケン、元気ですか？"],
+      answer: 0,
+      explanation: "Are you ～? = あなたは～ですか？"
+    },
+    {
+      audio: "I am not tired.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私は眠いです。", "私は疲れています。", "私は疲れていません。", "あなたは眠くありません。"],
+      answer: 2,
+      explanation: "am not ～ = ～ではない（否定文）。tired = 疲れた"
+    },
+    {
+      audio: "She is my friend.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["彼は私の友達です。", "彼女はあなたの友達です。", "彼女は私の友達です。", "私は彼女の友達です。"],
+      answer: 2,
+      explanation: "She = 彼女。my friend = 私の友達"
+    },
+    {
+      audio: "What is this?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["これは何ですか？", "あれは何ですか？", "これは何色ですか？", "この人は誰ですか？"],
+      answer: 0,
+      explanation: "What is this? = これは何ですか？"
+    },
+    {
+      audio: "Nice to meet you.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["また会いましょう。", "お元気ですか？", "はじめまして。", "ありがとう。"],
+      answer: 2,
+      explanation: "Nice to meet you. = はじめまして（初対面のあいさつ）"
+    },
+    {
+      audio: "He is a doctor.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["彼は学生です。", "彼は医者です。", "彼女は医者です。", "彼は先生です。"],
+      answer: 1,
+      explanation: "He = 彼。doctor = 医者"
+    },
+  ],
+
+  intermediate: [
+    {
+      audio: "I like soccer.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私はサッカーが好きではありません。", "あなたはサッカーが好きですか？", "私はサッカーが好きです。", "私はテニスが好きです。"],
+      answer: 2,
+      explanation: "I like ～ = 私は～が好きです"
+    },
+    {
+      audio: "Do you have a dog?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたは犬が好きですか？", "あなたは犬を飼っていますか？", "私は犬を飼っています。", "犬はどこにいますか？"],
+      answer: 1,
+      explanation: "Do you have ～? = あなたは～を持っていますか？/飼っていますか？"
+    },
+    {
+      audio: "I don't play tennis.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私はテニスをします。", "私はテニスが好きです。", "あなたはテニスをしません。", "私はテニスをしません。"],
+      answer: 3,
+      explanation: "don't = do not。一般動詞の否定文"
+    },
+    {
+      audio: "Where do you live?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたはどこへ行きますか？", "あなたはどこに住んでいますか？", "どこで働いていますか？", "あなたはどこ出身ですか？"],
+      answer: 1,
+      explanation: "Where do you ～? = あなたはどこで～しますか？。live = 住む"
+    },
+    {
+      audio: "I go to school by bike.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私は徒歩で学校へ行きます。", "私は自転車で学校へ行きます。", "私は電車で学校へ行きます。", "あなたは自転車で学校へ行きます。"],
+      answer: 1,
+      explanation: "by bike = 自転車で。交通手段は by ＋乗り物"
+    },
+    {
+      audio: "What do you want?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたは何が好きですか？", "あなたは何を食べますか？", "あなたは何が欲しいですか？", "あなたは何を持っていますか？"],
+      answer: 2,
+      explanation: "want = 欲しい・したい"
+    },
+    {
+      audio: "I study English every day.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私は毎日数学を勉強します。", "私は英語を勉強しません。", "私は毎日英語を勉強します。", "私は時々英語を勉強します。"],
+      answer: 2,
+      explanation: "study = 勉強する。every day = 毎日"
+    },
+    {
+      audio: "Can you help me?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたを助けましょうか？", "私を助けてくれますか？", "彼を助けてください。", "あなたは私を助けます。"],
+      answer: 1,
+      explanation: "Can you ～? = ～してくれますか？。help = 助ける"
+    },
+  ],
+
+  advanced: [
+    {
+      audio: "She plays the piano.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["彼女はピアノを弾きません。", "彼はピアノを弾きます。", "彼女はピアノを弾きます。", "私はピアノを弾きます。"],
+      answer: 2,
+      explanation: "三人称単数（She）では動詞に -s がつく（plays）"
+    },
+    {
+      audio: "He doesn't like math.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["彼は数学が好きです。", "彼は数学が好きではありません。", "彼女は数学が好きではありません。", "彼は国語が好きではありません。"],
+      answer: 1,
+      explanation: "三人称単数の否定は doesn't。doesn't like = 好きではない"
+    },
+    {
+      audio: "I am watching TV now.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私はテレビを見ます。", "私は今テレビを見ています。", "私はテレビを見ていません。", "あなたは今テレビを見ています。"],
+      answer: 1,
+      explanation: "am watching = 現在進行形（今～している）"
+    },
+    {
+      audio: "There are two cats.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["猫が一匹います。", "犬が二匹います。", "猫が二匹います。", "猫が三匹います。"],
+      answer: 2,
+      explanation: "There are ～ = ～がある/いる（複数）。two cats = 猫2匹"
+    },
+    {
+      audio: "Does she speak English?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたは英語を話しますか？", "彼は英語を話しますか？", "彼女は英語を話しますか？", "彼女は英語を話します。"],
+      answer: 2,
+      explanation: "Does ～ speak？ = 三人称単数の疑問文"
+    },
+    {
+      audio: "They are playing soccer.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["彼らはサッカーをします。", "彼らはサッカーをしていません。", "彼らはサッカーをしています。", "私たちはサッカーをしています。"],
+      answer: 2,
+      explanation: "They are ～ing = 彼らは今～している（進行形）"
+    },
+    {
+      audio: "How many books do you have?",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["あなたは本を持っていますか？", "あなたは何冊本を持っていますか？", "この本はいくらですか？", "どの本が好きですか？"],
+      answer: 1,
+      explanation: "How many ～? = ～はいくつ？（数を聞く）"
+    },
+    {
+      audio: "My brother is taller than me.",
+      type: "何と言っていた？",
+      question: "音声を聞いて、正しい日本語訳を選ぼう",
+      choices: ["私は兄より背が高いです。", "私の兄は私より背が高いです。", "私の兄は背が高いです。", "私の兄は私より若いです。"],
+      answer: 1,
+      explanation: "taller than ～ = ～より背が高い（比較級）"
+    },
+  ]
+};
+
+let currentLevel = '';
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let speechSynth = window.speechSynthesis;
+let currentUtterance = null;
+
+function goToMenu() {
+  document.getElementById('levelScreen').style.display = '';
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('resultScreen').classList.remove('active');
+  if (speechSynth) speechSynth.cancel();
+}
+
+function startQuiz(level) {
+  currentLevel = level;
+  currentQuestions = [...QUESTIONS[level]];
+  // Shuffle
+  for (let i = currentQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [currentQuestions[i], currentQuestions[j]] = [currentQuestions[j], currentQuestions[i]];
+  }
+  currentIndex = 0;
+  score = 0;
+
+  document.getElementById('levelScreen').style.display = 'none';
+  document.getElementById('quizScreen').classList.add('active');
+  document.getElementById('resultScreen').classList.remove('active');
+
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  if (speechSynth) speechSynth.cancel();
+
+  const q = currentQuestions[currentIndex];
+  const total = currentQuestions.length;
+
+  // Progress
+  document.getElementById('progressBar').style.width = (currentIndex / total * 100) + '%';
+  document.getElementById('progressText').textContent = `${currentIndex + 1}/${total}`;
+  document.getElementById('scoreBadge').textContent = `${score}点`;
+
+  // Question
+  document.getElementById('questionType').textContent = q.type;
+  document.getElementById('questionText').textContent = q.question;
+
+  // Play button reset
+  const playBtn = document.getElementById('playBtn');
+  playBtn.classList.remove('playing');
+  document.getElementById('playBtnText').textContent = '音声を聞く';
+  playBtn.style.display = 'inline-flex';
+  document.getElementById('replayBtn').style.display = 'none';
+
+  // Choices
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-label">${labels[i]}</span><span>${c}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    btn.disabled = true; // 音声聞くまで選べない
+    choicesEl.appendChild(btn);
+  });
+
+  // Feedback + Next
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  document.getElementById('nextBtn').className = 'next-btn';
+}
+
+function playAudio() {
+  if (!speechSynth) {
+    alert('このブラウザは音声再生に対応していません。');
+    enableChoices();
+    return;
+  }
+  speechSynth.cancel();
+
+  const q = currentQuestions[currentIndex];
+  const playBtn = document.getElementById('playBtn');
+  playBtn.classList.add('playing');
+  document.getElementById('playBtnText').textContent = '再生中...';
+
+  const utter = new SpeechSynthesisUtterance(q.audio);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+
+  // 英語ネイティブっぽい声を選択
+  const voices = speechSynth.getVoices();
+  const engVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Google'))
+    || voices.find(v => v.lang === 'en-US')
+    || voices.find(v => v.lang.startsWith('en'));
+  if (engVoice) utter.voice = engVoice;
+
+  utter.onend = () => {
+    playBtn.classList.remove('playing');
+    document.getElementById('playBtnText').textContent = '音声を聞く';
+    document.getElementById('replayBtn').style.display = 'inline-flex';
+    enableChoices();
+  };
+  utter.onerror = () => {
+    playBtn.classList.remove('playing');
+    document.getElementById('playBtnText').textContent = '音声を聞く';
+    enableChoices();
+  };
+
+  currentUtterance = utter;
+  speechSynth.speak(utter);
+}
+
+function enableChoices() {
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = false);
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = currentQuestions[currentIndex];
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('feedback');
+  const correct = idx === q.answer;
+
+  if (correct) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className = 'feedback correct-fb show';
+    document.getElementById('feedbackTitle').textContent = '✅ 正解！';
+    document.getElementById('feedbackEnglish').textContent = `"${q.audio}"`;
+    document.getElementById('feedbackDetail').textContent = q.explanation;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.answer].classList.add('correct');
+    fb.className = 'feedback wrong-fb show';
+    document.getElementById('feedbackTitle').textContent = '❌ 不正解';
+    document.getElementById('feedbackEnglish').textContent = `正解：${q.choices[q.answer]}`;
+    document.getElementById('feedbackDetail').textContent = `"${q.audio}" → ${q.explanation}`;
+  }
+
+  document.getElementById('scoreBadge').textContent = `${score}点`;
+  document.getElementById('nextBtn').className = 'next-btn show';
+  document.getElementById('nextBtn').textContent =
+    currentIndex + 1 < currentQuestions.length ? '次の問題 →' : '結果を見る';
+}
+
+function nextQuestion() {
+  if (speechSynth) speechSynth.cancel();
+  currentIndex++;
+  if (currentIndex < currentQuestions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizScreen').classList.remove('active');
+  document.getElementById('resultScreen').classList.add('active');
+
+  const total = currentQuestions.length;
+  const pct = Math.round(score / total * 100);
+  let icon, title, msg;
+  if (pct === 100) { icon = '🏆'; title = '満点！すごい！'; msg = '全問正解！リスニング完璧だね！'; }
+  else if (pct >= 75) { icon = '🎉'; title = 'よくできました！'; msg = 'もう少しで満点！苦手な問題を復習しよう。'; }
+  else if (pct >= 50) { icon = '📖'; title = 'もう少し！'; msg = '半分以上正解！繰り返して耳を慣らしていこう。'; }
+  else { icon = '💪'; title = 'がんばろう！'; msg = '音声を何度も聞いて、耳と英語を結びつけよう。'; }
+
+  document.getElementById('resultIcon').textContent = icon;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultScoreNum').textContent = score;
+  document.getElementById('resultScoreLabel').textContent = `/ ${total}問 正解（${pct}%）`;
+  document.getElementById('resultMessage').textContent = msg;
+}
+
+function retryQuiz() { startQuiz(currentLevel); }
+
+// voices読み込み待ち
+if (speechSynth) {
+  speechSynth.onvoiceschanged = () => speechSynth.getVoices();
+  speechSynth.getVoices();
+}
+</script>
+</body>
+</html>
