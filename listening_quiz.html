@@ -425,6 +425,66 @@
       <div class="menu-row-count">10問</div>
       <div class="chevron">›</div>
     </div>
+
+    <!-- テスト範囲4 -->
+    <div class="section-header">1年生 ・ 4回目テスト範囲（現在進行形）</div>
+    <div class="menu-row beginner" onclick="startQuiz('r4_beginner')">
+      <div class="level-dot dot-beginner">初級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">現在進行形の基本</div>
+        <div class="menu-row-sub">am/is/are + -ing の基本文</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row intermediate" onclick="startQuiz('r4_intermediate')">
+      <div class="level-dot dot-intermediate">中級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">進行形の疑問文・否定文</div>
+        <div class="menu-row-sub">Are you ～ing? / I'm not ～ing の聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row advanced" onclick="startQuiz('r4_advanced')">
+      <div class="level-dot dot-advanced">上級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">混合・発展問題</div>
+        <div class="menu-row-sub">現在進行形の総合リスニング</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+
+    <!-- テスト範囲5 -->
+    <div class="section-header">1年生 ・ 5回目テスト範囲（過去形）</div>
+    <div class="menu-row beginner" onclick="startQuiz('r5_beginner')">
+      <div class="level-dot dot-beginner">初級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">規則動詞の過去形</div>
+        <div class="menu-row-sub">played / watched / studied などの聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row intermediate" onclick="startQuiz('r5_intermediate')">
+      <div class="level-dot dot-intermediate">中級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">不規則動詞・be動詞の過去形</div>
+        <div class="menu-row-sub">went / saw / was / were などの聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row advanced" onclick="startQuiz('r5_advanced')">
+      <div class="level-dot dot-advanced">上級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">過去形の疑問文・否定文</div>
+        <div class="menu-row-sub">Did you ～? / didn't / Where were you? の聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
   </div>
 
   <!-- ===== QUIZ SCREEN ===== -->
@@ -602,6 +662,89 @@ const ALL_QUESTIONS = {
   ],
 };
 
+  // ── 範囲4：現在進行形 ──────────────────────────────
+
+  r4_beginner: [
+    { audio:"I am studying now.", choices:["私は今勉強しています。","私は今勉強しません。","あなたは今勉強しています。","私は今遊んでいます。"], answer:0, exp:"am studying = 現在進行形（今～している）。now = 今" },
+    { audio:"She is cooking dinner.", choices:["彼女は夕食を食べています。","彼は夕食を作っています。","彼女は夕食を作っています。","彼女は昼食を作っています。"], answer:2, exp:"is cooking = 料理している（進行形）。dinner = 夕食" },
+    { audio:"He is running in the park.", choices:["彼は公園で歩いています。","彼女は公園で走っています。","彼は公園で走っています。","彼は公園にいます。"], answer:2, exp:"is running = 走っている。in the park = 公園で" },
+    { audio:"We are watching TV.", choices:["私たちはテレビを見ません。","私たちはテレビを見ています。","あなたたちはテレビを見ています。","私たちはラジオを聞いています。"], answer:1, exp:"are watching = 見ている（進行形）。TV = テレビ" },
+    { audio:"They are playing soccer.", choices:["彼らはサッカーをします。","彼らはバスケットボールをしています。","彼らはサッカーをしていません。","彼らはサッカーをしています。"], answer:3, exp:"are playing = している（進行形）。soccer = サッカー" },
+    { audio:"I am listening to music.", choices:["私は音楽を聞いています。","私は音楽が好きです。","私は音楽を聞きません。","あなたは音楽を聞いています。"], answer:0, exp:"am listening to ～ = ～を聞いている（進行形）" },
+    { audio:"She is reading a book.", choices:["彼女は本を持っています。","彼女は本を読んでいます。","彼は本を読んでいます。","彼女は本を書いています。"], answer:1, exp:"is reading = 読んでいる（進行形）。book = 本" },
+    { audio:"He is eating lunch.", choices:["彼は昼食を食べています。","彼は夕食を食べています。","彼女は昼食を食べています。","彼は昼食を食べません。"], answer:0, exp:"is eating = 食べている。lunch = 昼食" },
+    { audio:"I am writing a letter.", choices:["私はメールを送っています。","私は手紙を書いています。","あなたは手紙を書いています。","私は手紙を読んでいます。"], answer:1, exp:"am writing = 書いている（進行形）。letter = 手紙" },
+    { audio:"They are swimming in the pool.", choices:["彼らは海で泳いでいます。","彼らはプールで走っています。","彼らはプールで泳いでいます。","彼らはプールにいます。"], answer:2, exp:"are swimming = 泳いでいる。in the pool = プールで" },
+  ],
+
+  r4_intermediate: [
+    { audio:"Are you doing your homework?", choices:["あなたは宿題をしましたか？","あなたは今宿題をしていますか？","あなたは宿題をしますか？","彼は宿題をしていますか？"], answer:1, exp:"Are you ～ing? = 今～していますか？（進行形の疑問文）" },
+    { audio:"I am not sleeping.", choices:["私は眠っています。","あなたは眠っていません。","私は眠っていません。","私は眠りません。"], answer:2, exp:"am not ～ing = 進行形の否定。sleeping = 眠っている" },
+    { audio:"Is she talking on the phone?", choices:["彼女は電話で話していますか？","彼は電話で話していますか？","彼女は電話をかけますか？","彼女は電話で話しています。"], answer:0, exp:"Is she ～ing? = 彼女は今～していますか？。on the phone = 電話で" },
+    { audio:"What are you doing?", choices:["あなたは何をしましたか？","あなたは何をしていますか？","あなたは何をするつもりですか？","あなたは何が好きですか？"], answer:1, exp:"What are you doing? = 今何をしていますか？（進行形の疑問文）" },
+    { audio:"He is not playing games.", choices:["彼はゲームをしています。","彼はゲームをしていません。","彼女はゲームをしていません。","彼はゲームが好きではありません。"], answer:1, exp:"is not ～ing = 進行形の否定。playing games = ゲームをしている" },
+    { audio:"They are not studying English.", choices:["彼らは英語を勉強しています。","彼らは数学を勉強していません。","彼らは英語を勉強していません。","彼らは英語が好きではありません。"], answer:2, exp:"are not ～ing = 進行形の否定。studying English = 英語を勉強している" },
+    { audio:"Is your mother cooking now?", choices:["あなたのお母さんは今料理しますか？","あなたのお母さんは今料理していますか？","あなたのお父さんは今料理していますか？","あなたのお母さんは今何をしていますか？"], answer:1, exp:"Is ～ cooking now? = 今料理していますか？（進行形の疑問文）" },
+    { audio:"I'm not watching TV right now.", choices:["私は今テレビを見ています。","私は今テレビを見ていません。","あなたは今テレビを見ていません。","私は今テレビが見たいです。"], answer:1, exp:"I'm not = I am not。right now = ちょうど今" },
+    { audio:"Are they having lunch?", choices:["彼らは昼食を食べましたか？","彼らは昼食を食べますか？","彼らは今昼食を食べていますか？","彼らは今夕食を食べていますか？"], answer:2, exp:"Are they having ～? = 彼らは今～していますか？。having lunch = 昼食を食べている" },
+    { audio:"What is she looking at?", choices:["彼女は何を探していますか？","彼女は何を見ていますか？","彼女は何を食べていますか？","彼女はどこを見ていますか？"], answer:1, exp:"What is she looking at? = 彼女は何を見ていますか？。look at ～ = ～を見る" },
+  ],
+
+  r4_advanced: [
+    { audio:"I am practicing the piano every day.", choices:["私は毎日ピアノを弾きます。","私は今ピアノを練習しています。","私は毎日ピアノを練習しています。","私はピアノの練習が好きです。"], answer:2, exp:"am practicing = 練習している（進行形）。every day = 毎日" },
+    { audio:"She is getting better.", choices:["彼女は気分が悪くなっています。","彼女は上手になってきています。","彼は上手になってきています。","彼女はよくなってきています。"], answer:3, exp:"is getting better = よくなっている・上達している（進行形）" },
+    { audio:"My brother is not doing his homework.", choices:["私の兄は宿題をしています。","私の姉は宿題をしていません。","私の兄は宿題をしていません。","私の兄は宿題が終わりました。"], answer:2, exp:"is not doing = していない（進行形の否定）。homework = 宿題" },
+    { audio:"Where are you going?", choices:["あなたはどこにいますか？","あなたはどこへ行きますか？","あなたはどこへ行っていますか？","あなたはどこから来ましたか？"], answer:2, exp:"Where are you going? = どこへ行っているの？（進行形の疑問文）" },
+    { audio:"He is always complaining.", choices:["彼はいつも文句を言っています。","彼は時々文句を言います。","彼は文句を言いません。","彼はいつも笑っています。"], answer:0, exp:"always ～ing = いつも～している。complaining = 文句を言う" },
+    { audio:"The children are playing in the garden.", choices:["子どもたちは庭で遊びます。","子どもたちは庭で遊んでいます。","子どもたちは公園で遊んでいます。","子どもたちは庭で休んでいます。"], answer:1, exp:"are playing = 遊んでいる。garden = 庭" },
+    { audio:"I am thinking about my future.", choices:["私は将来のことを考えます。","私は将来のことを考えていません。","私は今将来のことを考えています。","私は将来のことが好きです。"], answer:2, exp:"am thinking about ～ = ～について考えている。future = 将来" },
+    { audio:"Is it still raining?", choices:["雨はもう止みましたか？","今も雨が降っていますか？","今日は雨が降りますか？","雨はいつ止みますか？"], answer:1, exp:"Is it raining? = 雨が降っていますか？。still = まだ・今も" },
+    { audio:"They are working on a project together.", choices:["彼らは一緒にプロジェクトを発表します。","彼らは一緒にプロジェクトを終わらせました。","彼らは一緒にプロジェクトに取り組んでいます。","彼らはプロジェクトが好きです。"], answer:2, exp:"are working on ～ = ～に取り組んでいる。together = 一緒に" },
+    { audio:"My cat is sleeping on the sofa.", choices:["私の猫はソファの下にいます。","私の猫はソファで眠っています。","私の犬はソファで眠っています。","私の猫はソファにいません。"], answer:1, exp:"is sleeping = 眠っている（進行形）。on the sofa = ソファで" },
+  ],
+
+  // ── 範囲5：過去形 ──────────────────────────────────
+
+  r5_beginner: [
+    { audio:"I played soccer yesterday.", choices:["私は昨日サッカーをします。","私は昨日テニスをしました。","あなたは昨日サッカーをしました。","私は昨日サッカーをしました。"], answer:3, exp:"played = play の過去形。yesterday = 昨日" },
+    { audio:"She watched TV last night.", choices:["彼女は昨夜テレビを見ます。","彼女は昨夜テレビを見ました。","彼は昨夜テレビを見ました。","彼女は昨夜ラジオを聞きました。"], answer:1, exp:"watched = watch の過去形。last night = 昨夜" },
+    { audio:"I studied math this morning.", choices:["私は今朝英語を勉強しました。","私は今朝数学を勉強します。","私は今朝数学を勉強しました。","あなたは今朝数学を勉強しました。"], answer:2, exp:"studied = study の過去形（y→ied）。this morning = 今朝" },
+    { audio:"He walked to school.", choices:["彼は自転車で学校へ行きました。","彼女は歩いて学校へ行きました。","彼は歩いて学校へ行きました。","彼は学校へ走りました。"], answer:2, exp:"walked = walk の過去形。walk to ～ = 歩いて～へ行く" },
+    { audio:"I cleaned my room.", choices:["私は部屋を汚しました。","私は部屋を掃除します。","あなたは部屋を掃除しました。","私は部屋を掃除しました。"], answer:3, exp:"cleaned = clean の過去形。room = 部屋" },
+    { audio:"She helped her mother.", choices:["彼女はお母さんを困らせました。","彼女はお母さんを手伝いました。","彼はお母さんを手伝いました。","彼女はお母さんを呼びました。"], answer:1, exp:"helped = help の過去形。helped her mother = お母さんを手伝った" },
+    { audio:"I visited my grandparents.", choices:["私は祖父母を訪ねます。","私は祖父母に電話しました。","あなたは祖父母を訪ねました。","私は祖父母を訪ねました。"], answer:3, exp:"visited = visit の過去形。grandparents = 祖父母" },
+    { audio:"He cooked dinner last Sunday.", choices:["彼は先週日曜日に夕食を食べました。","彼は先週日曜日に夕食を作りました。","彼女は先週日曜日に夕食を作りました。","彼は毎週日曜日に夕食を作ります。"], answer:1, exp:"cooked = cook の過去形。last Sunday = 先週の日曜日" },
+    { audio:"I listened to music after school.", choices:["私は放課後音楽を聞きます。","私は放課後ラジオを聞きました。","私は放課後音楽を聞きました。","あなたは放課後音楽を聞きました。"], answer:2, exp:"listened = listen の過去形。after school = 放課後" },
+    { audio:"She enjoyed the concert very much.", choices:["彼女はコンサートをとても楽しみます。","彼女はコンサートがあまり好きではありませんでした。","彼女はコンサートをとても楽しみました。","彼女はコンサートに行きませんでした。"], answer:2, exp:"enjoyed = enjoy の過去形。very much = とても" },
+  ],
+
+  r5_intermediate: [
+    { audio:"I went to the library yesterday.", choices:["私は昨日図書館に行きます。","あなたは昨日図書館に行きました。","私は昨日公園に行きました。","私は昨日図書館に行きました。"], answer:3, exp:"went = go の過去形（不規則変化）。library = 図書館" },
+    { audio:"She saw a movie last week.", choices:["彼女は先週映画を見ます。","彼は先週映画を見ました。","彼女は先週映画を見ました。","彼女は先週映画を見ませんでした。"], answer:2, exp:"saw = see の過去形（不規則変化）。last week = 先週" },
+    { audio:"I was tired last night.", choices:["私は昨夜元気でした。","私は昨夜疲れていました。","あなたは昨夜疲れていました。","私は今夜疲れています。"], answer:1, exp:"was = am/is の過去形。tired = 疲れた。last night = 昨夜" },
+    { audio:"They were happy.", choices:["彼らは幸せです。","彼らは悲しかったです。","彼らは幸せでした。","あなたたちは幸せでした。"], answer:2, exp:"were = are の過去形。happy = 幸せな" },
+    { audio:"He ate sushi for lunch.", choices:["彼はランチにラーメンを食べました。","彼はランチに寿司を食べます。","彼女はランチに寿司を食べました。","彼はランチに寿司を食べました。"], answer:3, exp:"ate = eat の過去形（不規則変化）。sushi = 寿司" },
+    { audio:"I came home at six.", choices:["私は6時に家を出ました。","あなたは6時に帰宅しました。","私は6時に帰宅しました。","私は5時に帰宅しました。"], answer:2, exp:"came = come の過去形（不規則変化）。came home = 帰宅した" },
+    { audio:"We had a good time.", choices:["私たちはよい時間を過ごします。","私たちはよい時間を過ごしました。","私たちはよい時間がありませんでした。","あなたたちはよい時間を過ごしました。"], answer:1, exp:"had = have の過去形。have a good time = 楽しい時間を過ごす" },
+    { audio:"She made a cake yesterday.", choices:["彼女は昨日ケーキを食べました。","彼女は明日ケーキを作ります。","彼は昨日ケーキを作りました。","彼女は昨日ケーキを作りました。"], answer:3, exp:"made = make の過去形（不規則変化）。cake = ケーキ" },
+    { audio:"I knew the answer.", choices:["私は答えを知りません。","私は答えを知っていました。","あなたは答えを知っていました。","私は答えがわかりません。"], answer:1, exp:"knew = know の過去形（不規則変化）。answer = 答え" },
+    { audio:"He wrote a letter to his friend.", choices:["彼は友達にメールを書きました。","彼女は友達に手紙を書きました。","彼は友達に手紙を書きます。","彼は友達に手紙を書きました。"], answer:3, exp:"wrote = write の過去形（不規則変化）。letter = 手紙" },
+  ],
+
+  r5_advanced: [
+    { audio:"Did you go to school yesterday?", choices:["あなたは昨日学校に行きますか？","あなたは昨日学校に行きましたか？","あなたは今日学校に行きましたか？","彼は昨日学校に行きましたか？"], answer:1, exp:"Did you ～? = あなたは～しましたか？（過去形の疑問文）" },
+    { audio:"I didn't eat breakfast.", choices:["私は朝食を食べました。","私は昼食を食べませんでした。","あなたは朝食を食べませんでした。","私は朝食を食べませんでした。"], answer:3, exp:"didn't = did not（過去形の否定）。eat breakfast = 朝食を食べる" },
+    { audio:"Where did you go last Sunday?", choices:["あなたは先週日曜日にどこへ行きますか？","あなたは先週日曜日にどこへ行きましたか？","あなたは今週日曜日にどこへ行きましたか？","彼は先週日曜日にどこへ行きましたか？"], answer:1, exp:"Where did you go ～? = どこへ行きましたか？（過去の疑問文）" },
+    { audio:"She didn't come to school today.", choices:["彼女は今日学校に来ました。","彼は今日学校に来ませんでした。","彼女は昨日学校に来ませんでした。","彼女は今日学校に来ませんでした。"], answer:3, exp:"didn't come = 来なかった（過去形の否定）。today = 今日" },
+    { audio:"What did you do last weekend?", choices:["あなたは先週末、何をしますか？","あなたは先週末、何をしていましたか？","あなたは先週末、何をしましたか？","あなたは先週末、どこへ行きましたか？"], answer:2, exp:"What did you do ～? = 何をしましたか？（過去の疑問文）" },
+    { audio:"Were you at home yesterday?", choices:["あなたは昨日どこにいましたか？","あなたは昨日家にいましたか？","あなたは今日家にいますか？","彼は昨日家にいましたか？"], answer:1, exp:"Were you ～? = あなたは～でしたか？（be動詞過去形の疑問文）" },
+    { audio:"He didn't say anything.", choices:["彼は何か言いました。","彼は何か言いませんでした。","彼は何も言いませんでした。","彼女は何も言いませんでした。"], answer:2, exp:"didn't say = 言わなかった。anything（否定文で）= 何も" },
+    { audio:"I went there by car with my family.", choices:["私は一人でそこへ電車で行きました。","私は家族と一緒に自転車でそこへ行きました。","私は家族と一緒に車でそこへ行きました。","私は友達と一緒に車でそこへ行きました。"], answer:2, exp:"went there = そこへ行った（過去）。by car = 車で。with my family = 家族と" },
+    { audio:"Where were you this morning?", choices:["あなたは今朝どこにいますか？","あなたは今朝どこへ行きましたか？","あなたは今朝どこにいましたか？","あなたは今朝何をしましたか？"], answer:2, exp:"Where were you ～? = ～にどこにいましたか？（be動詞過去の疑問文）" },
+    { audio:"She was sick last week, but she is fine now.", choices:["彼女は先週元気で、今は病気です。","彼女は先週病気でしたが、今は元気です。","彼女は先週も今も病気です。","彼女は先週も今も元気です。"], answer:1, exp:"was sick = 病気だった（過去）。but = しかし。is fine now = 今は元気" },
+  ],
+};
+
 // タイトルマップ
 const SECTION_TITLES = {
   r1_beginner:    "1回目範囲 ・ 初級｜基本のbe動詞文",
@@ -613,6 +756,12 @@ const SECTION_TITLES = {
   r3_beginner:    "3回目範囲 ・ 初級｜複数形・canの基本",
   r3_intermediate:"3回目範囲 ・ 中級｜命令文・canの疑問文",
   r3_advanced:    "3回目範囲 ・ 上級｜混合・発展問題",
+  r4_beginner:    "4回目範囲 ・ 初級｜現在進行形の基本",
+  r4_intermediate:"4回目範囲 ・ 中級｜進行形の疑問文・否定文",
+  r4_advanced:    "4回目範囲 ・ 上級｜現在進行形の発展",
+  r5_beginner:    "5回目範囲 ・ 初級｜規則動詞の過去形",
+  r5_intermediate:"5回目範囲 ・ 中級｜不規則動詞・be動詞の過去形",
+  r5_advanced:    "5回目範囲 ・ 上級｜過去形の疑問文・否定文",
 };
 
 // ═══════════════════════════════════════════════════════
