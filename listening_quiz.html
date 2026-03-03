@@ -7,21 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0e17;
-    --surface: #1a1930;
-    --card: #232140;
-    --border: #2e2b50;
-    --accent: #7c6af7;
+    --bg: #0a0a14;
+    --surface: #12111f;
+    --card: #1c1b2e;
+    --card2: #201f34;
+    --border: #2a2845;
+    --accent: #5b9cf6;
     --accent2: #f25f87;
     --gold: #ffd166;
     --green: #06d6a0;
+    --purple: #a78bfa;
     --text: #eeeaf4;
-    --text-muted: #9d93bc;
+    --text-muted: #7a7299;
     --radius: 14px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -30,179 +30,192 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 16px 40px;
+    padding: 0 0 60px;
   }
 
-  /* ── Header ── */
-  .header {
+  /* ─── TOP BAR ─── */
+  .topbar {
     width: 100%;
-    max-width: 480px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   .logo {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 900;
+    color: var(--accent);
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
-  .level-badge {
-    font-size: 0.75rem;
+  .logo span { color: var(--text); }
+  .back-btn {
+    font-size: 0.82rem;
     font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1.5px solid var(--border);
     color: var(--text-muted);
     cursor: pointer;
+    padding: 6px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    font-family: inherit;
     transition: all 0.2s;
+    display: none;
   }
-  .level-badge:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn.show { display: block; }
 
-  /* ── Level Selector ── */
-  .level-screen {
-    width: 100%;
-    max-width: 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    animation: fadeIn 0.3s ease;
-  }
-  .level-title {
-    font-size: 1.4rem;
-    font-weight: 800;
+  .wrap { width: 100%; max-width: 500px; padding: 20px 16px; }
+
+  /* ─── MENU SCREEN ─── */
+  .menu-screen { animation: fadeIn 0.3s ease; }
+  .menu-hero {
     text-align: center;
-    margin-bottom: 8px;
-    color: var(--text);
+    padding: 8px 0 24px;
   }
-  .level-card {
+  .menu-hero h1 { font-size: 1.5rem; font-weight: 900; color: var(--text); }
+  .menu-hero p { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+
+  .section-header {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 18px 4px 10px;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+    margin-bottom: 8px;
+  }
+
+  .menu-row {
     background: var(--card);
-    border: 2px solid var(--border);
+    border: 1.5px solid var(--border);
     border-radius: var(--radius);
-    padding: 18px 22px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
     cursor: pointer;
     transition: all 0.2s;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .menu-row:hover { border-color: var(--accent); transform: translateX(3px); }
+  .menu-row.beginner:hover { border-color: var(--green); }
+  .menu-row.intermediate:hover { border-color: var(--gold); }
+  .menu-row.advanced:hover { border-color: var(--accent2); }
+
+  .level-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 800;
+    flex-shrink: 0;
   }
-  .level-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .level-card.beginner:hover { border-color: var(--green); }
-  .level-card.intermediate:hover { border-color: var(--gold); }
-  .level-card.advanced:hover { border-color: var(--accent2); }
-  .level-icon { font-size: 2rem; }
-  .level-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; }
-  .level-info p { font-size: 0.8rem; color: var(--text-muted); }
-  .beginner h3 { color: var(--green); }
-  .intermediate h3 { color: var(--gold); }
-  .advanced h3 { color: var(--accent2); }
+  .dot-beginner { background: rgba(6,214,160,0.15); color: var(--green); border: 1.5px solid rgba(6,214,160,0.3); }
+  .dot-intermediate { background: rgba(255,209,102,0.15); color: var(--gold); border: 1.5px solid rgba(255,209,102,0.3); }
+  .dot-advanced { background: rgba(242,95,135,0.15); color: var(--accent2); border: 1.5px solid rgba(242,95,135,0.3); }
 
-  /* ── Quiz Screen ── */
-  .quiz-screen {
-    width: 100%;
-    max-width: 480px;
-    display: none;
-    flex-direction: column;
-    gap: 18px;
-    animation: fadeIn 0.3s ease;
-  }
-  .quiz-screen.active { display: flex; }
+  .menu-row-info { flex: 1; }
+  .menu-row-title { font-size: 0.97rem; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+  .menu-row-sub { font-size: 0.76rem; color: var(--text-muted); }
+  .menu-row-count { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+  .chevron { font-size: 0.8rem; color: var(--text-muted); }
 
-  /* Progress */
-  .progress-row {
+  /* ─── QUIZ SCREEN ─── */
+  .quiz-screen { display: none; animation: fadeIn 0.3s ease; }
+  .quiz-screen.active { display: block; }
+
+  .q-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 16px;
   }
-  .progress-bar-bg {
-    flex: 1;
-    height: 6px;
-    background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-  .progress-text { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; min-width: 40px; text-align: right; }
-
-  /* Score */
+  .q-title { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); }
   .score-badge {
     font-size: 0.8rem;
     font-weight: 800;
     padding: 4px 12px;
     border-radius: 20px;
-    background: rgba(124,106,247,0.15);
+    background: rgba(91,156,246,0.15);
     color: var(--accent);
-    border: 1.5px solid rgba(124,106,247,0.3);
+    border: 1.5px solid rgba(91,156,246,0.3);
   }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .progress-bg {
+    flex: 1;
+    height: 5px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .progress-num { font-size: 0.78rem; color: var(--text-muted); font-weight: 700; min-width: 36px; text-align: right; }
 
-  /* Question card */
-  .question-card {
+  .q-card {
     background: var(--card);
     border: 1.5px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px 20px;
+    padding: 24px 20px 22px;
     text-align: center;
-  }
-  .question-type {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
     margin-bottom: 14px;
   }
-  .question-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 18px;
-    min-height: 40px;
-    font-weight: 600;
-  }
+  .q-type { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; }
+  .q-text { font-size: 0.97rem; font-weight: 600; line-height: 1.7; color: var(--text); margin-bottom: 20px; min-height: 36px; }
 
-  /* Play button */
   .play-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(135deg, var(--accent), #5a4fd4);
-    color: white;
+    background: var(--accent);
+    color: #fff;
     border: none;
     border-radius: 50px;
-    padding: 14px 28px;
-    font-size: 1rem;
+    padding: 13px 28px;
+    font-size: 0.97rem;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
-    box-shadow: 0 4px 20px rgba(124,106,247,0.4);
+    box-shadow: 0 4px 18px rgba(91,156,246,0.4);
   }
-  .play-btn:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(124,106,247,0.5); }
-  .play-btn:active { transform: scale(0.97); }
+  .play-btn:hover { transform: scale(1.04); }
   .play-btn.playing {
-    background: linear-gradient(135deg, var(--accent2), #c94070);
-    box-shadow: 0 4px 20px rgba(242,95,135,0.4);
-    animation: pulse 0.6s infinite alternate;
+    background: var(--accent2);
+    box-shadow: 0 4px 18px rgba(242,95,135,0.4);
+    animation: pulse 0.7s infinite alternate;
   }
-  .play-icon { font-size: 1.2rem; }
   .replay-btn {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 6px;
     background: transparent;
     color: var(--text-muted);
     border: 1.5px solid var(--border);
     border-radius: 50px;
-    padding: 8px 18px;
-    font-size: 0.82rem;
+    padding: 7px 16px;
+    font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -210,609 +223,548 @@
     margin-top: 10px;
   }
   .replay-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .replay-btn.show { display: inline-flex; }
 
-  /* Choices */
-  .choices {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .choices { display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
   .choice-btn {
-    background: var(--surface);
+    background: var(--card2);
     border: 2px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
+    border-radius: 12px;
+    padding: 14px 16px;
     text-align: left;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.18s;
     font-family: inherit;
     color: var(--text);
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(124,106,247,0.08); }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(91,156,246,0.08); }
   .choice-label {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+    width: 28px; height: 28px; border-radius: 50%;
     background: var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.78rem;
-    font-weight: 800;
-    flex-shrink: 0;
-    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800; flex-shrink: 0; color: var(--text-muted);
   }
-  .choice-btn.correct { border-color: var(--green); background: rgba(6,214,160,0.1); }
-  .choice-btn.correct .choice-label { background: var(--green); color: #0f0e17; }
-  .choice-btn.wrong { border-color: var(--accent2); background: rgba(242,95,135,0.1); }
-  .choice-btn.wrong .choice-label { background: var(--accent2); color: white; }
+  .choice-btn.correct { border-color: var(--green); background: rgba(6,214,160,0.08); }
+  .choice-btn.correct .choice-label { background: var(--green); color: #0a0a14; }
+  .choice-btn.wrong { border-color: var(--accent2); background: rgba(242,95,135,0.08); }
+  .choice-btn.wrong .choice-label { background: var(--accent2); color: #fff; }
 
-  /* Feedback */
   .feedback {
     background: var(--surface);
     border-radius: var(--radius);
     padding: 16px 18px;
     display: none;
-    animation: slideUp 0.3s ease;
+    margin-bottom: 14px;
+    animation: slideUp 0.25s ease;
   }
   .feedback.show { display: block; }
   .feedback.correct-fb { border: 1.5px solid var(--green); }
   .feedback.wrong-fb { border: 1.5px solid var(--accent2); }
-  .feedback-title { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
-  .correct-fb .feedback-title { color: var(--green); }
-  .wrong-fb .feedback-title { color: var(--accent2); }
-  .feedback-detail { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
-  .feedback-english { color: var(--text); font-weight: 700; margin-top: 4px; font-size: 0.88rem; }
+  .fb-title { font-size: 0.97rem; font-weight: 800; margin-bottom: 5px; }
+  .correct-fb .fb-title { color: var(--green); }
+  .wrong-fb .fb-title { color: var(--accent2); }
+  .fb-eng { color: var(--text); font-weight: 700; font-size: 0.88rem; margin-bottom: 3px; }
+  .fb-note { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 
-  /* Next button */
   .next-btn {
-    background: linear-gradient(135deg, var(--accent), #5a4fd4);
+    background: var(--accent);
     color: white;
     border: none;
     border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
+    padding: 15px;
+    font-size: 0.97rem;
     font-weight: 800;
     cursor: pointer;
     width: 100%;
     font-family: inherit;
     display: none;
     transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(124,106,247,0.35);
+    box-shadow: 0 4px 18px rgba(91,156,246,0.35);
   }
-  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,106,247,0.45); }
-  .next-btn.show { display: block; animation: slideUp 0.3s ease; }
+  .next-btn:hover { transform: translateY(-2px); }
+  .next-btn.show { display: block; animation: slideUp 0.25s ease; }
 
-  /* Result Screen */
-  .result-screen {
-    width: 100%;
-    max-width: 480px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    text-align: center;
-    animation: fadeIn 0.4s ease;
-  }
-  .result-screen.active { display: flex; }
-  .result-icon { font-size: 4rem; }
-  .result-title { font-size: 1.8rem; font-weight: 900; }
-  .result-score {
+  /* ─── RESULT SCREEN ─── */
+  .result-screen { display: none; text-align: center; animation: fadeIn 0.4s ease; }
+  .result-screen.active { display: block; }
+  .result-icon { font-size: 3.5rem; margin-bottom: 10px; }
+  .result-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 20px; }
+  .result-card {
     background: var(--card);
     border: 1.5px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px 40px;
-    width: 100%;
+    padding: 20px;
+    margin-bottom: 16px;
   }
-  .result-score-num { font-size: 3rem; font-weight: 900; color: var(--accent); }
-  .result-score-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
-  .result-message { font-size: 1rem; color: var(--text-muted); line-height: 1.7; }
-  .result-btns { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .result-num { font-size: 3rem; font-weight: 900; color: var(--accent); }
+  .result-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+  .result-msg { font-size: 0.93rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+  .result-btns { display: flex; flex-direction: column; gap: 10px; }
   .btn-retry, .btn-menu {
-    border-radius: var(--radius);
-    padding: 15px;
-    font-size: 0.95rem;
-    font-weight: 800;
-    cursor: pointer;
-    width: 100%;
-    font-family: inherit;
-    transition: all 0.2s;
-    border: none;
+    border-radius: var(--radius); padding: 15px;
+    font-size: 0.95rem; font-weight: 800; cursor: pointer;
+    width: 100%; font-family: inherit; transition: all 0.2s; border: none;
   }
-  .btn-retry { background: linear-gradient(135deg, var(--accent), #5a4fd4); color: white; box-shadow: 0 4px 20px rgba(124,106,247,0.35); }
+  .btn-retry { background: var(--accent); color: white; box-shadow: 0 4px 18px rgba(91,156,246,0.35); }
   .btn-retry:hover { transform: translateY(-2px); }
-  .btn-menu { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
+  .btn-menu { background: var(--card2); color: var(--text); border: 1.5px solid var(--border); }
   .btn-menu:hover { border-color: var(--accent); color: var(--accent); }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { from { box-shadow: 0 4px 20px rgba(242,95,135,0.3); } to { box-shadow: 0 4px 28px rgba(242,95,135,0.6); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { from { box-shadow: 0 4px 18px rgba(242,95,135,0.3); } to { box-shadow: 0 6px 24px rgba(242,95,135,0.6); } }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">🎧 Listening Quiz</div>
-  <div class="level-badge" id="levelBadge" onclick="goToMenu()">メニュー</div>
+<div class="topbar">
+  <div class="logo">🎧 <span>英語リスニング</span></div>
+  <button class="back-btn" id="backBtn" onclick="goBack()">← 戻る</button>
 </div>
 
-<!-- Level Select Screen -->
-<div class="level-screen" id="levelScreen">
-  <div class="level-title">レベルを選んでね</div>
+<div class="wrap">
 
-  <div class="level-card beginner" onclick="startQuiz('beginner')">
-    <div class="level-icon">🌱</div>
-    <div class="level-info beginner">
-      <h3>初級</h3>
-      <p>be動詞・基本単語・自己紹介 （中1 前半）</p>
+  <!-- ===== MENU SCREEN ===== -->
+  <div class="menu-screen" id="menuScreen">
+    <div class="menu-hero">
+      <h1>🎧 英語リスニングクイズ</h1>
+      <p>中学1年生 ・ 全テスト範囲対応</p>
+    </div>
+
+    <!-- テスト範囲1 -->
+    <div class="section-header">1年生 ・ 1回目テスト範囲（BE動詞・基本構文）</div>
+    <div class="menu-row beginner" onclick="startQuiz('r1_beginner')">
+      <div class="level-dot dot-beginner">初級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">基本のbe動詞文</div>
+        <div class="menu-row-sub">I am / You are / He is の基本</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row intermediate" onclick="startQuiz('r1_intermediate')">
+      <div class="level-dot dot-intermediate">中級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">疑問文・否定文</div>
+        <div class="menu-row-sub">Are you～? / I'm not～ の聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row advanced" onclick="startQuiz('r1_advanced')">
+      <div class="level-dot dot-advanced">上級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">混合・発展問題</div>
+        <div class="menu-row-sub">be動詞の総合リスニング</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+
+    <!-- テスト範囲2 -->
+    <div class="section-header">1年生 ・ 2回目テスト範囲（一般動詞・疑問文）</div>
+    <div class="menu-row beginner" onclick="startQuiz('r2_beginner')">
+      <div class="level-dot dot-beginner">初級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">一般動詞の基本文</div>
+        <div class="menu-row-sub">like / play / have などの動詞</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row intermediate" onclick="startQuiz('r2_intermediate')">
+      <div class="level-dot dot-intermediate">中級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">Doを使う疑問文</div>
+        <div class="menu-row-sub">Do you～? / What do you～? の聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row advanced" onclick="startQuiz('r2_advanced')">
+      <div class="level-dot dot-advanced">上級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">混合・発展問題</div>
+        <div class="menu-row-sub">一般動詞の総合リスニング</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+
+    <!-- テスト範囲3 -->
+    <div class="section-header">1年生 ・ 3回目テスト範囲（複数形・CAN・命令文）</div>
+    <div class="menu-row beginner" onclick="startQuiz('r3_beginner')">
+      <div class="level-dot dot-beginner">初級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">複数形・canの基本</div>
+        <div class="menu-row-sub">cats / I can swim などの聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row intermediate" onclick="startQuiz('r3_intermediate')">
+      <div class="level-dot dot-intermediate">中級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">命令文・canの疑問文</div>
+        <div class="menu-row-sub">Open your book. / Can you～? の聞き取り</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="menu-row advanced" onclick="startQuiz('r3_advanced')">
+      <div class="level-dot dot-advanced">上級</div>
+      <div class="menu-row-info">
+        <div class="menu-row-title">混合・発展問題</div>
+        <div class="menu-row-sub">複数形・can・命令文の総合リスニング</div>
+      </div>
+      <div class="menu-row-count">10問</div>
+      <div class="chevron">›</div>
     </div>
   </div>
 
-  <div class="level-card intermediate" onclick="startQuiz('intermediate')">
-    <div class="level-icon">🔥</div>
-    <div class="level-info intermediate">
-      <h3>中級</h3>
-      <p>一般動詞・疑問文・日常会話 （中1 中盤）</p>
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div class="quiz-screen" id="quizScreen">
+    <div class="q-header">
+      <div class="q-title" id="qTitle">-</div>
+      <div class="score-badge" id="scoreBadge">0点</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-bg"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-num" id="progressNum">1/10</div>
+    </div>
+    <div class="q-card">
+      <div class="q-type">音声を聞いて答えよう</div>
+      <div class="q-text" id="qText">音声を再生してから選択肢を選んでください</div>
+      <button class="play-btn" id="playBtn" onclick="playAudio()">
+        <span>▶</span><span id="playBtnLabel">音声を聞く</span>
+      </button>
+      <br>
+      <button class="replay-btn" id="replayBtn" onclick="playAudio()">🔄 もう一度聞く</button>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback">
+      <div class="fb-title" id="fbTitle"></div>
+      <div class="fb-eng" id="fbEng"></div>
+      <div class="fb-note" id="fbNote"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">次の問題 →</button>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div class="result-screen" id="resultScreen">
+    <div class="result-icon" id="resIcon">🎉</div>
+    <div class="result-title" id="resTitle">結果</div>
+    <div class="result-card">
+      <div class="result-num" id="resNum">0</div>
+      <div class="result-label" id="resLabel">/ 0問 正解</div>
+    </div>
+    <div class="result-msg" id="resMsg"></div>
+    <div class="result-btns">
+      <button class="btn-retry" onclick="retryQuiz()">もう一度チャレンジ</button>
+      <button class="btn-menu" onclick="goToMenu()">メニューに戻る</button>
     </div>
   </div>
 
-  <div class="level-card advanced" onclick="startQuiz('advanced')">
-    <div class="level-icon">⚡</div>
-    <div class="level-info advanced">
-      <h3>上級</h3>
-      <p>三人称・進行形・複数形 （中1 後半）</p>
-    </div>
-  </div>
-</div>
-
-<!-- Quiz Screen -->
-<div class="quiz-screen" id="quizScreen">
-  <div class="progress-row">
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
-    </div>
-    <div class="progress-text" id="progressText">0/0</div>
-    <div class="score-badge" id="scoreBadge">0点</div>
-  </div>
-
-  <div class="question-card">
-    <div class="question-type" id="questionType">音声を聞いて答えよう</div>
-    <div class="question-text" id="questionText"></div>
-    <button class="play-btn" id="playBtn" onclick="playAudio()">
-      <span class="play-icon">▶</span>
-      <span id="playBtnText">音声を聞く</span>
-    </button>
-    <br>
-    <button class="replay-btn" id="replayBtn" onclick="playAudio()" style="display:none">
-      🔄 もう一度聞く
-    </button>
-  </div>
-
-  <div class="choices" id="choices"></div>
-
-  <div class="feedback" id="feedback">
-    <div class="feedback-title" id="feedbackTitle"></div>
-    <div class="feedback-english" id="feedbackEnglish"></div>
-    <div class="feedback-detail" id="feedbackDetail"></div>
-  </div>
-
-  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">次の問題 →</button>
-</div>
-
-<!-- Result Screen -->
-<div class="result-screen" id="resultScreen">
-  <div class="result-icon" id="resultIcon">🎉</div>
-  <div class="result-title" id="resultTitle">結果</div>
-  <div class="result-score">
-    <div class="result-score-num" id="resultScoreNum">0</div>
-    <div class="result-score-label" id="resultScoreLabel">/ 0問 正解</div>
-  </div>
-  <div class="result-message" id="resultMessage"></div>
-  <div class="result-btns">
-    <button class="btn-retry" onclick="retryQuiz()">もう一度チャレンジ</button>
-    <button class="btn-menu" onclick="goToMenu()">レベル選択に戻る</button>
-  </div>
-</div>
+</div><!-- /wrap -->
 
 <script>
-const QUESTIONS = {
-  beginner: [
-    {
-      audio: "I am a student.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私は先生です。", "私は生徒です。", "あなたは生徒です。", "私は学校です。"],
-      answer: 1,
-      explanation: "I am ～ = 私は～です。student = 生徒"
-    },
-    {
-      audio: "This is my bag.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["これは彼のかばんです。", "あれは私のかばんです。", "これは私のかばんです。", "これは本です。"],
-      answer: 2,
-      explanation: "This is ～ = これは～です。my = 私の"
-    },
-    {
-      audio: "Are you Ken?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたはケンですか？", "私はケンです。", "彼はケンですか？", "ケン、元気ですか？"],
-      answer: 0,
-      explanation: "Are you ～? = あなたは～ですか？"
-    },
-    {
-      audio: "I am not tired.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私は眠いです。", "私は疲れています。", "私は疲れていません。", "あなたは眠くありません。"],
-      answer: 2,
-      explanation: "am not ～ = ～ではない（否定文）。tired = 疲れた"
-    },
-    {
-      audio: "She is my friend.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["彼は私の友達です。", "彼女はあなたの友達です。", "彼女は私の友達です。", "私は彼女の友達です。"],
-      answer: 2,
-      explanation: "She = 彼女。my friend = 私の友達"
-    },
-    {
-      audio: "What is this?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["これは何ですか？", "あれは何ですか？", "これは何色ですか？", "この人は誰ですか？"],
-      answer: 0,
-      explanation: "What is this? = これは何ですか？"
-    },
-    {
-      audio: "Nice to meet you.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["また会いましょう。", "お元気ですか？", "はじめまして。", "ありがとう。"],
-      answer: 2,
-      explanation: "Nice to meet you. = はじめまして（初対面のあいさつ）"
-    },
-    {
-      audio: "He is a doctor.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["彼は学生です。", "彼は医者です。", "彼女は医者です。", "彼は先生です。"],
-      answer: 1,
-      explanation: "He = 彼。doctor = 医者"
-    },
+// ═══════════════════════════════════════════════════════
+//  QUESTION DATA
+// ═══════════════════════════════════════════════════════
+const ALL_QUESTIONS = {
+
+  // ── 範囲1：BE動詞・基本構文 ──────────────────────────
+
+  r1_beginner: [
+    { audio:"I am a student.", choices:["私は先生です。","私は生徒です。","あなたは生徒です。","私は学生ではありません。"], answer:1, exp:"I am ～ = 私は～です。student = 生徒" },
+    { audio:"You are kind.", choices:["あなたは親切です。","彼は親切です。","私は親切です。","あなたは元気です。"], answer:0, exp:"You are ～ = あなたは～です。kind = 親切な" },
+    { audio:"He is tall.", choices:["彼女は背が高いです。","彼は背が低いです。","彼は背が高いです。","彼は強いです。"], answer:2, exp:"He is ～ = 彼は～です。tall = 背が高い" },
+    { audio:"She is my sister.", choices:["彼女は私の友達です。","彼は私の姉です。","彼女は私の姉です。","私は彼女の姉です。"], answer:2, exp:"She = 彼女。my sister = 私の姉/妹" },
+    { audio:"This is a cat.", choices:["これは犬です。","あれは猫です。","これは猫です。","これは魚です。"], answer:2, exp:"This is ～ = これは～です。cat = 猫" },
+    { audio:"That is my house.", choices:["これは私の家です。","あれはあなたの家です。","あれは私の家です。","あれは学校です。"], answer:2, exp:"That is ～ = あれは～です。house = 家" },
+    { audio:"I am happy.", choices:["私は悲しいです。","私は眠いです。","私は元気です。","私は幸せです。"], answer:3, exp:"happy = 幸せな・うれしい" },
+    { audio:"We are friends.", choices:["私たちは家族です。","私たちは友達です。","あなたたちは友達です。","彼らは友達です。"], answer:1, exp:"We are ～ = 私たちは～です。friends = 友達" },
+    { audio:"It is a book.", choices:["それは本です。","それはノートです。","これは本です。","それは辞書です。"], answer:0, exp:"It is ～ = それは～です。book = 本" },
+    { audio:"They are teachers.", choices:["彼らは生徒です。","彼女たちは先生です。","彼らは先生です。","彼らは医者です。"], answer:2, exp:"They are ～ = 彼らは～です。teachers = 先生たち" },
   ],
 
-  intermediate: [
-    {
-      audio: "I like soccer.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私はサッカーが好きではありません。", "あなたはサッカーが好きですか？", "私はサッカーが好きです。", "私はテニスが好きです。"],
-      answer: 2,
-      explanation: "I like ～ = 私は～が好きです"
-    },
-    {
-      audio: "Do you have a dog?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたは犬が好きですか？", "あなたは犬を飼っていますか？", "私は犬を飼っています。", "犬はどこにいますか？"],
-      answer: 1,
-      explanation: "Do you have ～? = あなたは～を持っていますか？/飼っていますか？"
-    },
-    {
-      audio: "I don't play tennis.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私はテニスをします。", "私はテニスが好きです。", "あなたはテニスをしません。", "私はテニスをしません。"],
-      answer: 3,
-      explanation: "don't = do not。一般動詞の否定文"
-    },
-    {
-      audio: "Where do you live?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたはどこへ行きますか？", "あなたはどこに住んでいますか？", "どこで働いていますか？", "あなたはどこ出身ですか？"],
-      answer: 1,
-      explanation: "Where do you ～? = あなたはどこで～しますか？。live = 住む"
-    },
-    {
-      audio: "I go to school by bike.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私は徒歩で学校へ行きます。", "私は自転車で学校へ行きます。", "私は電車で学校へ行きます。", "あなたは自転車で学校へ行きます。"],
-      answer: 1,
-      explanation: "by bike = 自転車で。交通手段は by ＋乗り物"
-    },
-    {
-      audio: "What do you want?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたは何が好きですか？", "あなたは何を食べますか？", "あなたは何が欲しいですか？", "あなたは何を持っていますか？"],
-      answer: 2,
-      explanation: "want = 欲しい・したい"
-    },
-    {
-      audio: "I study English every day.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私は毎日数学を勉強します。", "私は英語を勉強しません。", "私は毎日英語を勉強します。", "私は時々英語を勉強します。"],
-      answer: 2,
-      explanation: "study = 勉強する。every day = 毎日"
-    },
-    {
-      audio: "Can you help me?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたを助けましょうか？", "私を助けてくれますか？", "彼を助けてください。", "あなたは私を助けます。"],
-      answer: 1,
-      explanation: "Can you ～? = ～してくれますか？。help = 助ける"
-    },
+  r1_intermediate: [
+    { audio:"Are you a student?", choices:["あなたは先生ですか？","あなたは生徒ですか？","私は生徒ですか？","彼は生徒ですか？"], answer:1, exp:"Are you ～? = あなたは～ですか？（be動詞の疑問文）" },
+    { audio:"I am not tired.", choices:["私は疲れています。","あなたは疲れていません。","私は眠くありません。","私は疲れていません。"], answer:3, exp:"am not ～ = ～ではない。tired = 疲れた" },
+    { audio:"Is she your mother?", choices:["彼女はあなたのお母さんですか？","彼はあなたのお母さんですか？","彼女はあなたのお父さんですか？","彼女は私のお母さんですか？"], answer:0, exp:"Is she ～? = 彼女は～ですか？" },
+    { audio:"He is not a doctor.", choices:["彼は医者です。","彼女は医者ではありません。","彼は先生ではありません。","彼は医者ではありません。"], answer:3, exp:"is not = isn't（be動詞の否定）。doctor = 医者" },
+    { audio:"Are they Japanese?", choices:["彼らは日本人ですか？","あなたたちは日本人ですか？","彼らはアメリカ人ですか？","彼らは日本人です。"], answer:0, exp:"Are they ～? = 彼らは～ですか？。Japanese = 日本人" },
+    { audio:"We are not busy.", choices:["私たちは忙しいです。","彼らは忙しくありません。","私たちは忙しくありません。","私たちは暇ではありません。"], answer:2, exp:"are not = aren't。busy = 忙しい" },
+    { audio:"Is this your bag?", choices:["これはあなたのかばんです。","これはあなたのかばんですか？","あれはあなたのかばんですか？","これは私のかばんですか？"], answer:1, exp:"Is this ～? = これは～ですか？" },
+    { audio:"She is not cute.", choices:["彼女はかわいいです。","彼女はかわいくありません。","彼は可愛くありません。","彼女は優しくありません。"], answer:1, exp:"is not cute = かわいくない。cute = かわいい" },
+    { audio:"Is he tall?", choices:["彼は背が高いですか？","彼女は背が高いですか？","彼は強いですか？","彼は背が高いです。"], answer:0, exp:"Is he ～? = 彼は～ですか？" },
+    { audio:"I am not your friend.", choices:["私はあなたの友達です。","私はあなたの友達ではありません。","あなたは私の友達ではありません。","彼はあなたの友達ではありません。"], answer:1, exp:"am not ～ = ～ではない（I の否定）" },
   ],
 
-  advanced: [
-    {
-      audio: "She plays the piano.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["彼女はピアノを弾きません。", "彼はピアノを弾きます。", "彼女はピアノを弾きます。", "私はピアノを弾きます。"],
-      answer: 2,
-      explanation: "三人称単数（She）では動詞に -s がつく（plays）"
-    },
-    {
-      audio: "He doesn't like math.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["彼は数学が好きです。", "彼は数学が好きではありません。", "彼女は数学が好きではありません。", "彼は国語が好きではありません。"],
-      answer: 1,
-      explanation: "三人称単数の否定は doesn't。doesn't like = 好きではない"
-    },
-    {
-      audio: "I am watching TV now.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私はテレビを見ます。", "私は今テレビを見ています。", "私はテレビを見ていません。", "あなたは今テレビを見ています。"],
-      answer: 1,
-      explanation: "am watching = 現在進行形（今～している）"
-    },
-    {
-      audio: "There are two cats.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["猫が一匹います。", "犬が二匹います。", "猫が二匹います。", "猫が三匹います。"],
-      answer: 2,
-      explanation: "There are ～ = ～がある/いる（複数）。two cats = 猫2匹"
-    },
-    {
-      audio: "Does she speak English?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたは英語を話しますか？", "彼は英語を話しますか？", "彼女は英語を話しますか？", "彼女は英語を話します。"],
-      answer: 2,
-      explanation: "Does ～ speak？ = 三人称単数の疑問文"
-    },
-    {
-      audio: "They are playing soccer.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["彼らはサッカーをします。", "彼らはサッカーをしていません。", "彼らはサッカーをしています。", "私たちはサッカーをしています。"],
-      answer: 2,
-      explanation: "They are ～ing = 彼らは今～している（進行形）"
-    },
-    {
-      audio: "How many books do you have?",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["あなたは本を持っていますか？", "あなたは何冊本を持っていますか？", "この本はいくらですか？", "どの本が好きですか？"],
-      answer: 1,
-      explanation: "How many ～? = ～はいくつ？（数を聞く）"
-    },
-    {
-      audio: "My brother is taller than me.",
-      type: "何と言っていた？",
-      question: "音声を聞いて、正しい日本語訳を選ぼう",
-      choices: ["私は兄より背が高いです。", "私の兄は私より背が高いです。", "私の兄は背が高いです。", "私の兄は私より若いです。"],
-      answer: 1,
-      explanation: "taller than ～ = ～より背が高い（比較級）"
-    },
-  ]
+  r1_advanced: [
+    { audio:"What is this?", choices:["これは何ですか？","あれは何ですか？","これは誰ですか？","この人は何ですか？"], answer:0, exp:"What is this? = これは何ですか？（疑問詞 What）" },
+    { audio:"Who is she?", choices:["彼女はどこですか？","彼は誰ですか？","彼女は誰ですか？","彼女は元気ですか？"], answer:2, exp:"Who is ～? = ～は誰ですか？" },
+    { audio:"Where is my pen?", choices:["これは私のペンですか？","私のペンはどこですか？","あなたのペンはどこですか？","私のペンは何ですか？"], answer:1, exp:"Where is ～? = ～はどこですか？" },
+    { audio:"He is not at home.", choices:["彼は家にいます。","彼女は家にいません。","彼は学校にいません。","彼は家にいません。"], answer:3, exp:"at home = 家に。is not at home = 家にいない" },
+    { audio:"Nice to meet you.", choices:["また会いましょう。","お元気ですか？","はじめまして。","ありがとうございます。"], answer:2, exp:"Nice to meet you. = はじめまして（初対面のあいさつ）" },
+    { audio:"How are you?", choices:["あなたは誰ですか？","あなたはどこですか？","お元気ですか？","あなたはいつですか？"], answer:2, exp:"How are you? = お元気ですか？（あいさつ）" },
+    { audio:"This is not my umbrella.", choices:["これは私の傘ではありません。","あれは私の傘ではありません。","これは私の傘です。","これは誰の傘ですか？"], answer:0, exp:"umbrella = 傘。This is not ～ = これは～ではない" },
+    { audio:"Are you from America?", choices:["あなたはアメリカが好きですか？","あなたはアメリカ出身ですか？","あなたはアメリカにいますか？","あなたはアメリカ人ですか？"], answer:1, exp:"from ～ = ～出身。Are you from ～? = ～出身ですか？" },
+    { audio:"What color is this?", choices:["これは何ですか？","これは何色ですか？","どの色が好きですか？","これは何個ですか？"], answer:1, exp:"What color is this? = これは何色ですか？" },
+    { audio:"She is a famous singer.", choices:["彼女は有名な歌手です。","彼は有名な歌手です。","彼女は有名な先生です。","彼女は歌が得意です。"], answer:0, exp:"famous = 有名な。singer = 歌手" },
+  ],
+
+  // ── 範囲2：一般動詞・疑問文 ────────────────────────
+
+  r2_beginner: [
+    { audio:"I like soccer.", choices:["私はサッカーが好きではありません。","あなたはサッカーが好きです。","私はサッカーが好きです。","私はテニスが好きです。"], answer:2, exp:"I like ～ = 私は～が好きです" },
+    { audio:"I play the guitar.", choices:["私はギターを弾きます。","私はピアノを弾きます。","あなたはギターを弾きます。","私はギターが好きです。"], answer:0, exp:"play the guitar = ギターを弾く" },
+    { audio:"I have a dog.", choices:["私は猫を飼っています。","私は犬を飼っています。","あなたは犬を飼っています。","私は犬が好きです。"], answer:1, exp:"I have ～ = 私は～を持っている/飼っている" },
+    { audio:"I eat breakfast every day.", choices:["私は毎朝ランチを食べます。","私は時々朝食を食べます。","私は毎日朝食を食べます。","私は夕食を毎日食べます。"], answer:2, exp:"eat breakfast = 朝食を食べる。every day = 毎日" },
+    { audio:"I go to school by bus.", choices:["私は徒歩で学校へ行きます。","私は自転車で学校へ行きます。","私はバスで学校へ行きます。","私は電車で学校へ行きます。"], answer:2, exp:"by bus = バスで。交通手段は by ＋乗り物" },
+    { audio:"I study math.", choices:["私は英語を勉強します。","私は数学を勉強します。","私は理科を勉強します。","私は国語を勉強します。"], answer:1, exp:"study = 勉強する。math = 数学" },
+    { audio:"I watch TV at night.", choices:["私は昼にテレビを見ます。","私は夜にテレビを見ます。","私は朝にテレビを見ます。","あなたは夜にテレビを見ます。"], answer:1, exp:"watch TV = テレビを見る。at night = 夜に" },
+    { audio:"I want a new bike.", choices:["私は新しい本が欲しいです。","私は新しい自転車がいりません。","私は新しい自転車が欲しいです。","私は新しい車が欲しいです。"], answer:2, exp:"want = 欲しい。bike = 自転車" },
+    { audio:"I live in Yokohama.", choices:["私は東京に住んでいます。","私は横浜に住んでいます。","あなたは横浜に住んでいます。","私は大阪に住んでいます。"], answer:1, exp:"live in ～ = ～に住む。Yokohama = 横浜" },
+    { audio:"I know that boy.", choices:["私はその女の子を知りません。","あなたはその男の子を知っています。","私はその男の子を知っています。","私はその男の子が好きです。"], answer:2, exp:"know = 知っている。that boy = その男の子" },
+  ],
+
+  r2_intermediate: [
+    { audio:"Do you like music?", choices:["あなたは音楽が好きですか？","あなたは音楽が得意ですか？","私は音楽が好きですか？","彼は音楽が好きですか？"], answer:0, exp:"Do you ～? = あなたは～しますか？（一般動詞の疑問文）" },
+    { audio:"I don't like math.", choices:["私は数学が好きです。","私は数学が好きではありません。","あなたは数学が好きではありません。","私は英語が好きではありません。"], answer:1, exp:"don't = do not。don't like = 好きではない" },
+    { audio:"What do you want?", choices:["あなたは何が好きですか？","あなたは何を食べますか？","あなたは何が欲しいですか？","あなたは何をしますか？"], answer:2, exp:"What do you want? = 何が欲しいですか？（疑問詞＋do疑問文）" },
+    { audio:"I don't have a pencil.", choices:["私は鉛筆を持っています。","私はペンを持っていません。","私は鉛筆を持っていません。","私は鉛筆が欲しいです。"], answer:2, exp:"don't have = 持っていない。pencil = 鉛筆" },
+    { audio:"Where do you live?", choices:["あなたはどこへ行きますか？","あなたはどこに住んでいますか？","あなたはどこで働きますか？","あなたはどこ出身ですか？"], answer:1, exp:"Where do you ～? = あなたはどこで～しますか？" },
+    { audio:"Do you play baseball?", choices:["あなたは野球が好きですか？","あなたはバスケをしますか？","あなたは野球をしますか？","あなたは野球をしません。"], answer:2, exp:"Do you play ～? = あなたは～をしますか？" },
+    { audio:"What do you do after school?", choices:["あなたは学校の後、何を食べますか？","あなたは学校の後、どこへ行きますか？","あなたは放課後、何をしますか？","あなたは学校の後、誰と会いますか？"], answer:2, exp:"after school = 放課後。What do you do ～? = ～に何をしますか？" },
+    { audio:"I don't watch TV.", choices:["私はテレビを見ます。","あなたはテレビを見ません。","私はゲームをしません。","私はテレビを見ません。"], answer:3, exp:"don't watch = 見ない。TV = テレビ" },
+    { audio:"Do you speak English?", choices:["あなたは英語が好きですか？","あなたは英語を話しますか？","あなたは英語を勉強しますか？","彼は英語を話しますか？"], answer:1, exp:"speak = 話す。Do you speak ～? = ～を話しますか？" },
+    { audio:"How do you come to school?", choices:["あなたは学校に何時に来ますか？","あなたは学校にどうやって来ますか？","あなたはどこの学校に行きますか？","あなたはなぜ学校に来ますか？"], answer:1, exp:"How do you ～? = どうやって～しますか？（方法を聞く）" },
+  ],
+
+  r2_advanced: [
+    { audio:"She likes cats very much.", choices:["彼女は猫がとても好きです。","彼は猫がとても好きです。","彼女は犬がとても好きです。","彼女は猫があまり好きではありません。"], answer:0, exp:"三人称単数（She）は likes と -s がつく。very much = とても" },
+    { audio:"He doesn't eat fish.", choices:["彼は魚が好きです。","彼女は魚を食べません。","彼は肉を食べません。","彼は魚を食べません。"], answer:3, exp:"doesn't = does not（三人称単数の否定）。fish = 魚" },
+    { audio:"Does your father work here?", choices:["あなたのお父さんはここで働いていますか？","あなたのお母さんはここで働いていますか？","あなたのお父さんはここに住んでいますか？","彼のお父さんはここで働いていますか？"], answer:0, exp:"Does ～ work? = 三人称単数の疑問文（does を使う）" },
+    { audio:"My brother plays video games.", choices:["私の兄はテレビを見ます。","私の姉はゲームをします。","私の兄はゲームをします。","私の兄はゲームをしません。"], answer:2, exp:"三人称単数 plays（-s つき）。video games = テレビゲーム" },
+    { audio:"She doesn't speak French.", choices:["彼女はフランス語を話します。","彼女はスペイン語を話しません。","彼は英語を話しません。","彼女はフランス語を話しません。"], answer:3, exp:"doesn't speak = 三人称単数の否定。French = フランス語" },
+    { audio:"What does he do on Sundays?", choices:["彼は日曜日、何を食べますか？","彼は日曜日、何をしますか？","彼は日曜日、どこへ行きますか？","彼女は日曜日、何をしますか？"], answer:1, exp:"What does he do ～? = 三人称の疑問文。on Sundays = 日曜日に" },
+    { audio:"I sometimes go to the library.", choices:["私はよく図書館に行きます。","私は時々図書館に行きます。","私はいつも図書館に行きます。","私は図書館に行きません。"], answer:1, exp:"sometimes = 時々（頻度副詞）。library = 図書館" },
+    { audio:"He always studies hard.", choices:["彼はほとんど勉強しません。","彼は時々一生懸命勉強します。","彼はいつも一生懸命勉強します。","彼は勉強が得意です。"], answer:2, exp:"always = いつも。study hard = 一生懸命勉強する" },
+    { audio:"Does she have any brothers?", choices:["彼女に兄弟はいますか？","彼女に姉妹はいますか？","彼に兄弟はいますか？","彼女は兄弟が好きですか？"], answer:0, exp:"Does she have ～? = 彼女は～を持っていますか？。brothers = 兄弟" },
+    { audio:"My mother cooks dinner every evening.", choices:["私の母は毎朝朝食を作ります。","私の母は毎晩夕食を作ります。","私の父は毎晩夕食を作ります。","私の母は時々夕食を作ります。"], answer:1, exp:"cooks（三人称 -s つき）。every evening = 毎晩。dinner = 夕食" },
+  ],
+
+  // ── 範囲3：複数形・CAN・命令文 ──────────────────────
+
+  r3_beginner: [
+    { audio:"I can swim.", choices:["私は泳げません。","あなたは泳げます。","私は泳げます。","私は走れます。"], answer:2, exp:"I can ～ = 私は～できます。swim = 泳ぐ" },
+    { audio:"I have two cats.", choices:["私は猫を一匹飼っています。","私は猫を二匹飼っています。","あなたは猫を二匹飼っています。","私は犬を二匹飼っています。"], answer:1, exp:"two cats = 猫2匹（複数形）。two = 2" },
+    { audio:"She can speak Japanese.", choices:["彼女は日本語を話せません。","彼は日本語を話せます。","彼女は日本語を話せます。","彼女は英語を話せます。"], answer:2, exp:"can speak = 話せる。Japanese = 日本語" },
+    { audio:"There are three dogs.", choices:["犬が一匹います。","猫が三匹います。","犬が三匹います。","犬が四匹います。"], answer:2, exp:"There are ～ = ～がいる/ある（複数）。three dogs = 犬3匹" },
+    { audio:"I cannot run fast.", choices:["私は速く走れます。","私はゆっくり走れません。","私は速く走れません。","あなたは速く走れません。"], answer:2, exp:"cannot = can't = ～できない。run fast = 速く走る" },
+    { audio:"I have many books.", choices:["私は本を一冊持っています。","私は本をたくさん持っています。","私は少し本を持っています。","私は本を持っていません。"], answer:1, exp:"many = たくさんの。books（複数形）" },
+    { audio:"He can play the violin.", choices:["彼はバイオリンが好きです。","彼女はバイオリンを弾けます。","彼はピアノを弾けます。","彼はバイオリンを弾けます。"], answer:3, exp:"can play ～ = ～を演奏できる。violin = バイオリン" },
+    { audio:"There is a bird in the tree.", choices:["木に鳥が一羽います。","木に猫が一匹います。","鳥が木の上を飛んでいます。","木に鳥が二羽います。"], answer:0, exp:"There is ～（単数）= ～が一つある/いる。bird = 鳥" },
+    { audio:"I can't cook at all.", choices:["私は少し料理ができます。","私は全然料理ができません。","あなたは料理ができません。","私は料理が好きではありません。"], answer:1, exp:"can't = cannot。at all = まったく（否定強調）" },
+    { audio:"She has five brothers.", choices:["彼女には兄弟が三人います。","彼女には姉妹が五人います。","彼には兄弟が五人います。","彼女には兄弟が五人います。"], answer:3, exp:"five brothers = 兄弟5人（複数形）。five = 5" },
+  ],
+
+  r3_intermediate: [
+    { audio:"Open your book.", choices:["本を閉じなさい。","あなたの本を開きますか？","本を開きなさい。","本を持ってきなさい。"], answer:2, exp:"Open ～ = ～を開けなさい（命令文：動詞の原形で始まる）" },
+    { audio:"Can you help me?", choices:["私を助けましょうか？","あなたを助けましょうか？","私を助けてくれますか？","彼を助けてください。"], answer:2, exp:"Can you ～? = ～してくれますか？（依頼）。help = 助ける" },
+    { audio:"Don't run in the hall.", choices:["廊下を走りなさい。","廊下を走ってはいけません。","廊下では話してはいけません。","廊下に入ってはいけません。"], answer:1, exp:"Don't ～ = ～してはいけない（否定命令文）。run = 走る。hall = 廊下" },
+    { audio:"Can I use your pen?", choices:["私はペンを使います。","あなたのペンを使ってもいいですか？","あなたのペンを使いなさい。","私はペンを持っていますか？"], answer:1, exp:"Can I ～? = ～してもいいですか？（許可をお願いする）" },
+    { audio:"Please be quiet.", choices:["静かにしなさい。","もっと大きな声で話してください。","起きてください。","席に座ってください。"], answer:0, exp:"Please ～ = ～してください（丁寧な命令文）。be quiet = 静かにする" },
+    { audio:"Can you speak louder?", choices:["もっとゆっくり話してくれますか？","もっと大きな声で話してくれますか？","もっとはっきり話してくれますか？","もう一度話してくれますか？"], answer:1, exp:"louder = より大きな声で（比較級）。speak louder = 大きな声で話す" },
+    { audio:"Don't open the window.", choices:["窓を開けなさい。","窓を閉めなさい。","窓を開けてもいいですか？","窓を開けてはいけません。"], answer:3, exp:"Don't open = 開けてはいけない（否定命令）。window = 窓" },
+    { audio:"Stand up, please.", choices:["座ってください。","立ってください。","前に来てください。","止まってください。"], answer:1, exp:"Stand up = 立ちなさい。Please をつけると丁寧になる" },
+    { audio:"Can she join us?", choices:["彼女は私たちに加われますか？","彼は私たちに加われますか？","あなたは私たちに加われますか？","彼女は私たちのことが好きですか？"], answer:0, exp:"Can she ～? = 彼女は～できますか？。join = 加わる" },
+    { audio:"Don't be late.", choices:["早く来なさい。","遅刻してはいけません。","走らないでください。","静かにしなさい。"], answer:1, exp:"Don't be ～ = ～であってはいけない。late = 遅刻した" },
+  ],
+
+  r3_advanced: [
+    { audio:"I can't believe it.", choices:["私はそれを信じられません。","私はそれを信じます。","あなたはそれを信じられません。","私はそれが好きではありません。"], answer:0, exp:"can't believe = 信じられない。it = それ" },
+    { audio:"Please come to my house.", choices:["私の家に来てはいけません。","私の家に来てください。","あなたの家に来てください。","私の家に来ますか？"], answer:1, exp:"Please come to ～ = ～に来てください（丁寧な命令）" },
+    { audio:"There are many students in the classroom.", choices:["教室に生徒は一人もいません。","廊下に生徒がたくさんいます。","教室に生徒がたくさんいます。","教室に先生がたくさんいます。"], answer:2, exp:"There are many ～ = ～がたくさんある/いる。classroom = 教室" },
+    { audio:"He can run very fast.", choices:["彼はゆっくり走れます。","彼女はとても速く走れます。","彼はとても速く走れます。","彼は走れません。"], answer:2, exp:"can run very fast = とても速く走れる" },
+    { audio:"Don't forget your homework.", choices:["宿題を忘れないようにしなさい。","宿題を持ってきなさい。","宿題を提出しなさい。","宿題をやりなさい。"], answer:0, exp:"Don't forget ～ = ～を忘れないで。homework = 宿題" },
+    { audio:"Can you and I play tennis together?", choices:["あなたと私はテニスをします。","私はテニスができますか？","あなたと私は一緒にテニスができますか？","あなたはテニスが好きですか？"], answer:2, exp:"Can you and I ～? = 一緒に～できますか？。together = 一緒に" },
+    { audio:"There are no buses on Sundays.", choices:["日曜日にバスはたくさんあります。","日曜日にはバスがありません。","日曜日にはバスが少しあります。","月曜日にはバスがありません。"], answer:1, exp:"There are no ～ = ～が一つもない。on Sundays = 日曜日に" },
+    { audio:"Wash your hands before eating.", choices:["食べた後、手を洗いなさい。","食べる前に手を洗いなさい。","食べながら手を洗いなさい。","食べる前に顔を洗いなさい。"], answer:1, exp:"Wash your hands = 手を洗いなさい（命令文）。before eating = 食べる前に" },
+    { audio:"She can't come to the party.", choices:["彼女はパーティーに来ることができます。","彼はパーティーに来ることができません。","彼女はパーティーに来ることができません。","彼女はパーティーが好きではありません。"], answer:2, exp:"can't come = 来ることができない。party = パーティー" },
+    { audio:"Can I have some water, please?", choices:["水を飲みましょうか？","水を持ってきてください。","お水をいただけますか？","水はいりませんか？"], answer:2, exp:"Can I have ～? = ～をいただけますか？（丁寧な依頼）。some water = 水を少し" },
+  ],
 };
 
-let currentLevel = '';
-let currentQuestions = [];
-let currentIndex = 0;
+// タイトルマップ
+const SECTION_TITLES = {
+  r1_beginner:    "1回目範囲 ・ 初級｜基本のbe動詞文",
+  r1_intermediate:"1回目範囲 ・ 中級｜疑問文・否定文",
+  r1_advanced:    "1回目範囲 ・ 上級｜混合・発展問題",
+  r2_beginner:    "2回目範囲 ・ 初級｜一般動詞の基本文",
+  r2_intermediate:"2回目範囲 ・ 中級｜Doを使う疑問文",
+  r2_advanced:    "2回目範囲 ・ 上級｜混合・発展問題",
+  r3_beginner:    "3回目範囲 ・ 初級｜複数形・canの基本",
+  r3_intermediate:"3回目範囲 ・ 中級｜命令文・canの疑問文",
+  r3_advanced:    "3回目範囲 ・ 上級｜混合・発展問題",
+};
+
+// ═══════════════════════════════════════════════════════
+//  STATE & LOGIC
+// ═══════════════════════════════════════════════════════
+let currentKey = '';
+let questions = [];
+let qIndex = 0;
 let score = 0;
 let answered = false;
-let speechSynth = window.speechSynthesis;
-let currentUtterance = null;
+const synth = window.speechSynthesis;
 
 function goToMenu() {
-  document.getElementById('levelScreen').style.display = '';
+  if (synth) synth.cancel();
+  document.getElementById('menuScreen').style.display = '';
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('resultScreen').classList.remove('active');
-  if (speechSynth) speechSynth.cancel();
+  document.getElementById('backBtn').classList.remove('show');
 }
 
-function startQuiz(level) {
-  currentLevel = level;
-  currentQuestions = [...QUESTIONS[level]];
-  // Shuffle
-  for (let i = currentQuestions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [currentQuestions[i], currentQuestions[j]] = [currentQuestions[j], currentQuestions[i]];
-  }
-  currentIndex = 0;
-  score = 0;
+function goBack() { goToMenu(); }
 
-  document.getElementById('levelScreen').style.display = 'none';
+function startQuiz(key) {
+  currentKey = key;
+  questions = [...ALL_QUESTIONS[key]];
+  // shuffle
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+  qIndex = 0; score = 0;
+  document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('quizScreen').classList.add('active');
   document.getElementById('resultScreen').classList.remove('active');
-
-  loadQuestion();
+  document.getElementById('backBtn').classList.add('show');
+  loadQ();
 }
 
-function loadQuestion() {
+function loadQ() {
   answered = false;
-  if (speechSynth) speechSynth.cancel();
+  if (synth) synth.cancel();
+  const q = questions[qIndex];
+  const total = questions.length;
 
-  const q = currentQuestions[currentIndex];
-  const total = currentQuestions.length;
-
-  // Progress
-  document.getElementById('progressBar').style.width = (currentIndex / total * 100) + '%';
-  document.getElementById('progressText').textContent = `${currentIndex + 1}/${total}`;
+  document.getElementById('qTitle').textContent = SECTION_TITLES[currentKey];
   document.getElementById('scoreBadge').textContent = `${score}点`;
+  document.getElementById('progressFill').style.width = (qIndex / total * 100) + '%';
+  document.getElementById('progressNum').textContent = `${qIndex + 1}/${total}`;
+  document.getElementById('qText').textContent = "音声を再生してから選択肢を選んでください";
 
-  // Question
-  document.getElementById('questionType').textContent = q.type;
-  document.getElementById('questionText').textContent = q.question;
+  // reset play btn
+  const pb = document.getElementById('playBtn');
+  pb.classList.remove('playing');
+  document.getElementById('playBtnLabel').textContent = '音声を聞く';
+  document.getElementById('replayBtn').classList.remove('show');
 
-  // Play button reset
-  const playBtn = document.getElementById('playBtn');
-  playBtn.classList.remove('playing');
-  document.getElementById('playBtnText').textContent = '音声を聞く';
-  playBtn.style.display = 'inline-flex';
-  document.getElementById('replayBtn').style.display = 'none';
-
-  // Choices
-  const choicesEl = document.getElementById('choices');
-  choicesEl.innerHTML = '';
-  const labels = ['A', 'B', 'C', 'D'];
-  q.choices.forEach((c, i) => {
+  // choices
+  const cEl = document.getElementById('choices');
+  cEl.innerHTML = '';
+  ['A','B','C','D'].forEach((lbl, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.innerHTML = `<span class="choice-label">${labels[i]}</span><span>${c}</span>`;
-    btn.onclick = () => selectAnswer(i);
-    btn.disabled = true; // 音声聞くまで選べない
-    choicesEl.appendChild(btn);
+    btn.innerHTML = `<span class="choice-label">${lbl}</span><span>${q.choices[i]}</span>`;
+    btn.disabled = true;
+    btn.onclick = () => pick(i);
+    cEl.appendChild(btn);
   });
 
-  // Feedback + Next
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback';
+  document.getElementById('feedback').className = 'feedback';
   document.getElementById('nextBtn').className = 'next-btn';
 }
 
 function playAudio() {
-  if (!speechSynth) {
-    alert('このブラウザは音声再生に対応していません。');
-    enableChoices();
-    return;
-  }
-  speechSynth.cancel();
+  if (!synth) { alert('このブラウザは音声再生に対応していません。'); enableChoices(); return; }
+  synth.cancel();
+  const q = questions[qIndex];
+  const pb = document.getElementById('playBtn');
+  pb.classList.add('playing');
+  document.getElementById('playBtnLabel').textContent = '再生中...';
 
-  const q = currentQuestions[currentIndex];
-  const playBtn = document.getElementById('playBtn');
-  playBtn.classList.add('playing');
-  document.getElementById('playBtnText').textContent = '再生中...';
-
-  const utter = new SpeechSynthesisUtterance(q.audio);
-  utter.lang = 'en-US';
-  utter.rate = 0.85;
-  utter.pitch = 1;
-
-  // 英語ネイティブっぽい声を選択
-  const voices = speechSynth.getVoices();
-  const engVoice = voices.find(v => v.lang === 'en-US' && v.name.includes('Google'))
-    || voices.find(v => v.lang === 'en-US')
-    || voices.find(v => v.lang.startsWith('en'));
-  if (engVoice) utter.voice = engVoice;
-
-  utter.onend = () => {
-    playBtn.classList.remove('playing');
-    document.getElementById('playBtnText').textContent = '音声を聞く';
-    document.getElementById('replayBtn').style.display = 'inline-flex';
+  const u = new SpeechSynthesisUtterance(q.audio);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1;
+  const voices = synth.getVoices();
+  const v = voices.find(x => x.lang === 'en-US' && /google/i.test(x.name))
+          || voices.find(x => x.lang === 'en-US')
+          || voices.find(x => x.lang.startsWith('en'));
+  if (v) u.voice = v;
+  u.onend = u.onerror = () => {
+    pb.classList.remove('playing');
+    document.getElementById('playBtnLabel').textContent = '音声を聞く';
+    document.getElementById('replayBtn').classList.add('show');
     enableChoices();
   };
-  utter.onerror = () => {
-    playBtn.classList.remove('playing');
-    document.getElementById('playBtnText').textContent = '音声を聞く';
-    enableChoices();
-  };
-
-  currentUtterance = utter;
-  speechSynth.speak(utter);
+  synth.speak(u);
 }
 
 function enableChoices() {
-  const btns = document.querySelectorAll('.choice-btn');
-  btns.forEach(b => b.disabled = false);
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
 }
 
-function selectAnswer(idx) {
+function pick(idx) {
   if (answered) return;
   answered = true;
-
-  const q = currentQuestions[currentIndex];
+  const q = questions[qIndex];
   const btns = document.querySelectorAll('.choice-btn');
   btns.forEach(b => b.disabled = true);
 
+  const ok = idx === q.answer;
+  if (ok) score++;
+
+  btns[idx].classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) btns[q.answer].classList.add('correct');
+
   const fb = document.getElementById('feedback');
-  const correct = idx === q.answer;
-
-  if (correct) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className = 'feedback correct-fb show';
-    document.getElementById('feedbackTitle').textContent = '✅ 正解！';
-    document.getElementById('feedbackEnglish').textContent = `"${q.audio}"`;
-    document.getElementById('feedbackDetail').textContent = q.explanation;
-  } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className = 'feedback wrong-fb show';
-    document.getElementById('feedbackTitle').textContent = '❌ 不正解';
-    document.getElementById('feedbackEnglish').textContent = `正解：${q.choices[q.answer]}`;
-    document.getElementById('feedbackDetail').textContent = `"${q.audio}" → ${q.explanation}`;
-  }
-
+  fb.className = `feedback ${ok ? 'correct-fb' : 'wrong-fb'} show`;
+  document.getElementById('fbTitle').textContent = ok ? '✅ 正解！' : '❌ 不正解';
+  document.getElementById('fbEng').textContent = ok ? `"${q.audio}"` : `正解：${q.choices[q.answer]}`;
+  document.getElementById('fbNote').textContent = ok ? q.exp : `"${q.audio}" → ${q.exp}`;
   document.getElementById('scoreBadge').textContent = `${score}点`;
-  document.getElementById('nextBtn').className = 'next-btn show';
-  document.getElementById('nextBtn').textContent =
-    currentIndex + 1 < currentQuestions.length ? '次の問題 →' : '結果を見る';
+
+  const nb = document.getElementById('nextBtn');
+  nb.className = 'next-btn show';
+  nb.textContent = qIndex + 1 < questions.length ? '次の問題 →' : '結果を見る';
 }
 
 function nextQuestion() {
-  if (speechSynth) speechSynth.cancel();
-  currentIndex++;
-  if (currentIndex < currentQuestions.length) {
-    loadQuestion();
-  } else {
-    showResult();
-  }
+  if (synth) synth.cancel();
+  qIndex++;
+  if (qIndex < questions.length) { loadQ(); }
+  else { showResult(); }
 }
 
 function showResult() {
   document.getElementById('quizScreen').classList.remove('active');
   document.getElementById('resultScreen').classList.add('active');
-
-  const total = currentQuestions.length;
+  const total = questions.length;
   const pct = Math.round(score / total * 100);
   let icon, title, msg;
   if (pct === 100) { icon = '🏆'; title = '満点！すごい！'; msg = '全問正解！リスニング完璧だね！'; }
-  else if (pct >= 75) { icon = '🎉'; title = 'よくできました！'; msg = 'もう少しで満点！苦手な問題を復習しよう。'; }
-  else if (pct >= 50) { icon = '📖'; title = 'もう少し！'; msg = '半分以上正解！繰り返して耳を慣らしていこう。'; }
-  else { icon = '💪'; title = 'がんばろう！'; msg = '音声を何度も聞いて、耳と英語を結びつけよう。'; }
-
-  document.getElementById('resultIcon').textContent = icon;
-  document.getElementById('resultTitle').textContent = title;
-  document.getElementById('resultScoreNum').textContent = score;
-  document.getElementById('resultScoreLabel').textContent = `/ ${total}問 正解（${pct}%）`;
-  document.getElementById('resultMessage').textContent = msg;
+  else if (pct >= 80) { icon = '🎉'; title = 'よくできました！'; msg = '惜しい！苦手な問題だけ復習しよう。'; }
+  else if (pct >= 60) { icon = '📖'; title = 'もう少し！'; msg = '音声を何度も聞いて耳を慣らしていこう。'; }
+  else { icon = '💪'; title = 'がんばろう！'; msg = '音声と日本語訳をセットで覚えていこう。'; }
+  document.getElementById('resIcon').textContent = icon;
+  document.getElementById('resTitle').textContent = title;
+  document.getElementById('resNum').textContent = score;
+  document.getElementById('resLabel').textContent = `/ ${total}問 正解（${pct}%）`;
+  document.getElementById('resMsg').textContent = msg;
 }
 
-function retryQuiz() { startQuiz(currentLevel); }
+function retryQuiz() { startQuiz(currentKey); }
 
-// voices読み込み待ち
-if (speechSynth) {
-  speechSynth.onvoiceschanged = () => speechSynth.getVoices();
-  speechSynth.getVoices();
-}
+if (synth) { synth.onvoiceschanged = () => synth.getVoices(); synth.getVoices(); }
 </script>
 </body>
 </html>
