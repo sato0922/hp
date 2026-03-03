@@ -217,5 +217,24 @@
   </div>
 
 </div>
+<script>
+// preview-btn のタッチ処理を明示的に追加
+document.querySelectorAll('.preview-btn, a[href^="g1_"]').forEach(function(el) {
+  var sx, sy;
+  el.addEventListener('touchstart', function(e) {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+  }, {passive: true});
+  el.addEventListener('touchend', function(e) {
+    var dx = Math.abs(e.changedTouches[0].clientX - sx);
+    var dy = Math.abs(e.changedTouches[0].clientY - sy);
+    if (dx < 15 && dy < 15) {
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = el.getAttribute('href');
+    }
+  }, {passive: false});
+});
+</script>
 </body>
 </html>
