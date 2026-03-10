@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>解き方集②</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;background:#111;color:#e0e0e0;font-size:15px;line-height:1.7;padding:12px}
+h1{text-align:center;font-size:20px;padding:20px 0 6px;color:#fff}
+.subtitle{text-align:center;font-size:12px;color:#777;margin-bottom:20px}
+.nav{display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.nav a{background:#1e2a3a;color:#7ab;padding:6px 12px;border-radius:20px;text-decoration:none;font-size:12px;border:1px solid #2a3a4a}
+.section{margin-bottom:28px;border-radius:12px;overflow:hidden;border:1px solid #2a2a2a}
+.section-head{padding:12px 16px;font-weight:bold;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.section-head.red{background:#1a0808;border-bottom:1px solid #3a1010}
+.section-head.teal{background:#081a1a;border-bottom:1px solid #0f3a3a}
+.section-head.yellow{background:#1a1600;border-bottom:1px solid #3a3000}
+.section-head.pink{background:#1a0a10;border-bottom:1px solid #3a1020}
+.tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:normal}
+.tag.red{background:#3a1010;color:#f77}
+.tag.teal{background:#0a2a2a;color:#5fa}
+.tag.yellow{background:#2a2000;color:#fa5}
+.tag.pink{background:#2a0a15;color:#f7a}
+.body{padding:16px}
+.problem{background:#0a0a0a;border-left:3px solid #555;padding:10px 12px;border-radius:0 8px 8px 0;font-size:13px;color:#bbb;margin-bottom:14px}
+.step{display:flex;gap:10px;margin-bottom:12px}
+.snum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;flex-shrink:0;margin-top:2px}
+.snum.red{background:#2a0808;color:#f77;border:1px solid #4a1010}
+.snum.teal{background:#082a2a;color:#5fa;border:1px solid #0f4a4a}
+.snum.yellow{background:#1a1400;color:#fa5;border:1px solid #3a2800}
+.snum.pink{background:#1a0810;color:#f7a;border:1px solid #3a1020}
+.scon{flex:1}
+.slabel{font-size:11px;color:#777;margin-bottom:3px}
+.sbody{font-size:14px}
+.eq{display:block;font-family:monospace;font-size:13px;background:#0a0a0a;padding:6px 10px;border-radius:6px;margin:5px 0;color:#dde;white-space:pre-wrap}
+.hl{color:#5fa;font-weight:bold}
+.hl2{color:#fa5;font-weight:bold}
+.hlr{color:#f77;font-weight:bold}
+.hlp{color:#f7a;font-weight:bold}
+.ans{background:#0a0a0a;border:1px solid #2a4a2a;border-radius:10px;padding:12px 16px;margin-top:14px;text-align:center}
+.ans-label{font-size:11px;color:#5a5;letter-spacing:2px;margin-bottom:4px}
+.ans-val{font-size:20px;font-weight:bold;color:#5fa}
+.ans-val.small{font-size:14px;line-height:1.8}
+.check{margin-top:10px;padding:8px 12px;background:#0f1a0f;border-radius:8px;font-size:12px;color:#777}
+.alt-section{background:#161616;border:1px dashed #333;border-radius:10px;padding:14px;margin-top:12px}
+.alt-title{font-size:12px;color:#aaa;font-weight:bold;margin-bottom:10px}
+.alt-problem{font-size:13px;color:#bbb;margin-bottom:10px;background:#0a0a0a;padding:8px 12px;border-radius:6px;border-left:3px solid #444}
+.toggle-btn{background:#1a2a1a;color:#5a7;border:1px solid #2a4a2a;padding:7px 16px;border-radius:20px;font-size:12px;cursor:pointer;margin-bottom:8px;display:inline-block}
+.toggle-content{display:none}
+.toggle-content.open{display:block}
+.subhead{font-size:13px;font-weight:bold;color:#aaa;margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid #2a2a2a}
+.fig-wrap{background:#0d0d0d;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:14px;overflow-x:auto}
+.fig-title{font-size:11px;color:#555;margin-bottom:6px;text-align:center}
+.figs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:flex-start}
+.fig-label{font-size:11px;color:#666;margin-top:4px;text-align:center}
+.table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+.table th,.table td{border:1px solid #333;padding:5px 8px;text-align:center}
+.table th{background:#1a1a1a;color:#aaa}
+.table .hl-cell{color:#5fa;font-weight:bold}
+.page-link{display:block;text-align:center;margin:20px 0;padding:12px;background:#1a1a2a;border:1px solid #2a2a4a;border-radius:10px;color:#7ab;text-decoration:none;font-size:13px}
+</style>
+<script>
+function toggle(id){
+  var el=document.getElementById(id);
+  var btn=document.getElementById('btn-'+id);
+  if(el.classList.contains('open')){el.classList.remove('open');btn.textContent='答えを見る'}
+  else{el.classList.add('open');btn.textContent='答えを隠す'}
+}
+</script>
+</head>
+<body>
+<h1>📐 数学 解き方集 ②</h1>
+<div class="subtitle">図形・データ（円・立体・ヒストグラム）</div>
+<div class="nav">
+  <a href="#q7c">問7 円</a>
+  <a href="#q7s">問7 立体</a>
+  <a href="#q8">問8 ヒストグラム</a>
+  <a href="#q9f">問9 折り紙</a>
+  <a href="#q9p">問9 三角柱</a>
+  <a href="#q7o">八角形・円すい</a>
+  <a href="math_p1.html">← ①へ</a>
+</div>
+
+<!-- ===================== 問7 円の接線 ===================== -->
+<div class="section" id="q7c">
+  <div class="section-head teal"><span class="tag teal">問7-(1)(2)</span>円の接線・おうぎ形</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">図：円O・接線ℓ・直径AB・点C（左）　おうぎ形OAB・中心角80°・半径6cm（右）</div>
+      <div class="figs">
+        <!-- 円の接線 -->
+        <div>
+          <svg width="200" height="190" viewBox="0 0 200 190">
+            <line x1="5" y1="148" x2="195" y2="148" stroke="#444" stroke-width="1.5"/>
+            <text x="186" y="143" fill="#777" font-size="11">ℓ</text>
+            <circle cx="105" cy="90" r="58" stroke="#4a8" stroke-width="1.5" fill="none"/>
+            <circle cx="105" cy="90" r="3" fill="#4a8"/>
+            <text x="109" y="94" fill="#4a8" font-size="11">O</text>
+            <!-- 直径AB（縦：B=上、A=接点=下） -->
+            <line x1="105" y1="32" x2="105" y2="148" stroke="#7bf" stroke-width="1.5"/>
+            <circle cx="105" cy="32" r="3" fill="#7bf"/>
+            <text x="108" y="30" fill="#7bf" font-size="12">B</text>
+            <circle cx="105" cy="148" r="3" fill="#7bf"/>
+            <text x="108" y="162" fill="#7bf" font-size="11">A（接点）</text>
+            <!-- 直角マーク AB⊥ℓ -->
+            <rect x="105" y="139" width="8" height="8" fill="none" stroke="#fa5" stroke-width="1.2"/>
+            <!-- 点C -->
+            <circle cx="28" cy="148" r="3" fill="#f7a"/>
+            <text x="18" y="143" fill="#f7a" font-size="12">C</text>
+            <!-- 辺BC -->
+            <line x1="105" y1="32" x2="28" y2="148" stroke="#f7a" stroke-width="1.5"/>
+            <!-- 角度 -->
+            <text x="82" y="58" fill="#fa5" font-size="11">54°</text>
+            <text x="34" y="138" fill="#5fa" font-size="11">∠x</text>
+          </svg>
+          <div class="fig-label">問7-(1)</div>
+        </div>
+        <!-- おうぎ形 -->
+        <div>
+          <svg width="170" height="160" viewBox="0 0 170 160">
+            <!-- おうぎ形（中心角80°、中心O(85,120)） -->
+            <!-- 辺1: 上へ（270°方向） 辺2: 80°回転 -->
+            <!-- OA: 270°方向 → (85,120)+(0,-70)=(85,50) -->
+            <!-- OB: 270°-80°=190° → (85+70cos190°, 120+70sin190°)=(85-69,120-12)=(16,108) -->
+            <path d="M 85,120 L 85,50 A 70,70 0 0,0 16,108 Z"
+                  fill="#0a2020" stroke="#5fa" stroke-width="1.5"/>
+            <circle cx="85" cy="120" r="3" fill="#5fa"/>
+            <text x="88" y="120" fill="#5fa" font-size="11">O</text>
+            <circle cx="85" cy="50" r="3" fill="#7bf"/>
+            <text x="88" y="48" fill="#7bf" font-size="12">A</text>
+            <circle cx="16" cy="108" r="3" fill="#7bf"/>
+            <text x="2" y="108" fill="#7bf" font-size="12">B</text>
+            <!-- 中心角ラベル -->
+            <path d="M 85,107 A 13,13 0 0,0 73,115" fill="none" stroke="#fa5" stroke-width="1"/>
+            <text x="56" y="108" fill="#fa5" font-size="11">80°</text>
+            <!-- 半径ラベル -->
+            <text x="87" y="87" fill="#777" font-size="10">6cm</text>
+          </svg>
+          <div class="fig-label">問7-(2)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem">(1) ℓは接線・Aは接点・ABは直径・C はℓ上。∠ABC=54°→∠x を求めよ。<br>
+    (2) 中心角80°・半径6cmのおうぎ形の面積を求めよ。</div>
+
+    <div class="step"><div class="snum teal">1</div><div class="scon">
+      <div class="slabel">接線⊥半径 → ∠BAC=90°</div>
+      <div class="sbody"><span class="eq">∠BAC + ∠ABC + ∠x = 180°
+90° + 54° + ∠x = 180°
+∠x = <span class="hl">36°</span></span></div>
+    </div></div>
+
+    <div class="step"><div class="snum teal">2</div><div class="scon">
+      <div class="slabel">おうぎ形の面積 = πr² × (中心角/360°)</div>
+      <div class="sbody"><span class="eq">= π×36×(80/360) = <span class="hl">8π cm²</span></span></div>
+    </div></div>
+
+    <div class="ans" style="background:#081a1a;border-color:#0f4a4a">
+      <div class="ans-label" style="color:#5a9">答え</div>
+      <div class="ans-val small" style="color:#5fa">(1) ∠x = 36°　　(2) 8π cm²</div>
+    </div>
+    <div class="check">💡 接線⊥半径は円の基本。接点で直径が終わるなら直径⊥接線が使える</div>
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン</div>
+      <div class="alt-problem">(1) ∠ABC=50°のとき∠xを求めよ。(2) 中心角100°・半径9cmのおうぎ形の面積を求めよ。</div>
+      <button class="toggle-btn" id="btn-b1" onclick="toggle('b1')">答えを見る</button>
+      <div class="toggle-content" id="b1">
+        <span class="eq">(1) ∠x = 180°−90°−50° = <span class="hl">40°</span>
+(2) π×81×(100/360) = <span class="hl">22.5π cm²</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 問7 正四角すい ===================== -->
+<div class="section" id="q7s">
+  <div class="section-head yellow"><span class="tag yellow">問7-(3)</span>正四角すい</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">図：正四角すい（底面ABCD・頂点E・垂線EF）</div>
+      <div class="figs">
+        <svg width="200" height="210" viewBox="0 0 200 210">
+          <!-- 底面 ABCD（斜め投影） A=左下 B=右下 C=右奥 D=左奥 -->
+          <line x1="20" y1="175" x2="140" y2="175" stroke="#fa5" stroke-width="1.5"/>
+          <line x1="140" y1="175" x2="165" y2="148" stroke="#fa5" stroke-width="1.5"/>
+          <line x1="165" y1="148" x2="45" y2="148" stroke="#fa5" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="45" y1="148" x2="20" y2="175" stroke="#fa5" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- 頂点E(90,30)から各頂点へ -->
+          <line x1="90" y1="30" x2="20" y2="175" stroke="#fa5" stroke-width="1.5"/>
+          <line x1="90" y1="30" x2="140" y2="175" stroke="#fa5" stroke-width="1.5"/>
+          <line x1="90" y1="30" x2="165" y2="148" stroke="#fa5" stroke-width="1.5"/>
+          <line x1="90" y1="30" x2="45" y2="148" stroke="#fa5" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- 垂線EF（ABの中点 F=(80,175)） -->
+          <line x1="90" y1="30" x2="80" y2="175" stroke="#f7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <rect x="80" y="167" width="7" height="7" fill="none" stroke="#f7a" stroke-width="1"/>
+          <circle cx="80" cy="175" r="3" fill="#f7a"/>
+          <text x="75" y="193" fill="#f7a" font-size="11">F</text>
+          <!-- ラベル -->
+          <circle cx="90" cy="30" r="3" fill="#fff"/>
+          <text x="93" y="28" fill="#fff" font-size="12">E</text>
+          <circle cx="20" cy="175" r="3" fill="#fa5"/>
+          <text x="6" y="186" fill="#fa5" font-size="12">A</text>
+          <circle cx="140" cy="175" r="3" fill="#fa5"/>
+          <text x="143" y="186" fill="#fa5" font-size="12">B</text>
+          <circle cx="165" cy="148" r="3" fill="#fa5"/>
+          <text x="167" y="147" fill="#fa5" font-size="12">C</text>
+          <circle cx="45" cy="148" r="3" fill="#fa5"/>
+          <text x="30" y="147" fill="#fa5" font-size="12">D</text>
+          <!-- サイズ -->
+          <text x="72" y="190" fill="#777" font-size="10">6cm</text>
+          <text x="92" y="112" fill="#f7a" font-size="10">5cm</text>
+        </svg>
+      </div>
+    </div>
+    <div class="problem">底面：1辺6cmの正方形ABCD・頂点E・EからABへの垂線EF=5cm</div>
+    <div class="step"><div class="snum yellow">1</div><div class="scon">
+      <div class="slabel">(i) ABとねじれの辺を探す</div>
+      <div class="sbody"><span class="eq">交わる：BC, DA, EA, EB
+平行　：CD（対辺）
+ねじれ：EC, ED → <span class="hl2">2本</span></span></div>
+    </div></div>
+    <div class="step"><div class="snum yellow">2</div><div class="scon">
+      <div class="slabel">(ii) 表面積 = 底面 + 側面×4</div>
+      <div class="sbody"><span class="eq">底面：6×6 = 36 cm²
+側面1枚：(1/2)×6×5 = 15 cm²
+合計：36 + 15×4 = <span class="hl2">96 cm²</span></span></div>
+    </div></div>
+    <div class="ans" style="background:#1a1400;border-color:#4a3800">
+      <div class="ans-label" style="color:#a95">答え</div>
+      <div class="ans-val small" style="color:#fa5">(i) 2本　　(ii) 96 cm²</div>
+    </div>
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン</div>
+      <div class="alt-problem">底面：1辺8cm・斜高10cm<br>(i) ABとねじれの辺の本数　(ii) 表面積</div>
+      <button class="toggle-btn" id="btn-b2" onclick="toggle('b2')">答えを見る</button>
+      <div class="toggle-content" id="b2">
+        <span class="eq">(i) <span class="hl2">2本</span>（正四角すいは常に2本）
+(ii) 64 + (1/2)×8×10×4 = <span class="hl2">224 cm²</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 問8 ヒストグラム ===================== -->
+<div class="section" id="q8">
+  <div class="section-head red"><span class="tag red">問8</span>累積度数とヒストグラム</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">正しいヒストグラム（度数：2,1,5,7,9,5,4）</div>
+      <div class="figs">
+        <svg width="230" height="160" viewBox="0 0 230 160">
+          <line x1="28" y1="130" x2="218" y2="130" stroke="#555" stroke-width="1.5"/>
+          <line x1="28" y1="5" x2="28" y2="130" stroke="#555" stroke-width="1.5"/>
+          <!-- 度数: 2,1,5,7,9,5,4 → スケール 1人=11px -->
+          <rect x="28"  y="108" width="27" height="22" fill="#2a5040" stroke="#5fa" stroke-width="1"/>
+          <rect x="55"  y="119" width="27" height="11" fill="#2a5040" stroke="#5fa" stroke-width="1"/>
+          <rect x="82"  y="75"  width="27" height="55" fill="#3a7050" stroke="#5fa" stroke-width="1"/>
+          <rect x="109" y="53"  width="27" height="77" fill="#4a9060" stroke="#5fa" stroke-width="1"/>
+          <rect x="136" y="31"  width="27" height="99" fill="#5ab070" stroke="#5fa" stroke-width="1"/>
+          <rect x="163" y="75"  width="27" height="55" fill="#3a7050" stroke="#5fa" stroke-width="1"/>
+          <rect x="190" y="86"  width="27" height="44" fill="#2a5040" stroke="#5fa" stroke-width="1"/>
+          <!-- x軸 -->
+          <text x="26"  y="143" fill="#666" font-size="9">6</text>
+          <text x="53"  y="143" fill="#666" font-size="9">9</text>
+          <text x="78"  y="143" fill="#666" font-size="9">12</text>
+          <text x="105" y="143" fill="#666" font-size="9">15</text>
+          <text x="132" y="143" fill="#666" font-size="9">18</text>
+          <text x="159" y="143" fill="#666" font-size="9">21</text>
+          <text x="186" y="143" fill="#666" font-size="9">24</text>
+          <text x="213" y="143" fill="#666" font-size="9">27(m)</text>
+          <!-- y軸 -->
+          <text x="10" y="133" fill="#666" font-size="9">0</text>
+          <text x="10" y="122" fill="#666" font-size="9">1</text>
+          <text x="10" y="111" fill="#666" font-size="9">2</text>
+          <text x="10" y="100" fill="#666" font-size="9">3</text>
+          <text x="10" y="89"  fill="#666" font-size="9">4</text>
+          <text x="10" y="78"  fill="#666" font-size="9">5</text>
+          <text x="10" y="67"  fill="#666" font-size="9">6</text>
+          <text x="10" y="56"  fill="#666" font-size="9">7</text>
+          <text x="10" y="45"  fill="#666" font-size="9">8</text>
+          <text x="10" y="34"  fill="#666" font-size="9">9(人)</text>
+        </svg>
+      </div>
+    </div>
+    <div class="problem">累積度数の表をもとに、各階級の度数を求め正しいヒストグラムを選べ。</div>
+    <div class="step"><div class="snum red">1</div><div class="scon">
+      <div class="slabel">ポイント：隣り合う累積度数の差 = その階級の度数</div>
+      <div class="sbody">
+        <table class="table">
+          <tr><th>階級(m)</th><th>累積度数</th><th style="color:#5fa">各度数（差）</th></tr>
+          <tr><td>6〜9</td><td>2</td><td class="hl-cell">2</td></tr>
+          <tr><td>9〜12</td><td>3</td><td class="hl-cell">3−2=1</td></tr>
+          <tr><td>12〜15</td><td>8</td><td class="hl-cell">8−3=5</td></tr>
+          <tr><td>15〜18</td><td>15</td><td class="hl-cell">15−8=7</td></tr>
+          <tr><td>18〜21</td><td>24</td><td class="hl-cell">24−15=9 ★ピーク</td></tr>
+          <tr><td>21〜24</td><td>29</td><td class="hl-cell">29−24=5</td></tr>
+          <tr><td>24〜27</td><td>33</td><td class="hl-cell">33−29=4</td></tr>
+        </table>
+      </div>
+    </div></div>
+    <div class="ans" style="background:#1a0808;border-color:#4a1010">
+      <div class="ans-label" style="color:#955">答え</div>
+      <div class="ans-val" style="color:#f77">グラフ 2</div>
+    </div>
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン</div>
+      <div class="alt-problem">累積度数：10〜20→3, 20〜30→8, 30〜40→15, 40〜50→20<br>各階級の度数を求めよ。</div>
+      <button class="toggle-btn" id="btn-b8" onclick="toggle('b8')">答えを見る</button>
+      <div class="toggle-content" id="b8">
+        <span class="eq">10〜20：3  /  20〜30：<span class="hlr">5</span>  /  30〜40：<span class="hlr">7</span>★  /  40〜50：<span class="hlr">5</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 問9 折り紙 ===================== -->
+<div class="section" id="q9f">
+  <div class="section-head pink"><span class="tag pink">問9</span>正三角形の折り紙・角度</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">図1：元の三角形　→　図2：1回目折り（A→D）　→　図3：2回目折り（C→C'）</div>
+      <div class="figs">
+        <!-- 図1 -->
+        <div>
+          <svg width="110" height="108" viewBox="0 0 110 108">
+            <polygon points="55,5 5,100 105,100" fill="#1a1218" stroke="#f7a" stroke-width="1.5"/>
+            <circle cx="55" cy="5" r="3" fill="#f7a"/>
+            <text x="49" y="3" fill="#f7a" font-size="12">A</text>
+            <circle cx="5" cy="100" r="3" fill="#f7a"/>
+            <text x="0" y="107" fill="#f7a" font-size="11">B</text>
+            <circle cx="105" cy="100" r="3" fill="#f7a"/>
+            <text x="107" y="107" fill="#f7a" font-size="11">C</text>
+            <circle cx="50" cy="100" r="3" fill="#fa5"/>
+            <text x="46" y="107" fill="#fa5" font-size="11">D</text>
+          </svg>
+          <div class="fig-label">図1</div>
+        </div>
+        <!-- 図2 -->
+        <div>
+          <svg width="120" height="108" viewBox="0 0 120 108">
+            <!-- 台形BEFD -->
+            <polygon points="5,100 50,100 88,58 28,58" fill="#181518" stroke="#f7a" stroke-width="1.5"/>
+            <!-- 折り返した△EDF -->
+            <polygon points="28,58 88,58 50,100" fill="#0f1f18" stroke="#5fa" stroke-width="1.5"/>
+            <!-- 折り目EF（青） -->
+            <line x1="28" y1="58" x2="88" y2="58" stroke="#5fa" stroke-width="2"/>
+            <!-- ラベル -->
+            <circle cx="28" cy="58" r="3" fill="#5fa"/>
+            <text x="14" y="56" fill="#5fa" font-size="12">E</text>
+            <circle cx="88" cy="58" r="3" fill="#5fa"/>
+            <text x="90" y="56" fill="#5fa" font-size="12">F</text>
+            <circle cx="50" cy="100" r="3" fill="#fa5"/>
+            <text x="44" y="107" fill="#fa5" font-size="10">D(=A)</text>
+            <circle cx="5" cy="100" r="3" fill="#f7a"/>
+            <text x="0" y="96" fill="#f7a" font-size="11">B</text>
+            <circle cx="108" cy="100" r="3" fill="#f7a"/>
+            <text x="110" y="96" fill="#f7a" font-size="11">C</text>
+          </svg>
+          <div class="fig-label">図2（折り目EF）</div>
+        </div>
+        <!-- 図3 -->
+        <div>
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <!-- 台形部分 -->
+            <polygon points="5,100 50,100 88,58 28,58" fill="#181518" stroke="#f7a" stroke-width="1.5"/>
+            <!-- DFで折ったC'（上へ） -->
+            <polygon points="28,58 88,58 72,18" fill="#0f1820" stroke="#7bf" stroke-width="1.5"/>
+            <!-- 折り目DF（オレンジ） -->
+            <line x1="50" y1="100" x2="88" y2="58" stroke="#fa5" stroke-width="2"/>
+            <!-- 元のEDF点線 -->
+            <polygon points="28,58 88,58 50,100" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3,2"/>
+            <!-- ラベル -->
+            <circle cx="28" cy="58" r="3" fill="#5fa"/>
+            <text x="14" y="56" fill="#5fa" font-size="12">E</text>
+            <circle cx="88" cy="58" r="3" fill="#5fa"/>
+            <text x="90" y="56" fill="#5fa" font-size="12">F</text>
+            <circle cx="50" cy="100" r="3" fill="#fa5"/>
+            <text x="38" y="110" fill="#fa5" font-size="11">D</text>
+            <circle cx="72" cy="18" r="3" fill="#7bf"/>
+            <text x="74" y="16" fill="#7bf" font-size="12">C'</text>
+            <circle cx="5" cy="100" r="3" fill="#f7a"/>
+            <text x="0" y="96" fill="#f7a" font-size="11">B</text>
+            <!-- ∠C'FEの弧 -->
+            <path d="M 80,53 A 10,10 0 0,0 84,68" fill="none" stroke="#5fa" stroke-width="1"/>
+            <text x="72" y="50" fill="#5fa" font-size="9">∠C'FE</text>
+          </svg>
+          <div class="fig-label">図3（C→C'）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem">正三角形ABCでA→D（BC上）に折る（折り目EF）。さらにDFを折り目にしてC→C'に折る。</div>
+
+    <div class="step"><div class="snum pink">1</div><div class="scon">
+      <div class="slabel">(1) 点Eの位置：折り目の性質</div>
+      <div class="sbody"><span class="eq">「AをDに重ねる折り目」＝ADの垂直二等分線
+→ EA=ED
+答え：<span class="hlp">② 線分ADの垂直二等分線上にある</span></span></div>
+    </div></div>
+
+    <div class="step"><div class="snum pink">2</div><div class="scon">
+      <div class="slabel">(2) ∠BED=42°→ ∠BDE を求める</div>
+      <div class="sbody"><span class="eq">∠EBD=60°（正三角形）
+∠BDE = 180°−60°−42° = 78°</span></div>
+    </div></div>
+
+    <div class="step"><div class="snum pink">3</div><div class="scon">
+      <div class="slabel">折り対称より∠AEF=∠DEF</div>
+      <div class="sbody"><span class="eq">∠DEA = 180°−42° = 138°
+∠AEF = ∠DEF = 69°
+△AEFで：∠AFE = 180°−60°−69° = 51°
+折り対称 → ∠DFE = 51°</span></div>
+    </div></div>
+
+    <div class="step"><div class="snum pink">4</div><div class="scon">
+      <div class="slabel">2回目折り：∠C'FE を求める</div>
+      <div class="sbody"><span class="eq">∠DFC = 180°−(51°+51°) = 78°
+折り対称 → ∠DFC' = 78°
+∠C'FE = ∠DFC' − ∠DFE = 78°−51° = <span class="hlp">27°</span></span></div>
+    </div></div>
+
+    <div class="ans" style="background:#1a080f;border-color:#4a1025">
+      <div class="ans-label" style="color:#955">答え</div>
+      <div class="ans-val small" style="color:#f7a">(1) ②　　(2) ∠C'FE = 27°</div>
+    </div>
+
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン</div>
+      <div class="alt-problem">同じ設定で∠BED=36°のとき∠C'FEを求めよ。</div>
+      <button class="toggle-btn" id="btn-b9" onclick="toggle('b9')">答えを見る</button>
+      <div class="toggle-content" id="b9">
+        <span class="eq">∠AEF=∠DEF=(180°−36°)/2=72°
+∠AFE=180°−60°−72°=48°, ∠DFE=48°
+∠DFC=180°−96°=84°
+∠C'FE = 84°−48° = <span class="hlp">36°</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 問9 三角柱 ===================== -->
+<div class="section" id="q9p">
+  <div class="section-head teal"><span class="tag teal">問9</span>三角柱（体積・ねじれ・垂線）</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">図1：三角柱ABC−DEF　　図2：辺BE上の点G</div>
+      <div class="figs">
+        <!-- 図1 -->
+        <div>
+          <svg width="155" height="180" viewBox="0 0 155 180">
+            <!-- 底面△ABC -->
+            <line x1="15" y1="165" x2="115" y2="165" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="165" x2="138" y2="138" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="15" y1="165" x2="138" y2="138" stroke="#5fa" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- 直角マーク ∠ACB=90° -->
+            <rect x="115" y="157" width="7" height="7" fill="none" stroke="#fa5" stroke-width="1"/>
+            <!-- 上面△DEF -->
+            <line x1="15" y1="38" x2="115" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="38" x2="138" y2="11" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="15" y1="38" x2="138" y2="11" stroke="#5fa" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- 側面 -->
+            <line x1="15" y1="165" x2="15" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="165" x2="115" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="138" y1="138" x2="138" y2="11" stroke="#5fa" stroke-width="1.5"/>
+            <!-- ラベル -->
+            <text x="3"  y="173" fill="#5fa" font-size="12">A</text>
+            <text x="117" y="173" fill="#5fa" font-size="12">B</text>
+            <text x="140" y="142" fill="#5fa" font-size="12">C</text>
+            <text x="3"  y="35"  fill="#5fa" font-size="12">D</text>
+            <text x="117" y="35"  fill="#5fa" font-size="12">E</text>
+            <text x="140" y="15"  fill="#5fa" font-size="12">F</text>
+            <!-- 寸法 -->
+            <text x="55" y="178" fill="#777" font-size="10">3cm</text>
+            <text x="124" y="158" fill="#777" font-size="10">2</text>
+            <text x="0"  y="105" fill="#777" font-size="10">6cm</text>
+          </svg>
+          <div class="fig-label">図1</div>
+        </div>
+        <!-- 図2 -->
+        <div>
+          <svg width="155" height="180" viewBox="0 0 155 180">
+            <line x1="15" y1="165" x2="115" y2="165" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="165" x2="138" y2="138" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="15" y1="165" x2="138" y2="138" stroke="#5fa" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="15" y1="38" x2="115" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="38" x2="138" y2="11" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="15" y1="38" x2="138" y2="11" stroke="#5fa" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="15" y1="165" x2="15" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="115" y1="165" x2="115" y2="38" stroke="#5fa" stroke-width="1.5"/>
+            <line x1="138" y1="138" x2="138" y2="11" stroke="#5fa" stroke-width="1.5"/>
+            <!-- G点: EからBへ4/6=2/3下 → y=38+4/6*(165-38)=38+84.7≈123 -->
+            <circle cx="115" cy="123" r="4" fill="#f7a"/>
+            <text x="118" y="125" fill="#f7a" font-size="12">G</text>
+            <text x="118" y="82" fill="#777" font-size="10">EG=4</text>
+            <!-- DFG平面（点線三角形） -->
+            <polygon points="15,38 138,11 115,123" fill="#1a3028" stroke="#5fa" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
+            <!-- CからDFGへの垂線 -->
+            <line x1="138" y1="138" x2="85" y2="65" stroke="#f7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <text x="115" y="110" fill="#f7a" font-size="9">垂線</text>
+            <!-- ラベル -->
+            <text x="3"  y="173" fill="#5fa" font-size="12">A</text>
+            <text x="117" y="173" fill="#5fa" font-size="12">B</text>
+            <text x="140" y="142" fill="#5fa" font-size="12">C</text>
+            <text x="3"  y="35"  fill="#5fa" font-size="12">D</text>
+            <text x="117" y="35"  fill="#5fa" font-size="12">E</text>
+            <text x="140" y="15"  fill="#5fa" font-size="12">F</text>
+          </svg>
+          <div class="fig-label">図2（G点と垂線）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem">底面△ABC：AC=2cm, BC=3cm, ∠ACB=90°・高さ6cm（三角柱ABC−DEF）</div>
+
+    <div class="step"><div class="snum teal">1</div><div class="scon">
+      <div class="slabel">(1) 体積</div>
+      <div class="sbody"><span class="eq">底面積=(1/2)×2×3=3　体積=3×6=<span class="hl">18 cm³</span></span></div>
+    </div></div>
+
+    <div class="step"><div class="snum teal">2</div><div class="scon">
+      <div class="slabel">(2) ABとねじれの位置にある辺</div>
+      <div class="sbody"><span class="eq">交わる：BC,CA,AD,BE / 平行：DE
+ねじれ：CF, EF, FD → <span class="hl">3本</span></span></div>
+    </div></div>
+
+    <div class="step"><div class="snum teal">3</div><div class="scon">
+      <div class="slabel">(3) EG=4, FG=5 → CからDFGへの垂線</div>
+      <div class="sbody"><span class="eq">座標：C(0,0,0), D(2,0,6), E(0,3,6), F(0,0,6)
+G=(0,3,2)（EからBへ4進む）確認：FG=√(9+16)=5 ✓
+
+法線=FD×FG=(2,0,0)×(0,3,−4)=(0,8,6)
+平面：8y+6z=36 → 4y+3z=18
+Cからの距離=18/√(16+9)=18/5=<span class="hl">3.6 cm</span></span></div>
+    </div></div>
+
+    <div class="ans" style="background:#081a1a;border-color:#0f4a4a">
+      <div class="ans-label" style="color:#5a9">答え</div>
+      <div class="ans-val small" style="color:#5fa">(1) 18 cm³　(2) 3本　(3) 18/5 cm</div>
+    </div>
+
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン</div>
+      <div class="alt-problem">底面：AC=3cm, BC=4cm, ∠ACB=90°・高さ5cm<br>(1)体積　(2)ABとねじれの辺の本数</div>
+      <button class="toggle-btn" id="btn-bp" onclick="toggle('bp')">答えを見る</button>
+      <div class="toggle-content" id="bp">
+        <span class="eq">(1) (1/2)×3×4×5 = <span class="hl">30 cm³</span>
+(2) 三角柱は常に <span class="hl">3本</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 正八角形・円すい ===================== -->
+<div class="section" id="q7o">
+  <div class="section-head red"><span class="tag red">図形その他</span>正八角形の移動 ／ 円すいの表面積</div>
+  <div class="body">
+    <div class="fig-wrap">
+      <div class="fig-title">図：正八角形ABCDEFGH（中心I）・対称軸BF（青）</div>
+      <div class="figs">
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <!-- 正八角形（A=右上、反時計回り） -->
+          <!-- 頂点: 中心(100,100)、r=75 -->
+          <!-- A:22.5°, B:67.5°, C:112.5°, D:157.5°, E:202.5°, F:247.5°, G:292.5°, H:337.5° -->
+          <polygon points="169,129 129,169 71,169 31,129 31,71 71,31 129,31 169,71"
+                   fill="#1a0808" stroke="#f77" stroke-width="1.5"/>
+          <!-- 対称軸BF（青） -->
+          <line x1="71" y1="31" x2="129" y2="169" stroke="#5fa" stroke-width="2"/>
+          <!-- 中心I -->
+          <circle cx="100" cy="100" r="4" fill="#fff"/>
+          <text x="103" y="97" fill="#fff" font-size="11">I</text>
+          <!-- 頂点ラベル -->
+          <text x="170" y="124" fill="#f77" font-size="12">A</text>
+          <text x="130" y="26"  fill="#5fa" font-size="12">B</text><!-- BF軸の上 -->
+          <text x="18"  y="70"  fill="#f77" font-size="12">C</text>
+          <text x="18"  y="134" fill="#f77" font-size="12">D</text>
+          <text x="60"  y="183" fill="#f77" font-size="12">E</text>
+          <text x="128" y="183" fill="#5fa" font-size="12">F</text><!-- BF軸の下 -->
+          <text x="170" y="75"  fill="#f77" font-size="12">H</text>
+          <text x="170" y="75"  fill="#f77" font-size="12">H</text>
+          <text x="170" y="75"  fill="#f77" font-size="12">H</text>
+          <!-- △CDI強調 -->
+          <polygon points="18,70 18,134 100,100" fill="rgba(255,100,100,0.15)" stroke="#f77" stroke-width="1.5"/>
+          <!-- △AHI強調 -->
+          <polygon points="169,129 169,71 100,100" fill="rgba(100,200,255,0.15)" stroke="#7bf" stroke-width="1.5"/>
+          <!-- BF軸ラベル -->
+          <text x="68" y="20" fill="#5fa" font-size="10">対称軸BF</text>
+        </svg>
+      </div>
+    </div>
+    <div class="problem">正八角形ABCDEFGH（中心I）。△CDIを1回の移動で△AHIに重ねる方法を2通り求めよ。</div>
+    <div class="step"><div class="snum red">1</div><div class="scon">
+      <div class="slabel">① 線分BFを軸に対称移動</div>
+      <div class="sbody"><span class="eq">C(3番目)↔A(1番目)、D(4番目)↔H(8番目) ✓
+→ <span class="hlr">線分BF（選択肢2）</span></span></div>
+    </div></div>
+    <div class="step"><div class="snum red">2</div><div class="scon">
+      <div class="slabel">② Iを中心に時計回り回転</div>
+      <div class="sbody"><span class="eq">1頂点分=360°÷8=45°、C→Hは3頂点分
+→ <span class="hlr">135°</span>の時計回り回転</span></div>
+    </div></div>
+
+    <div class="subhead" style="margin-top:16px">円すいの表面積</div>
+    <div class="fig-wrap">
+      <div class="fig-title">展開図：おうぎ形（側面）＋ 円（底面）</div>
+      <div class="figs">
+        <svg width="240" height="160" viewBox="0 0 240 160">
+          <!-- おうぎ形（母線10cm → r=70px、中心角144°） -->
+          <!-- 中心(70,100), 辺1=270°方向(70,30), 辺2=270°+144°=54° -->
+          <!-- 54°: x=70+70cos54°=70+41=111, y=100-70sin54°=100-57=43 -->
+          <path d="M 70,100 L 70,30 A 70,70 0 0,1 131,59 Z"
+                fill="#1a1300" stroke="#fa5" stroke-width="1.5"/>
+          <text x="40" y="65" fill="#777" font-size="10">母線10cm</text>
+          <text x="72" y="80" fill="#777" font-size="10">144°</text>
+          <text x="60" y="145" fill="#aaa" font-size="10">（側面）</text>
+          <!-- 底面の円（r=4cm → r=35px） -->
+          <circle cx="190" cy="85" r="35" fill="#1a0d00" stroke="#fa5" stroke-width="1.5"/>
+          <text x="178" y="89" fill="#fa5" font-size="11">r=4cm</text>
+          <text x="170" y="138" fill="#aaa" font-size="10">（底面）</text>
+        </svg>
+      </div>
+    </div>
+    <div class="step"><div class="snum red">3</div><div class="scon">
+      <div class="slabel">側面積 + 底面積</div>
+      <div class="sbody"><span class="eq">弧の長さ = 底面円周 = 2π×4 = 8π
+側面積 = (1/2)×10×8π = 40π
+底面積 = π×4² = 16π
+合計 = <span class="hlr">56π cm²</span></span></div>
+    </div></div>
+    <div class="ans" style="background:#1a0808;border-color:#4a1010">
+      <div class="ans-label" style="color:#955">答え</div>
+      <div class="ans-val small" style="color:#f77">八角形：BF軸 / 135°回転　　円すい：56π cm²</div>
+    </div>
+    <div class="alt-section">
+      <div class="alt-title">🔄 別パターン（円すい）</div>
+      <div class="alt-problem">母線=12cm、底面の半径=3cmの円すいの表面積を求めよ。</div>
+      <button class="toggle-btn" id="btn-bc" onclick="toggle('bc')">答えを見る</button>
+      <div class="toggle-content" id="bc">
+        <span class="eq">側面積=(1/2)×12×6π=36π / 底面積=9π
+合計 = <span class="hlr">45π cm²</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="page-link" href="math_p1.html">← ① 方程式・比例・関数の解き方へ</a>
+</body>
+</html>

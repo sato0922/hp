@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学 解き方集</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;background:#111;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+
+.logo{font-size:48px;margin-bottom:12px;text-align:center}
+h1{font-size:24px;font-weight:900;text-align:center;color:#fff;margin-bottom:6px}
+.sub{font-size:13px;color:#666;text-align:center;margin-bottom:48px}
+
+.cards{display:flex;flex-direction:column;gap:16px;width:100%;max-width:420px}
+
+.card{display:block;text-decoration:none;border-radius:16px;padding:22px 20px;border:1px solid;transition:transform 0.15s, box-shadow 0.15s;position:relative;overflow:hidden}
+.card:active{transform:scale(0.97)}
+
+.card.blue{background:#0d1e35;border-color:#1a3a6a}
+.card.green{background:#0d2218;border-color:#1a4a2a}
+
+.card-icon{font-size:28px;margin-bottom:10px}
+.card-num{font-size:11px;letter-spacing:2px;margin-bottom:6px}
+.card.blue .card-num{color:#5a9fd4}
+.card.green .card-num{color:#5aba7a}
+.card-title{font-size:18px;font-weight:bold;color:#fff;margin-bottom:8px}
+.card-desc{font-size:12px;line-height:1.8;color:#888}
+.card-desc span{display:inline-block;background:#ffffff11;border-radius:4px;padding:1px 6px;margin:2px 2px 2px 0;font-size:11px}
+.card.blue .card-desc span{color:#7bf}
+.card.green .card-desc span{color:#7fa}
+
+.arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:22px;opacity:0.4}
+
+.table-wrap{width:100%;max-width:420px;margin-top:32px}
+.table-title{font-size:13px;font-weight:bold;color:#888;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 10px;color:#666;border-bottom:1px solid #2a2a2a;font-weight:normal}
+td{padding:8px 10px;border-bottom:1px solid #1e1e1e}
+.blue-row td:first-child{color:#5a9fd4}
+.blue-row td:last-child{color:#7bf;font-weight:bold}
+.green-row td:first-child{color:#5aba7a}
+.green-row td:last-child{color:#7fa;font-weight:bold}
+.footer{margin-top:24px;margin-bottom:32px;font-size:11px;color:#444;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="logo">📐</div>
+<h1>数学 解き方集</h1>
+<div class="sub">問題ごとの解説 ＋ 別パターン練習</div>
+
+<div class="cards">
+
+  <a class="card blue" href="math_p1.html">
+    <div class="card-icon">🔢</div>
+    <div class="card-num">PAGE 01</div>
+    <div class="card-title">方程式・比例・関数</div>
+    <div class="card-desc">
+      <span>年齢問題</span><span>重さ方程式</span><span>比例・反比例</span><span>グラフ選択</span><span>座標・回転体</span>
+    </div>
+    <div class="arrow">›</div>
+  </a>
+
+  <a class="card green" href="math_p2.html">
+    <div class="card-icon">📏</div>
+    <div class="card-num">PAGE 02</div>
+    <div class="card-title">図形・データ</div>
+    <div class="card-desc">
+      <span>円の接線</span><span>おうぎ形</span><span>正四角すい</span><span>ヒストグラム</span><span>折り紙・角度</span><span>三角柱</span><span>正八角形</span><span>円すい</span>
+    </div>
+    <div class="arrow">›</div>
+  </a>
+
+</div>
+
+<div class="table-wrap">
+  <div class="table-title">📋 収録問題一覧</div>
+  <table>
+    <thead>
+      <tr><th>問題</th><th>内容</th><th>答え</th></tr>
+    </thead>
+    <tbody>
+      <tr class="blue-row"><td>問4-(1)</td><td>父と子の年齢</td><td>7年後</td></tr>
+      <tr class="blue-row"><td>問4-(2)</td><td>物体A・B・Cの重さ</td><td>A = 150g</td></tr>
+      <tr class="blue-row"><td>問5-(1)</td><td>比例（x=3のときy）</td><td>y = −15</td></tr>
+      <tr class="blue-row"><td>問5-(2)</td><td>反比例のa</td><td>a = 16</td></tr>
+      <tr class="blue-row"><td>問5-(3)</td><td>グラフ選択</td><td>(i)1 (ii)4</td></tr>
+      <tr class="blue-row"><td>問6</td><td>反比例・座標・回転体</td><td>a=18 / C(−9,−2) / 24π cm³</td></tr>
+      <tr class="green-row"><td>問7-(1)</td><td>円の接線・角度</td><td>∠x = 36°</td></tr>
+      <tr class="green-row"><td>問7-(2)</td><td>おうぎ形の面積</td><td>8π cm²</td></tr>
+      <tr class="green-row"><td>問7-(3)</td><td>正四角すい</td><td>2本 / 96 cm²</td></tr>
+      <tr class="green-row"><td>問8</td><td>ヒストグラム選択</td><td>グラフ2</td></tr>
+      <tr class="green-row"><td>問9（折り紙）</td><td>正三角形・折り・角度</td><td>② / 27°</td></tr>
+      <tr class="green-row"><td>問9（三角柱）</td><td>体積・ねじれ・垂線</td><td>18cm³ / 3本 / 18/5cm</td></tr>
+      <tr class="green-row"><td>正八角形</td><td>図形の移動</td><td>BF軸 / 135°</td></tr>
+      <tr class="green-row"><td>円すい</td><td>表面積</td><td>56π cm²</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">各ページに別パターン練習つき</div>
+
+</body>
+</html>
