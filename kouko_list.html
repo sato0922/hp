@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>近隣高校マップ｜緑区寺山町発</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --private: #f0883e;
+    --public: #58a6ff;
+    --bike: #3fb950;
+    --train: #bc8cff;
+    --accent: #f0883e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ヘッダー */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .header h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.3px;
+  }
+  .header p {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  /* 凡例 */
+  .legend {
+    display: flex;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--text2);
+    white-space: nowrap;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* 地図 */
+  #map {
+    width: 100%;
+    height: 280px;
+  }
+
+  /* フィルター */
+  .filter-bar {
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+
+  /* カードリスト */
+  .card-list {
+    padding: 12px 12px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    transition: border-color 0.15s;
+  }
+  .card:active { border-color: var(--accent); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+    margin-right: 8px;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-private { background: rgba(240,136,62,0.15); color: var(--private); border: 1px solid rgba(240,136,62,0.3); }
+  .badge-public  { background: rgba(88,166,255,0.15); color: var(--public);  border: 1px solid rgba(88,166,255,0.3); }
+
+  .card-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+  .tag-hensachi { color: #ffa657; border-color: rgba(255,166,87,0.3); background: rgba(255,166,87,0.1); }
+
+  /* 通学情報 */
+  .commute-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+  .commute-icon {
+    font-size: 16px;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .commute-info {
+    flex: 1;
+  }
+  .commute-time {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .commute-time.bike  { color: var(--bike); }
+  .commute-time.train { color: var(--train); }
+  .commute-desc {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 1px;
+  }
+
+  /* ボタン行 */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .btn:active { opacity: 0.7; }
+  .btn-web  { background: rgba(88,166,255,0.12); color: var(--public); border: 1px solid rgba(88,166,255,0.25); }
+  .btn-map  { background: rgba(63,185,80,0.12); color: var(--bike); border: 1px solid rgba(63,185,80,0.25); }
+  .btn-dir  { background: rgba(188,140,255,0.12); color: var(--train); border: 1px solid rgba(188,140,255,0.25); }
+
+  /* 表示カウンター */
+  .showing {
+    padding: 8px 16px;
+    font-size: 11px;
+    color: var(--text2);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📍 近隣高校マップ</h1>
+  <p>寺山町505-13 発 ｜ 偏差値55〜60 ｜ 全10校</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:#f0883e"></div>私立</div>
+  <div class="legend-item"><div class="dot" style="background:#58a6ff"></div>公立</div>
+  <div class="legend-item"><div class="dot" style="background:#3fb950"></div>🚲自転車可</div>
+  <div class="legend-item"><div class="dot" style="background:#bc8cff"></div>🚃電車推奨</div>
+  <div class="legend-item"><div class="dot" style="background:#ff4444"></div>📍自宅</div>
+</div>
+
+<div id="map"></div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all', this)">すべて</button>
+  <button class="filter-btn" onclick="filterCards('private', this)">私立</button>
+  <button class="filter-btn" onclick="filterCards('public', this)">公立</button>
+  <button class="filter-btn" onclick="filterCards('bike', this)">🚲自転車可</button>
+  <button class="filter-btn" onclick="filterCards('train', this)">🚃電車推奨</button>
+</div>
+
+<div class="showing" id="showing">10校を表示中</div>
+
+<div class="card-list" id="cardList"></div>
+
+<script>
+const HOME = { lat: 35.5042, lng: 139.5395 };
+
+const schools = [
+  {
+    id: 1,
+    name: "横浜翠陵高校",
+    type: "private",
+    hensachi: "53〜59",
+    lat: 35.5115, lng: 139.5103,
+    address: "緑区三保町1",
+    commutes: [
+      { mode: "bike",  icon: "🚲", time: "約15分", desc: "直線〜3.5km・起伏あり" }
+    ],
+    url: "https://www.suiryo.ed.jp/high/",
+    note: "緑区内・最近距離"
+  },
+  {
+    id: 2,
+    name: "桐蔭学園高校",
+    type: "private",
+    hensachi: "55〜66",
+    lat: 35.5666, lng: 139.5216,
+    address: "青葉区鉄町1614",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約25分", desc: "中山→長津田→市が尾 乗換1回" },
+      { mode: "bike",  icon: "🚲", time: "約40分", desc: "約9km・坂多め" }
+    ],
+    url: "https://toin.ac.jp/",
+    note: "コース豊富・進学実績◎"
+  },
+  {
+    id: 3,
+    name: "桐光学園高校",
+    type: "private",
+    hensachi: "56〜60",
+    lat: 35.6027, lng: 139.4724,
+    address: "川崎市麻生区栗木3-12-1",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約40分", desc: "中山→町田→栗平 乗換1回" }
+    ],
+    url: "https://www.toko.ed.jp/",
+    note: "電車推奨"
+  },
+  {
+    id: 4,
+    name: "市ヶ尾高校",
+    type: "public",
+    hensachi: "59",
+    lat: 35.5571, lng: 139.5307,
+    address: "青葉区市ヶ尾町1854",
+    commutes: [
+      { mode: "bike",  icon: "🚲", time: "約30分", desc: "約7.5km・田園都市線沿い" },
+      { mode: "train", icon: "🚃", time: "約20分", desc: "中山→長津田→市が尾 乗換1回" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/ichigao-h/",
+    note: "公立上位校・倍率高め"
+  },
+  {
+    id: 5,
+    name: "元石川高校",
+    type: "public",
+    hensachi: "56",
+    lat: 35.5780, lng: 139.5399,
+    address: "青葉区元石川町4116",
+    commutes: [
+      { mode: "bike",  icon: "🚲", time: "約40分", desc: "約10km・坂あり" },
+      { mode: "train", icon: "🚃", time: "約25分", desc: "中山→長津田→市が尾 バス乗換" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/motoishikawa-h/",
+    note: "青葉区・のびのび系"
+  },
+  {
+    id: 6,
+    name: "荏田高校",
+    type: "public",
+    hensachi: "55",
+    lat: 35.5492, lng: 139.5549,
+    address: "都筑区荏田南3-9-1",
+    commutes: [
+      { mode: "bike",  icon: "🚲", time: "約25分", desc: "約6.5km・比較的フラット" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/eda-h/",
+    note: "自転車通学しやすい"
+  },
+  {
+    id: 7,
+    name: "住吉高校",
+    type: "public",
+    hensachi: "57",
+    lat: 35.5671, lng: 139.6598,
+    address: "川崎市中原区木月住吉町34-1",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約35分", desc: "中山→武蔵小杉 乗換1回" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/sumiyoshi-h/",
+    note: "電車必須"
+  },
+  {
+    id: 8,
+    name: "新城高校",
+    type: "public",
+    hensachi: "60",
+    lat: 35.5807, lng: 139.6321,
+    address: "川崎市中原区下新城1-14-1",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約30分", desc: "中山→武蔵小杉→武蔵新城" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/shinjo-h/",
+    note: "電車必須・偏差値60"
+  },
+  {
+    id: 9,
+    name: "麻生高校",
+    type: "public",
+    hensachi: "57",
+    lat: 35.6121, lng: 139.4984,
+    address: "川崎市麻生区金程3-4-1",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約40分", desc: "中山→町田→新百合ヶ丘 乗換" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/asao-h/",
+    note: "電車必須"
+  },
+  {
+    id: 10,
+    name: "相原高校",
+    type: "public",
+    hensachi: "55",
+    lat: 35.5883, lng: 139.3266,
+    address: "相模原市緑区橋本台4-2-1",
+    commutes: [
+      { mode: "train", icon: "🚃", time: "約22分", desc: "中山→相原（横浜線直通）乗換なし" }
+    ],
+    url: "https://www.pen-kanagawa.ed.jp/aihara-h/",
+    note: "横浜線で直通・乗換なし"
+  }
+];
+
+// --- 地図 ---
+const map = L.map('map').setView([35.543, 139.527], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 18
+}).addTo(map);
+
+// 自宅マーカー
+const homeIcon = L.divIcon({
+  html: '<div style="font-size:22px;line-height:1">📍</div>',
+  className: '', iconAnchor: [11, 22]
+});
+L.marker([HOME.lat, HOME.lng], { icon: homeIcon })
+  .addTo(map)
+  .bindPopup('<b>自宅</b><br>寺山町505-13');
+
+// 学校マーカー
+schools.forEach(s => {
+  const col = s.type === 'private' ? '#f0883e' : '#58a6ff';
+  const isBike = s.commutes.some(c => c.mode === 'bike');
+  const icon = L.divIcon({
+    html: `<div style="
+      background:${col};
+      color:#000;
+      font-size:10px;
+      font-weight:800;
+      width:24px;height:24px;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      border:2px solid ${isBike ? '#3fb950' : '#fff'};
+      box-shadow:0 1px 4px rgba(0,0,0,0.5)
+    ">${s.id}</div>`,
+    className: '',
+    iconAnchor: [12, 12]
+  });
+  L.marker([s.lat, s.lng], { icon })
+    .addTo(map)
+    .bindPopup(`<b>${s.name}</b><br>偏差値 ${s.hensachi}<br>${s.note}`);
+});
+
+// --- カード描画 ---
+function renderCards(filter) {
+  const list = document.getElementById('cardList');
+  list.innerHTML = '';
+  let count = 0;
+  schools.forEach(s => {
+    const hasBike = s.commutes.some(c => c.mode === 'bike');
+    const hasTrainOnly = !hasBike;
+    if (filter === 'private' && s.type !== 'private') return;
+    if (filter === 'public'  && s.type !== 'public')  return;
+    if (filter === 'bike'    && !hasBike) return;
+    if (filter === 'train'   && !hasTrainOnly) return;
+    count++;
+
+    const typeLabel  = s.type === 'private' ? '私立' : '公立';
+    const badgeClass = s.type === 'private' ? 'badge-private' : 'badge-public';
+
+    const commuteHTML = s.commutes.map(c => `
+      <div class="commute-row">
+        <div class="commute-icon">${c.icon}</div>
+        <div class="commute-info">
+          <div class="commute-time ${c.mode}">${c.time}</div>
+          <div class="commute-desc">${c.desc}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const mapUrl  = `https://maps.google.com/maps?q=${s.lat},${s.lng}`;
+    const dirUrl  = `https://www.google.com/maps/dir/${HOME.lat},${HOME.lng}/${s.lat},${s.lng}/`;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.type = s.type;
+    card.dataset.bike = hasBike ? '1' : '0';
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-name">${s.id}. ${s.name}</div>
+        <div class="badge ${badgeClass}">${typeLabel}・共学</div>
+      </div>
+      <div class="card-meta">
+        <span class="tag tag-hensachi">偏差値 ${s.hensachi}</span>
+        <span class="tag">${s.address}</span>
+        <span class="tag">${s.note}</span>
+      </div>
+      ${commuteHTML}
+      <div class="card-actions">
+        <a class="btn btn-web" href="${s.url}" target="_blank">🌐 公式サイト</a>
+        <a class="btn btn-map" href="${mapUrl}" target="_blank">📍 地図</a>
+        <a class="btn btn-dir" href="${dirUrl}" target="_blank">🗺️ ルート</a>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  document.getElementById('showing').textContent = `${count}校を表示中`;
+}
+
+function filterCards(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards(type);
+}
+
+renderCards('all');
+</script>
+</body>
+</html>
