@@ -77,7 +77,7 @@
   /* 地図 */
   #map {
     width: 100%;
-    height: 280px;
+    aspect-ratio: 1 / 1;
   }
 
   /* フィルター */
@@ -234,13 +234,13 @@
 
 <div class="header">
   <h1>📍 近隣高校マップ</h1>
-  <p>寺山町505-13 発 ｜ 偏差値55〜60 ｜ 全10校</p>
+  <p>寺山町505-13 発 ｜ 偏差値55〜60 ｜ 全10校 ｜ ⚡電動自転車対応</p>
 </div>
 
 <div class="legend">
   <div class="legend-item"><div class="dot" style="background:#f0883e"></div>私立</div>
   <div class="legend-item"><div class="dot" style="background:#58a6ff"></div>公立</div>
-  <div class="legend-item"><div class="dot" style="background:#3fb950"></div>🚲自転車可</div>
+  <div class="legend-item"><div class="dot" style="background:#3fb950"></div>⚡🚲電動自転車</div>
   <div class="legend-item"><div class="dot" style="background:#bc8cff"></div>🚃電車推奨</div>
   <div class="legend-item"><div class="dot" style="background:#ff4444"></div>📍自宅</div>
 </div>
@@ -271,7 +271,8 @@ const schools = [
     lat: 35.5115, lng: 139.5103,
     address: "緑区三保町1",
     commutes: [
-      { mode: "bike",  icon: "🚲", time: "約15分", desc: "直線〜3.5km・起伏あり" }
+      { mode: "bike",  icon: "⚡🚲", time: "約12分", desc: "電動自転車 約3.5km・起伏あり" },
+      { mode: "train", icon: "🚃", time: "約25分", desc: "中山→十日市場 徒歩+バス" }
     ],
     url: "https://www.suiryo.ed.jp/high/",
     note: "緑区内・最近距離"
@@ -284,8 +285,8 @@ const schools = [
     lat: 35.5666, lng: 139.5216,
     address: "青葉区鉄町1614",
     commutes: [
-      { mode: "train", icon: "🚃", time: "約25分", desc: "中山→長津田→市が尾 乗換1回" },
-      { mode: "bike",  icon: "🚲", time: "約40分", desc: "約9km・坂多め" }
+      { mode: "bike",  icon: "⚡🚲", time: "約30〜32分", desc: "電動自転車 約9km・坂多め" },
+      { mode: "train", icon: "🚃", time: "約25分", desc: "中山→長津田→市が尾 乗換1回" }
     ],
     url: "https://toin.ac.jp/",
     note: "コース豊富・進学実績◎"
@@ -298,6 +299,7 @@ const schools = [
     lat: 35.6027, lng: 139.4724,
     address: "川崎市麻生区栗木3-12-1",
     commutes: [
+      { mode: "bike",  icon: "⚡🚲", time: "約50分", desc: "電動自転車 約14km・遠め" },
       { mode: "train", icon: "🚃", time: "約40分", desc: "中山→町田→栗平 乗換1回" }
     ],
     url: "https://www.toko.ed.jp/",
@@ -311,7 +313,7 @@ const schools = [
     lat: 35.5571, lng: 139.5307,
     address: "青葉区市ヶ尾町1854",
     commutes: [
-      { mode: "bike",  icon: "🚲", time: "約30分", desc: "約7.5km・田園都市線沿い" },
+      { mode: "bike",  icon: "⚡🚲", time: "約22〜25分", desc: "電動自転車 約7.5km・坂あり" },
       { mode: "train", icon: "🚃", time: "約20分", desc: "中山→長津田→市が尾 乗換1回" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/ichigao-h/",
@@ -325,7 +327,7 @@ const schools = [
     lat: 35.5780, lng: 139.5399,
     address: "青葉区元石川町4116",
     commutes: [
-      { mode: "bike",  icon: "🚲", time: "約40分", desc: "約10km・坂あり" },
+      { mode: "bike",  icon: "⚡🚲", time: "約30〜33分", desc: "電動自転車 約10km・坂あり" },
       { mode: "train", icon: "🚃", time: "約25分", desc: "中山→長津田→市が尾 バス乗換" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/motoishikawa-h/",
@@ -339,7 +341,8 @@ const schools = [
     lat: 35.5492, lng: 139.5549,
     address: "都筑区荏田南3-9-1",
     commutes: [
-      { mode: "bike",  icon: "🚲", time: "約25分", desc: "約6.5km・比較的フラット" }
+      { mode: "bike",  icon: "⚡🚲", time: "約20〜22分", desc: "電動自転車 約6.5km・比較的フラット" },
+      { mode: "train", icon: "🚃", time: "約30分", desc: "中山→センター北 乗換+バス" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/eda-h/",
     note: "自転車通学しやすい"
@@ -352,10 +355,11 @@ const schools = [
     lat: 35.5671, lng: 139.6598,
     address: "川崎市中原区木月住吉町34-1",
     commutes: [
+      { mode: "bike",  icon: "⚡🚲", time: "約60分以上", desc: "電動でも遠すぎ・非現実的" },
       { mode: "train", icon: "🚃", time: "約35分", desc: "中山→武蔵小杉 乗換1回" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/sumiyoshi-h/",
-    note: "電車必須"
+    note: "電車推奨"
   },
   {
     id: 8,
@@ -365,6 +369,7 @@ const schools = [
     lat: 35.5807, lng: 139.6321,
     address: "川崎市中原区下新城1-14-1",
     commutes: [
+      { mode: "bike",  icon: "⚡🚲", time: "約60分以上", desc: "電動でも遠すぎ・非現実的" },
       { mode: "train", icon: "🚃", time: "約30分", desc: "中山→武蔵小杉→武蔵新城" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/shinjo-h/",
@@ -378,10 +383,11 @@ const schools = [
     lat: 35.6121, lng: 139.4984,
     address: "川崎市麻生区金程3-4-1",
     commutes: [
+      { mode: "bike",  icon: "⚡🚲", time: "約55分", desc: "電動でも遠め・電車推奨" },
       { mode: "train", icon: "🚃", time: "約40分", desc: "中山→町田→新百合ヶ丘 乗換" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/asao-h/",
-    note: "電車必須"
+    note: "電車推奨"
   },
   {
     id: 10,
@@ -391,6 +397,7 @@ const schools = [
     lat: 35.5883, lng: 139.3266,
     address: "相模原市緑区橋本台4-2-1",
     commutes: [
+      { mode: "bike",  icon: "⚡🚲", time: "約55〜60分", desc: "電動でも約17km・遠め" },
       { mode: "train", icon: "🚃", time: "約22分", desc: "中山→相原（横浜線直通）乗換なし" }
     ],
     url: "https://www.pen-kanagawa.ed.jp/aihara-h/",
